@@ -1,1 +1,5 @@
 /Temp
+/Assets/*.meta
+/obj
+/Miniluv_Data
+/Library
