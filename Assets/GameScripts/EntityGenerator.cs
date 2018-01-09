@@ -4,23 +4,39 @@ using UnityEngine;
 
 public class EntityGenerator : MonoBehaviour {
 
-	public Entity EntityPrefab;
+	public GameObject CheckpointsGameObject;
 
-	private GameObject Checkpoint;
+	private Checkpoint[] Checkpoints;
+	public Entity[] Entities;
 
 	// Use this for initialization
 	void Start () {
-		Checkpoint = GameObject.Find ("Checkpoint1");
+
+		this.Checkpoints = this.CheckpointsGameObject.GetComponentsInChildren<Checkpoint> ();
+
 		StartCoroutine (Generate ());
 	}
 
 	IEnumerator Generate() {
 		while (true) {
-			Entity obj = Instantiate<Entity> (EntityPrefab);
-			obj.transform.parent = GameObject.Find ("EntityHolder").transform;
-			obj.transform.position = transform.Find ("Place").transform.position;
+
+			// create new entity
+			Entity Entity = Instantiate<Entity> (this.Entities[0]);
+			Entity.transform.parent = GameObject.Find ("EntityHolder").transform;
+			Entity.transform.position = transform.Find ("Place").transform.position;
+				
+			// random delay
 			yield return new WaitForSeconds (Random.Range(0.5f, 4f));
-			obj.MoveToCheckpoint (Checkpoint.transform.Find ("Queue").gameObject);
+
+			// add checkpoints and exit point
+			foreach(Checkpoint Checkpoint in this.Checkpoints) {
+				Entity.GetComponent<CustomerBehaviour>().AddCheckpoint(Checkpoint);
+			}
+
+			Entity.GetComponent<CustomerBehaviour> ().SetExitPoint (transform.Find ("Place").gameObject);
+
+			// find and goto checkpoint
+			Entity.GetComponent<CustomerBehaviour> ().SetState ("move_to_checkpoint");
 		}
 	}
 	

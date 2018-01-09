@@ -9,24 +9,6 @@ public class Entity : MonoBehaviour {
 		//PlayAnimation ("idle");
 	}
 
-	public void MoveToCheckpoint(GameObject Checkpoint) {
-		PlayAnimation ("walk");
-		iTween.MoveTo (gameObject, iTween.Hash("position", Checkpoint.transform.position,"time", 3.0f, "oncomplete", "MoveTweenComplete", "easetype", iTween.EaseType.linear));
-	}
-
-	public void MoveTweenComplete() {
-		PlayAnimation ("idle");
-		StartCoroutine (ProcessEntity());
-	}
-
-	IEnumerator ProcessEntity() {
-		yield return new WaitForSeconds (2);
-		PlayAnimation ("walk");
-		GameObject obj = GameObject.Find ("EntityGenerator");
-		transform.localScale = new Vector3(-Mathf.Abs (transform.localScale.x), transform.localScale.y, transform.localScale.z);
-		iTween.MoveTo (gameObject, iTween.Hash("position", obj.transform.position,"time", 3.0f, "oncomplete", "DestroyEntity", "easetype", iTween.EaseType.linear));
-	}
-
 	void DestroyEntity() {
 		GameObject.Destroy (gameObject);
 	}
@@ -35,7 +17,7 @@ public class Entity : MonoBehaviour {
 	void Update () {		
 	}
 
-	void PlayAnimation(string AnimationName) {
+	public void PlayAnimation(string AnimationName) {
 		SpriteSheetAnimation[] animations = GetComponents<SpriteSheetAnimation> ();
 		foreach (SpriteSheetAnimation animation in animations) {
 			animation.Active = false;

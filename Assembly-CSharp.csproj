@@ -52,9 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\GameScripts\Checkpoint.cs" />
+     <Compile Include="Assets\GameScripts\CustomerBehaviour.cs" />
      <Compile Include="Assets\GameScripts\Entity.cs" />
      <Compile Include="Assets\GameScripts\EntityGenerator.cs" />
-     <Compile Include="Assets\GameScripts\EntityQueue.cs" />
+     <Compile Include="Assets\GameScripts\EntityQueueSlot.cs" />
      <Compile Include="Assets\GameScripts\SpriteSheetAnimation.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
