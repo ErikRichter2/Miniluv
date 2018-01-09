@@ -4,43 +4,38 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour {
 
-	private EntityQueueSlot[] Slots;
+	public int Id;
+
+	CheckpointSlot[] Slots;
 
 	// Use this for initialization
 	void Start () {
-		this.Slots = GetComponentsInChildren<EntityQueueSlot> ();
+		this.Slots = GetComponentsInChildren<CheckpointSlot> ();
 	}
 
-	public EntityQueueSlot GetFreeSlot() {
-		foreach (EntityQueueSlot Slot in this.Slots) {
-			if (Slot.GetEntity () == null) {
-				return Slot;
+	public CheckpointSlot GetLastSlot() {
+		return this.Slots [this.Slots.Length - 1];
+	}
+
+	public CheckpointSlot GetNextSlot(CheckpointSlot Slot) {
+		for (int i = 0; i < this.Slots.Length; ++i) {
+			if (this.Slots [i] == Slot) {
+				if (i > 0) {
+					return this.Slots [i - 1];
+				}				
 			}
 		}
 
 		return null;
 	}
 
-	public EntityQueueSlot GetFirstSlot() {
+	public CheckpointSlot GetFirstSlot() {
 		return this.Slots [0];
 	}
 
-	public EntityQueueSlot GetBetterFreeSlot(Entity Entity) {
-		foreach (EntityQueueSlot BetterSlot in this.Slots) {
-			if (BetterSlot.GetEntity() == Entity) {
-				return null;
-			}
-
-			if (BetterSlot.GetEntity () == null) {
-				return BetterSlot;
-			}
-		}
-
-		return null;
+	public Color GetColor() {
+		return GetComponentInChildren<InfoColor> ().GetColor ();
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

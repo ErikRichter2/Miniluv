@@ -4,47 +4,73 @@ using UnityEngine;
 
 public class CustomerBehaviour : MonoBehaviour {
 
-	private GameObject ExitPoint;
-	private List<Checkpoint> Checkpoints;
-	private string State;
-	private EntityQueueSlot CurrentSlot;
+	public enum STATES {
+		STATE_INIT,
+		STATE_MOVE_TO_NEXT_CHECKPOINT,
+		STATE_PROCESS_CHECKPOINT,
+		STATE_MOVE_TO_EXIT
+	}
+
+	STATES State;
+
+	// required checkpoints
+	public int[] Checkpoints;
+
+	// current checkpoint
+	Checkpoint CurrentCheckpoint;
+
+	// all checkpoints
+	List<Checkpoint> SceneCheckpoints;
+
+	// current checkpoints queue slot
+	CheckpointSlot CurrentSlot;
+
+	GameObject ExitPoint;
 
 	// Use this for initialization
 	void Start () {
-		this.State = "init";
-		this.Checkpoints = new List<Checkpoint> ();
+		this.SceneCheckpoints = new List<Checkpoint> ();
+		this.SetState(STATES.STATE_INIT);
 	}
 
 	public void AddCheckpoint(Checkpoint Checkpoint) {
-		this.Checkpoints.Add (Checkpoint);
+		this.SceneCheckpoints.Add (Checkpoint);
 	}
 
 	public void SetExitPoint(GameObject ExitPoint) {
 		this.ExitPoint = ExitPoint;
 	}
 
-	public void SetState(string State) {
+	public void SetState(STATES State) {
 		this.State = State;
 
 		switch (this.State) {
-		case "init":
+
+		case STATES.STATE_INIT:
 			GetComponent<Entity>().PlayAnimation ("idle");
 			break;
-		case "move_to_checkpoint":
-			GetComponent<Entity> ().PlayAnimation ("walk");
-			EntityQueueSlot Slot = this.Checkpoints [0].GetFreeSlot ();
-			if (Slot != null) {
-				MoveToSlot (Slot);
+
+		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
+			this.SetCurrentCheckpoint (this.GetNextCheckpoint ());
+			if (this.GetCurrentCheckpoint() != null) {
+				CheckpointSlot NextSlot = this.GetCurrentCheckpoint ().GetLastSlot ();
+				if (NextSlot.IsAvailable()) {
+					this.SetSlot (NextSlot);
+					this.MoveTo (NextSlot.gameObject);
+				} else {
+					this.SetState (STATES.STATE_MOVE_TO_EXIT);
+				}
 			} else {
-				this.SetState ("move_to_exit");
+				this.SetState (STATES.STATE_MOVE_TO_EXIT);
 			}
 			break;
-		case "process_checkpoint":
+
+		case STATES.STATE_PROCESS_CHECKPOINT:
 			GetComponent<Entity> ().PlayAnimation ("idle");
 			StartCoroutine (ProcessCheckpoint ());
 			break;
-		case "move_to_exit":
-			GetComponent<Entity> ().PlayAnimation ("walk");
+
+		case STATES.STATE_MOVE_TO_EXIT:
 			gameObject.transform.localScale = new Vector3 (-Mathf.Abs (gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 			this.MoveTo (this.ExitPoint);
 			break;
@@ -53,23 +79,64 @@ public class CustomerBehaviour : MonoBehaviour {
 
 	IEnumerator ProcessCheckpoint() {
 		// first slot, processing
-		if (this.CurrentSlot.IsFirstSlot()) {
+		if (this.GetSlot().IsFirstSlot()) {
 			yield return new WaitForSeconds (2.0f);
-			SetSlot (null);
-			SetState ("move_to_exit");
+			SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 		} else {
-			// check for better slot
-			EntityQueueSlot BetterSlot = this.Checkpoints [0].GetBetterFreeSlot (GetComponent<Entity> ());
-			if (BetterSlot != null) {
-				MoveToSlot (BetterSlot);
+			yield return new WaitForSeconds (0.5f);
+			CheckpointSlot NextSlot = this.GetCurrentCheckpoint() .GetNextSlot (this.GetSlot());
+			if (NextSlot.IsAvailable ()) {
+				this.SetSlot (NextSlot);
+				this.MoveTo (this.GetSlot().gameObject);
 			} else {
-				yield return new WaitForSeconds (0.5f);
-				SetState ("process_checkpoint");
+				this.SetState (STATES.STATE_PROCESS_CHECKPOINT);
 			}
 		}
 	}
 
-	void SetSlot(EntityQueueSlot Slot) {
+	Checkpoint GetNextCheckpoint() {
+		Checkpoint result = null;
+		int NextCheckpointId = 0;
+
+		if (this.GetCurrentCheckpoint() == null) {
+			NextCheckpointId = this.Checkpoints [0];
+		} else {
+			for (int i = 0; i < this.Checkpoints.Length; ++i) {
+				if (this.Checkpoints [i] == this.GetCurrentCheckpoint().Id) {
+					if (i < this.Checkpoints.Length - 1) {
+						NextCheckpointId = this.Checkpoints [i + 1];
+						break;
+					}
+				}
+			}
+		}
+
+		if (NextCheckpointId != 0) {
+			foreach (Checkpoint Checkpoint in this.SceneCheckpoints) {
+				if (Checkpoint.Id == NextCheckpointId) {
+					result = Checkpoint;
+					break;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	Checkpoint GetCurrentCheckpoint() {
+		return this.CurrentCheckpoint;
+	}
+
+	void SetCurrentCheckpoint(Checkpoint Checkpoint) {
+		this.CurrentCheckpoint = Checkpoint;
+		if (this.CurrentCheckpoint != null) {
+			GetComponentInChildren<InfoColor> ().SetColor (this.CurrentCheckpoint.GetColor ());
+		} else {
+			GetComponentInChildren<InfoColor> ().SetActive (false);
+		}
+	}
+
+	void SetSlot(CheckpointSlot Slot) {
 		if (this.CurrentSlot != null) {
 			this.CurrentSlot.SetEntity (null);
 		}
@@ -79,34 +146,29 @@ public class CustomerBehaviour : MonoBehaviour {
 		}
 	}
 
-	void MoveToSlot(EntityQueueSlot Slot) {
-		SetSlot (Slot);
-		this.MoveTo (this.CurrentSlot.gameObject);
+	CheckpointSlot GetSlot() {
+		return this.CurrentSlot;
 	}
 
 	void MoveTo(GameObject Target) {
-		iTween.MoveTo (gameObject, iTween.Hash ("position", Target.transform.position, "time", 3.0f, "oncomplete", "MoveToFinished", "easetype", iTween.EaseType.linear));
+		GetComponent<Entity> ().PlayAnimation ("walk");
+		iTween.MoveTo (gameObject, iTween.Hash ("position", Target.transform.position, "time", 1.0f, "oncomplete", "MoveToFinished", "easetype", iTween.EaseType.linear));
 	}
 
 	public void MoveToFinished() {
 		switch (this.State) {
-		case "process_checkpoint":
-			this.SetState ("process_checkpoint");
+		case STATES.STATE_PROCESS_CHECKPOINT:
+		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
+			this.SetState (STATES.STATE_PROCESS_CHECKPOINT);
 			break;
-		case "move_to_checkpoint":
-			this.SetState ("process_checkpoint");
-			break;
-		case "move_to_exit":
+		case STATES.STATE_MOVE_TO_EXIT:
 			DestroyObject (gameObject);
 			break;
 		default:
-			this.SetState ("idle");
+			this.SetState (STATES.STATE_INIT);
 			break;
 		}
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
 }
