@@ -6,31 +6,38 @@ public class CustomerBehaviour : MonoBehaviour {
 
 	public enum STATES {
 		STATE_INIT,
+		STATE_MOVE_TO_INFOPOINT,
 		STATE_MOVE_TO_NEXT_CHECKPOINT,
+		STATE_PROCESS_INFOPOINT,
 		STATE_PROCESS_CHECKPOINT,
+		STATE_WAITING_IN_QUEUE,
 		STATE_MOVE_TO_EXIT
 	}
 
 	STATES State;
 
-	// required checkpoints
-	public int[] Checkpoints;
+	// required rule
+	Rule Rule;
 
-	// current checkpoint
-	Checkpoint CurrentCheckpoint;
+	// done checkpoints
+	List<int> CheckpointsDone;
 
-	// all checkpoints
+	// current queue
+	EntityQueue EntityQueue;
+
+	// all scene checkpoints
 	List<Checkpoint> SceneCheckpoints;
 
-	// current checkpoints queue slot
-	CheckpointSlot CurrentSlot;
-
 	GameObject ExitPoint;
+	InfoPoint InfoPoint;
+	int QueueIndex;
+	int CurrentColor;
 
 	// Use this for initialization
 	void Start () {
 		this.SceneCheckpoints = new List<Checkpoint> ();
 		this.SetState(STATES.STATE_INIT);
+		this.CheckpointsDone = new List<int> ();
 	}
 
 	public void AddCheckpoint(Checkpoint Checkpoint) {
@@ -41,76 +48,131 @@ public class CustomerBehaviour : MonoBehaviour {
 		this.ExitPoint = ExitPoint;
 	}
 
+	public void SetInfoPoint(InfoPoint InfoPoint) {
+		this.InfoPoint = InfoPoint;
+	}
+
+	public void SetRule(Rule Rule) {
+		this.Rule = Rule;
+	}
+
 	public void SetState(STATES State) {
 		this.State = State;
 
 		switch (this.State) {
 
 		case STATES.STATE_INIT:
-			GetComponent<Entity>().PlayAnimation ("idle");
+			GetEntity ().Idle ();
+			GetComponent<BoxCollider2D> ().enabled = false;
+			GetComponentInChildren<CustomerBubble> ().Hide ();
+			break;
+
+		case STATES.STATE_WAITING_IN_QUEUE:
+			StartCoroutine (ProcessWaitingInQueue ());
+			break;
+
+		case STATES.STATE_MOVE_TO_INFOPOINT:
+			this.SetEntityQueue (this.InfoPoint.GetEntityQueue());
+			GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
 			break;
 
 		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
-			this.SetCurrentCheckpoint (this.GetNextCheckpoint ());
-			if (this.GetCurrentCheckpoint() != null) {
-				CheckpointSlot NextSlot = this.GetCurrentCheckpoint ().GetLastSlot ();
-				if (NextSlot.IsAvailable()) {
-					this.SetSlot (NextSlot);
-					this.MoveTo (NextSlot.gameObject);
-				} else {
-					this.SetState (STATES.STATE_MOVE_TO_EXIT);
-				}
+			Checkpoint NextCheckpoint = this.GetNextCheckpoint ();
+			if (NextCheckpoint != null) {
+				this.SetEntityQueue (NextCheckpoint.GetEntityQueue());
+				GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueuePoisition (GetEntity()), "MoveToFinished");
 			} else {
+				this.SetEntityQueue (null);
 				this.SetState (STATES.STATE_MOVE_TO_EXIT);
 			}
 			break;
 
+		case STATES.STATE_PROCESS_INFOPOINT:
+			GetComponent<Entity> ().Idle ();
+			StartCoroutine (ProcessInfopoint ());
+			break;
+
 		case STATES.STATE_PROCESS_CHECKPOINT:
-			GetComponent<Entity> ().PlayAnimation ("idle");
+			GetComponent<Entity> ().Idle ();
 			StartCoroutine (ProcessCheckpoint ());
 			break;
 
 		case STATES.STATE_MOVE_TO_EXIT:
-			gameObject.transform.localScale = new Vector3 (-Mathf.Abs (gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-			this.MoveTo (this.ExitPoint);
+			GetComponent<Entity> ().MoveTo (this.ExitPoint.transform.position, "MoveToFinished");
 			break;
 		}
 	}
 
-	IEnumerator ProcessCheckpoint() {
-		// first slot, processing
-		if (this.GetSlot().IsFirstSlot()) {
-			yield return new WaitForSeconds (2.0f);
-			SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
-		} else {
-			yield return new WaitForSeconds (0.5f);
-			CheckpointSlot NextSlot = this.GetCurrentCheckpoint() .GetNextSlot (this.GetSlot());
-			if (NextSlot.IsAvailable ()) {
-				this.SetSlot (NextSlot);
-				this.MoveTo (this.GetSlot().gameObject);
+	IEnumerator ProcessWaitingInQueue() {
+
+		GetComponent<Entity> ().Idle ();
+
+		while (true) {
+			if (this.EntityQueue.IsFirst (GetEntity ())) {
+				Checkpoint CurrentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+				if (CurrentCheckpoint == null) {
+					SetState (STATES.STATE_PROCESS_INFOPOINT);
+				} else {
+					SetState (STATES.STATE_PROCESS_CHECKPOINT);
+				}
+				break;
 			} else {
-				this.SetState (STATES.STATE_PROCESS_CHECKPOINT);
+				yield return new WaitForSeconds (0.5f);
+				int NewQueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
+				if (this.QueueIndex != NewQueueIndex) {
+					this.QueueIndex = NewQueueIndex;
+					GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
+					break;
+				}
 			}
 		}
 	}
 
-	Checkpoint GetNextCheckpoint() {
-		Checkpoint result = null;
-		int NextCheckpointId = 0;
+	Entity GetEntity() {
+		return GetComponent<Entity> ();
+	}
+		
+	IEnumerator ProcessCheckpoint() {
+		yield return new WaitForSeconds (5.0f);
+		this.CheckpointsDone.Add (this.CurrentColor);
+		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+	}
 
-		if (this.GetCurrentCheckpoint() == null) {
-			NextCheckpointId = this.Checkpoints [0];
-		} else {
-			for (int i = 0; i < this.Checkpoints.Length; ++i) {
-				if (this.Checkpoints [i] == this.GetCurrentCheckpoint().Id) {
-					if (i < this.Checkpoints.Length - 1) {
-						NextCheckpointId = this.Checkpoints [i + 1];
-						break;
-					}
-				}
+	IEnumerator ProcessInfopoint() {
+		while (true) {
+			if (this.Rule.RuleColors.Count > 0) {
+				GetComponentInChildren<CustomerBubble> ().Hide ();
+				GetComponent<BoxCollider2D> ().enabled = false;
+				yield return new WaitForSeconds (1.0f);
+				SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+				break;
+			} else {
+				GetComponentInChildren<CustomerBubble> ().ShowInfoBubble ();
+				GetComponent<BoxCollider2D> ().enabled = true;
+				yield return new WaitForSeconds (0.5f);
+			}
+		}
+	}
+
+	void OnMouseDown() {
+		PopupCreateNewRule Popup = GameObject.Find ("Canvas").GetComponentInChildren<PopupCreateNewRule>(true);
+		if (Popup.gameObject.activeSelf == false) {
+			Popup.gameObject.SetActive (true);
+			Popup.ShowRule (this.Rule);
+		}
+	}
+
+	Checkpoint GetNextCheckpoint() {
+
+		int NextCheckpointId = 0;
+		foreach (int RuleColorId in this.Rule.RuleColors) {
+			if (this.CheckpointsDone.IndexOf (RuleColorId) == -1) {
+				NextCheckpointId = RuleColorId;
+				break;
 			}
 		}
 
+		Checkpoint result = null;
 		if (NextCheckpointId != 0) {
 			foreach (Checkpoint Checkpoint in this.SceneCheckpoints) {
 				if (Checkpoint.Id == NextCheckpointId) {
@@ -123,49 +185,43 @@ public class CustomerBehaviour : MonoBehaviour {
 		return result;
 	}
 
-	Checkpoint GetCurrentCheckpoint() {
-		return this.CurrentCheckpoint;
+	EntityQueue GetEntityQueue() {
+		return this.EntityQueue;
 	}
 
-	void SetCurrentCheckpoint(Checkpoint Checkpoint) {
-		this.CurrentCheckpoint = Checkpoint;
-		if (this.CurrentCheckpoint != null) {
-			GetComponentInChildren<InfoColor> ().SetColor (this.CurrentCheckpoint.GetColor ());
+	void SetEntityQueue(EntityQueue EntityQueue) {
+		if (this.EntityQueue != null) {
+			this.EntityQueue.RemoveEntity (GetEntity());
+		}
+
+		if (EntityQueue == null) {
+			this.EntityQueue = null;
+			transform.SetParent (null);
+			GetComponentInChildren<CustomerBubble> ().Hide ();
 		} else {
-			GetComponentInChildren<InfoColor> ().SetActive (false);
-		}
-	}
+			this.EntityQueue = EntityQueue;
+			this.EntityQueue.AddEntity (GetEntity());
+			this.QueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
+			transform.SetParent(this.EntityQueue.GetQueueContainer ());
 
-	void SetSlot(CheckpointSlot Slot) {
-		if (this.CurrentSlot != null) {
-			this.CurrentSlot.SetEntity (null);
-		}
-		this.CurrentSlot = Slot;
-		if (this.CurrentSlot != null) {
-			this.CurrentSlot.SetEntity (GetComponent<Entity> ());
-		}
-	}
+			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+			if (Checkpoint != null) {
+				this.CurrentColor = Checkpoint.Id;
+				GetComponentInChildren<CustomerBubble> ().ShowColor (Rules.GetColor(Checkpoint.Id));
+			}
 
-	CheckpointSlot GetSlot() {
-		return this.CurrentSlot;
-	}
-
-	void MoveTo(GameObject Target) {
-		GetComponent<Entity> ().PlayAnimation ("walk");
-		iTween.MoveTo (gameObject, iTween.Hash ("position", Target.transform.position, "time", 1.0f, "oncomplete", "MoveToFinished", "easetype", iTween.EaseType.linear));
+		}
 	}
 
 	public void MoveToFinished() {
 		switch (this.State) {
-		case STATES.STATE_PROCESS_CHECKPOINT:
+		case STATES.STATE_MOVE_TO_INFOPOINT:
 		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
-			this.SetState (STATES.STATE_PROCESS_CHECKPOINT);
+		case STATES.STATE_WAITING_IN_QUEUE:
+			this.SetState (STATES.STATE_WAITING_IN_QUEUE);
 			break;
 		case STATES.STATE_MOVE_TO_EXIT:
 			DestroyObject (gameObject);
-			break;
-		default:
-			this.SetState (STATES.STATE_INIT);
 			break;
 		}
 	}
