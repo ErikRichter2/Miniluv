@@ -19,16 +19,16 @@ public class PopupShowRules_RuleItem : MonoBehaviour {
 		this.PanelAvailable.ClickHandler = OnRuleClicked;
 		this.PanelRequired.ClickHandler = OnRuleClicked;
 
-		this.RuleName.text = Rules.GetType (rule.RuleType);
+		this.RuleName.text = DefinitionsLoader.taskDefinition.GetTask (rule.taskId).type;
 
 		List<StampDef> stamps;
 
-		stamps = Rules.GetStamps (rule, false);
+		stamps = Rules.Instance.GetStamps (rule, false);
 		foreach (StampDef stamp in stamps) {
 			this.PanelAvailable.Add (stamp);
 		}
 
-		stamps = Rules.GetStamps (rule, true);
+		stamps = Rules.Instance.GetStamps (rule, true);
 		foreach (StampDef stamp in stamps) {
 			this.PanelRequired.Add (stamp);
 		}

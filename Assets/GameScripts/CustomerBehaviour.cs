@@ -20,8 +20,8 @@ public class CustomerBehaviour : MonoBehaviour {
 	// required rule
 	Rule Rule;
 
-	// done checkpoints
-	List<int> CheckpointsDone;
+	// collected stamps
+	List<int> collectedStamps;
 
 	// current queue
 	EntityQueue EntityQueue;
@@ -32,13 +32,13 @@ public class CustomerBehaviour : MonoBehaviour {
 	GameObject ExitPoint;
 	InfoPoint InfoPoint;
 	int QueueIndex;
-	int CurrentColor;
+	int currentStamp;
 
 	// Use this for initialization
 	void Start () {
 		this.SceneCheckpoints = new List<Checkpoint> ();
 		this.SetState(STATES.STATE_INIT);
-		this.CheckpointsDone = new List<int> ();
+		this.collectedStamps = new List<int> ();
 	}
 
 	public void AddCheckpoint(Checkpoint Checkpoint) {
@@ -135,13 +135,13 @@ public class CustomerBehaviour : MonoBehaviour {
 		
 	IEnumerator ProcessCheckpoint() {
 		yield return new WaitForSeconds (5.0f);
-		this.CheckpointsDone.Add (this.CurrentColor);
+		this.collectedStamps.Add (this.currentStamp);
 		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 	}
 
 	IEnumerator ProcessInfopoint() {
 		while (true) {
-			if (this.Rule.RuleColors.Count > 0) {
+			if (this.Rule.HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
 				yield return new WaitForSeconds (1.0f);
@@ -164,18 +164,21 @@ public class CustomerBehaviour : MonoBehaviour {
 
 	Checkpoint GetNextCheckpoint() {
 
-		int NextCheckpointId = 0;
-		foreach (int RuleColorId in this.Rule.RuleColors) {
-			if (this.CheckpointsDone.IndexOf (RuleColorId) == -1) {
-				NextCheckpointId = RuleColorId;
+		// next stamp
+		int nextStampId = 0;
+
+		// find first unsatisfied stamp
+		foreach (int stamp in this.Rule.stamps) {
+			if (this.collectedStamps.IndexOf (stamp) == -1) {
+				nextStampId = stamp;
 				break;
 			}
 		}
 
 		Checkpoint result = null;
-		if (NextCheckpointId != 0) {
+		if (nextStampId != 0) {
 			foreach (Checkpoint Checkpoint in this.SceneCheckpoints) {
-				if (Checkpoint.stamp.Id == NextCheckpointId) {
+				if (Checkpoint.stamp.Id == nextStampId) {
 					result = Checkpoint;
 					break;
 				}
@@ -207,7 +210,7 @@ public class CustomerBehaviour : MonoBehaviour {
 
 			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
 			if (Checkpoint != null) {
-				this.CurrentColor = Checkpoint.stamp.Id;
+				this.currentStamp = Checkpoint.stamp.Id;
 				GetComponentInChildren<CustomerBubble> ().ShowColor (Checkpoint.stamp.Color);
 			}
 

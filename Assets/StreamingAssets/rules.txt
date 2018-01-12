@@ -1,0 +1,1 @@
+{"rules":[{"taskId":1,"stamps":[1,2]},{"taskId":2,"stamps":[]},{"taskId":3,"stamps":[]},{"taskId":4,"stamps":[]}]}

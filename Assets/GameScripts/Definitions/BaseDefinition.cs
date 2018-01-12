@@ -31,7 +31,7 @@ public class BaseDefinition
 	virtual protected void ProcessData() {
 	}
 
-	public int GetIndex(string name) {
+	protected int GetIndex(string name) {
 		for (int i = 0; i < this.header.Length; ++i) {
 			if (this.header [i] == name) {
 				return i;
@@ -41,15 +41,15 @@ public class BaseDefinition
 		return 0;
 	}
 
-	public string GetValue(int defId, string name) {
+	protected string GetValue(int defId, string name) {
 		return this.data [defId] [this.GetIndex(name)];
 	}
 
-	public int GetValueInt(int defId, string name) {
+	protected int GetValueInt(int defId, string name) {
 		return int.Parse(this.data [defId] [this.GetIndex(name)]);
 	}
 
-	public List<int> GetKeys() {
+	protected List<int> GetKeys() {
 		List<int> res = new List<int>();
 		foreach (KeyValuePair<int, string[]> It in this.data) {
 			res.Add(It.Key);

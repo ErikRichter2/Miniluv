@@ -7,12 +7,12 @@ public class PopupShowRules : BasePopup {
 	public GameObject RuleItemPrefab;
 	public GameObject Content;
 
-	public void ShowColor(int color) {
+	public void ShowStamp(int stampId) {
 		
 		this.Clear ();
 
-		foreach (Rule rule in Rules.RulesInstances) {
-			if (color == 0 || rule.RuleColors.IndexOf (color) != -1) {
+		foreach (Rule rule in Rules.Instance.GetRules()) {
+			if (stampId == 0 || rule.HasStamp (stampId)) {
 				GameObject ruleInstance = Instantiate<GameObject> (RuleItemPrefab, this.Content.transform);
 				ruleInstance.GetComponent<PopupShowRules_RuleItem> ().SetRule (rule);
 			}
@@ -30,10 +30,10 @@ public class PopupShowRules : BasePopup {
 	public void OnConfirm() {
 
 		PopupShowRules_RuleItem[] ruleItems = this.Content.GetComponentsInChildren<PopupShowRules_RuleItem> ();
-		foreach (PopupShowRules_RuleItem RuleItem in ruleItems) {
-			RuleItem.rule.RuleColors.Clear ();
-			foreach (PopupCreateNewRule_ColorItem colorItem in RuleItem.PanelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-				Rules.AddColor (RuleItem.rule.RuleType, colorItem.stamp.Id);
+		foreach (PopupShowRules_RuleItem ruleItem in ruleItems) {
+			ruleItem.rule.RemoveAllStamps ();
+			foreach (PopupCreateNewRule_ColorItem colorItem in ruleItem.PanelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
+				ruleItem.rule.AddStamp (colorItem.stamp.Id);
 			}
 		}
 

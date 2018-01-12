@@ -19,7 +19,7 @@ public class Checkpoint : MonoBehaviour {
 	public void OnMouseDown() {
 		if (EventSystem.current.IsPointerOverGameObject () == false) {
 			PopupShowRules popup = BasePopup.GetPopup<PopupShowRules> ();
-			popup.ShowColor (this.stamp.Id);
+			popup.ShowStamp (this.stamp.Id);
 		}
 	}
 

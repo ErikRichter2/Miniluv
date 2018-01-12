@@ -33,7 +33,7 @@ public class CustomerGenerator : MonoBehaviour {
 
 			Entity.GetComponent<CustomerBehaviour> ().SetInfoPoint (InfoPoint);
 			Entity.GetComponent<CustomerBehaviour> ().SetExitPoint (transform.Find ("Place").gameObject);
-			Entity.GetComponent<CustomerBehaviour> ().SetRule (Rules.GetRandomRule());
+			Entity.GetComponent<CustomerBehaviour> ().SetRule (Rules.Instance.GetRandomRule());
 
 			// find and goto checkpoint
 			Entity.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);

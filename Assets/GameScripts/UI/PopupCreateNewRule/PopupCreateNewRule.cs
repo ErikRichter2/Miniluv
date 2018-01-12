@@ -21,16 +21,16 @@ public class PopupCreateNewRule : BasePopup {
 		this.panelAvailabale.Clear ();
 		this.panelRequired.Clear();
 
-		this.ruleName.text = Rules.GetType (this.rule.RuleType);
+		this.ruleName.text = DefinitionsLoader.taskDefinition.GetTask(this.rule.taskId).type;
 
 		List<StampDef> stamps;
 
-		stamps = Rules.GetStamps (rule, false);
+		stamps = Rules.Instance.GetStamps (rule, false);
 		foreach (StampDef stamp in stamps) {
 			this.panelAvailabale.Add (stamp);
 		}
 
-		stamps = Rules.GetStamps (rule, true);
+		stamps = Rules.Instance.GetStamps (rule, true);
 		foreach (StampDef stamp in stamps) {
 			this.panelRequired.Add (stamp);
 		}
@@ -49,10 +49,10 @@ public class PopupCreateNewRule : BasePopup {
 	}
 
 	public void OnConfirm() {
-		this.rule.RuleColors.Clear ();
+		this.rule.RemoveAllStamps ();
 
 		foreach (PopupCreateNewRule_ColorItem colorItem in this.panelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-			Rules.AddColor (this.rule.RuleType, colorItem.stamp.Id);
+			this.rule.AddStamp (colorItem.stamp.Id);
 		}
 
 		HidePopup ();
