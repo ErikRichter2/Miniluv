@@ -1157,9 +1157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CheckpointsGameObject: {fileID: 776607001}
   InfoPoint: {fileID: 613243025}
-  Entities:
-  - {fileID: 114127091000734084, guid: f4b665b0e21a3ca4a88fcbbadc588d02, type: 2}
-  - {fileID: 114127091000734084, guid: 56c6439fccd7b614397ee809fe9a6f3f, type: 2}
+  CustomerPrefab: {fileID: 114127091000734084, guid: f4b665b0e21a3ca4a88fcbbadc588d02,
+    type: 2}
 --- !u!4 &871286134
 Transform:
   m_ObjectHideFlags: 0

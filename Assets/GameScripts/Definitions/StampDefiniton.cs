@@ -2,33 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StampDef {
-	public int Id;
+public class StampDef : BaseDef {
 	public Color Color;
 	public int Time;
 }
 
-public class StampDefiniton : BaseDefinition
-{
-	public List<StampDef> stamps;
-
-	public StampDefiniton (){
-		stamps = new List<StampDef> ();
-	}
-
-	public StampDef GetStamp(int defId) {
-		foreach (StampDef item in this.stamps) {
-			if (item.Id == defId) {
-				return item;
-			}
-		}
-
-		return null;
-	}
+public class StampDefiniton : BaseDefinition<StampDef> {
 
 	override protected void ProcessData() {
-		List<int> keys = GetKeys ();
-		foreach (int defId in keys) {
+		foreach (int defId in this.GetKeys ()) {
 			StampDef item = new StampDef ();
 			item.Id = defId;
 			Color newCol;
@@ -36,7 +18,7 @@ public class StampDefiniton : BaseDefinition
 				item.Color = newCol;
 			}
 			item.Time = this.GetValueInt (defId, "time");
-			stamps.Add (item);
+			this.Items.Add (item);
 		}
 	}
 

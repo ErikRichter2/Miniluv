@@ -57,14 +57,15 @@
      <Compile Include="Assets\GameScripts\CustomerBubble.cs" />
      <Compile Include="Assets\GameScripts\CustomerGenerator.cs" />
      <Compile Include="Assets\GameScripts\Definitions\BaseDefinition.cs" />
+     <Compile Include="Assets\GameScripts\Definitions\ConfigDefinition.cs" />
+     <Compile Include="Assets\GameScripts\Definitions\CustomerDefinition.cs" />
      <Compile Include="Assets\GameScripts\Definitions\DefinitionsLoader.cs" />
      <Compile Include="Assets\GameScripts\Definitions\StampDefiniton.cs" />
      <Compile Include="Assets\GameScripts\Definitions\TaskDefinition.cs" />
      <Compile Include="Assets\GameScripts\Entity.cs" />
      <Compile Include="Assets\GameScripts\EntityQueue.cs" />
-     <Compile Include="Assets\GameScripts\IInteractiveGamePoint.cs" />
      <Compile Include="Assets\GameScripts\InfoPoint.cs" />
-     <Compile Include="Assets\GameScripts\Progress\Rules.cs" />
+     <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />

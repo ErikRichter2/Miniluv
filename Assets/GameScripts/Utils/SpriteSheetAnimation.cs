@@ -9,7 +9,10 @@ public class SpriteSheetAnimation : MonoBehaviour {
 	float CurrentFrame;
 
 	public string AnimationName;
+
+	[HideInInspector]
 	public string TextureName;
+
 	public int FrameRate;
 	public bool Active;
 

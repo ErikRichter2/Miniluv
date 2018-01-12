@@ -1,36 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class TaskDef {
-	public int id;
-	public string type;
-
-	public TaskDef(int id, string type) {
-		this.id = id;
-		this.type = type;
-	}
+public class TaskDef : BaseDef {
+	public string Name;
 }
+	
+public class TaskDefinition : BaseDefinition<TaskDef> {
 
-
-public class TaskDefinition : BaseDefinition {
-	public List<TaskDef> tasks;
-
-	public TaskDefinition () {
-		tasks = new List<TaskDef> ();
-		tasks.Add (new TaskDef (1, "WEDDING"));
-		tasks.Add (new TaskDef (2, "DIVORCE"));
-		tasks.Add (new TaskDef (3, "PASSPORT"));
-		tasks.Add (new TaskDef (4, "FUNERAL"));
-	}
-
-	public TaskDef GetTask(int id) {
-		foreach (TaskDef task in this.tasks) {
-			if (task.id == id) {
-				return task;
-			}
+	override protected void ProcessData() {
+		foreach (int defId in this.GetKeys ()) {
+			TaskDef item = new TaskDef ();
+			item.Id = defId;
+			item.Name = this.GetValue (defId, "name");
+			this.Items.Add (item);
 		}
-
-		return null;
 	}
+
 }
 

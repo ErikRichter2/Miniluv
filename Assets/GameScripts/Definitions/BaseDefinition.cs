@@ -1,13 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class BaseDefinition
+public class BaseDef {
+	public int Id;
+}
+
+public class BaseDefinition<T> where T : BaseDef
 {
+	public List<T> Items;
+
 	string[] header;
 	Dictionary<int, string[]> data;
 
-	public BaseDefinition ()
-	{
+	public BaseDefinition (){
+		Items = new List<T> ();
+	}
+
+	public T GetItem(int Id) {
+		foreach (T It in this.Items) {
+			if (It.Id == Id) {
+				return It;
+			}
+		}
+
+		return null;
 	}
 
 	public void Parse(string data) {

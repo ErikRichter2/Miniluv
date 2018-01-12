@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 4650216911308310}
   - component: {fileID: 114127091000734084}
   - component: {fileID: 212804457042396488}
-  - component: {fileID: 114086943397964452}
-  - component: {fileID: 114428646384520532}
   - component: {fileID: 114193768666808128}
   - component: {fileID: 61741304032754702}
   m_Layer: 0
@@ -160,21 +158,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.72154164}
   m_EdgeRadius: 0
---- !u!114 &114086943397964452
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071808996648844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca8015ec66c74cd429e007a1e8920168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimationName: idle
-  TextureName: bearded-idle
-  FrameRate: 10
-  Active: 0
 --- !u!114 &114127091000734084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd81ed2613f3cf49a40e30dcba56b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EntityId: 1
+  entityId: 0
 --- !u!114 &114193768666808128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,21 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc5625e273ea7f34f9a86649b108b7cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114428646384520532
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071808996648844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca8015ec66c74cd429e007a1e8920168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AnimationName: walk
-  TextureName: bearded-walk
-  FrameRate: 10
-  Active: 0
 --- !u!114 &114972066875467798
 MonoBehaviour:
   m_ObjectHideFlags: 1

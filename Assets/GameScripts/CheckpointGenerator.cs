@@ -13,8 +13,7 @@ public class CheckpointGenerator : MonoBehaviour {
 
 	void CreateCheckpoints() {
 		int index = 0;
-		List<StampDef> stamps = DefinitionsLoader.stampDefinition.stamps;
-		foreach (StampDef stamp in stamps) {
+		foreach (StampDef stamp in DefinitionsLoader.stampDefinition.Items) {
 			Checkpoint checkpoint = Instantiate<Checkpoint> (this.checkpointPrefab, transform);
 			checkpoint.transform.localPosition = new Vector3 (index * 2.5f, 0.0f, 0.0f);
 			checkpoint.SetStamp (stamp);

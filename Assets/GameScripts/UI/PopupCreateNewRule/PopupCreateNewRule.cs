@@ -21,7 +21,7 @@ public class PopupCreateNewRule : BasePopup {
 		this.panelAvailabale.Clear ();
 		this.panelRequired.Clear();
 
-		this.ruleName.text = DefinitionsLoader.taskDefinition.GetTask(this.rule.taskId).type;
+		this.ruleName.text = DefinitionsLoader.taskDefinition.GetItem(this.rule.taskId).Name;
 
 		List<StampDef> stamps;
 

@@ -6,9 +6,9 @@ public class CustomerGenerator : MonoBehaviour {
 
 	public GameObject CheckpointsGameObject;
 	public InfoPoint InfoPoint;
+	public Entity CustomerPrefab;
 
 	private Checkpoint[] Checkpoints;
-	public Entity[] Entities;
 
 	// Use this for initialization
 	void Start () {
@@ -19,24 +19,29 @@ public class CustomerGenerator : MonoBehaviour {
 	IEnumerator Generate() {
 		while (true) {
 
-			// create new entity
-			int Index = Mathf.FloorToInt(Random.Range(0, this.Entities.Length));
-			Entity Entity = Instantiate<Entity> (this.Entities[Index], transform.Find ("Place"));
+			// create new customer
+			Entity customer = Instantiate<Entity> (this.CustomerPrefab, transform.Find ("Place"));
+
+			// set random def
+			List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
+			customer.SetEntityDef (customers [Mathf.FloorToInt (Random.Range (0, customers.Count))]);
 				
 			// random delay
-			yield return new WaitForSeconds (Random.Range(0.25f, 2f));
+			int customersPerMinute = int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
+			float deltaSeconds = 60.0f / customersPerMinute;
+			yield return new WaitForSeconds (Random.Range(deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f));
 
 			// add checkpoints and exit point
 			foreach(Checkpoint Checkpoint in this.Checkpoints) {
-				Entity.GetComponent<CustomerBehaviour>().AddCheckpoint(Checkpoint);
+				customer.GetComponent<CustomerBehaviour>().AddCheckpoint(Checkpoint);
 			}
 
-			Entity.GetComponent<CustomerBehaviour> ().SetInfoPoint (InfoPoint);
-			Entity.GetComponent<CustomerBehaviour> ().SetExitPoint (transform.Find ("Place").gameObject);
-			Entity.GetComponent<CustomerBehaviour> ().SetRule (Rules.Instance.GetRandomRule());
+			customer.GetComponent<CustomerBehaviour> ().SetInfoPoint (InfoPoint);
+			customer.GetComponent<CustomerBehaviour> ().SetExitPoint (transform.Find ("Place").gameObject);
+			customer.GetComponent<CustomerBehaviour> ().SetRule (Rules.Instance.GetRandomRule());
 
 			// find and goto checkpoint
-			Entity.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
+			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
 		}
 	}
 

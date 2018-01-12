@@ -6,11 +6,29 @@ public class Entity : MonoBehaviour {
 
 	static int ID_COUNTER = 0;
 
-	public int entityId;
+	public int intanceId;
+
+	int defId;
 
 	// Use this for initialization
 	void Start () {				
-		this.entityId = ++ID_COUNTER;
+		this.intanceId = ++ID_COUNTER;
+	}
+
+	public void SetEntityDef(CustomerDef defItem) {
+		this.defId = defItem.Id;
+
+		SpriteSheetAnimation animation;
+
+		animation = gameObject.AddComponent<SpriteSheetAnimation> ();
+		animation.AnimationName = "idle";
+		animation.TextureName = defItem.Asset + "-" + animation.AnimationName;
+		animation.FrameRate = 10;
+
+		animation = gameObject.AddComponent<SpriteSheetAnimation> ();
+		animation.AnimationName = "walk";
+		animation.TextureName = defItem.Asset + "-" + animation.AnimationName;
+		animation.FrameRate = 10;
 	}
 
 	void DestroyEntity() {
@@ -34,17 +52,19 @@ public class Entity : MonoBehaviour {
 	public void MoveTo(Vector3 Position, string OnComplete = null) {
 		GetComponent<Entity> ().PlayAnimation ("walk");
 
-		if (Position.x < gameObject.transform.position.x) {
-			gameObject.transform.localScale = new Vector3 (-Mathf.Abs (gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-		} else {
-			gameObject.transform.localScale = new Vector3 (Mathf.Abs (gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+		Vector3 newScale = new Vector3 ( Mathf.Abs(gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+		if (Position.x < gameObject.transform.localPosition.x) {
+			newScale.x = -newScale.x;
 		}
+
+		gameObject.transform.localScale = newScale;
 			
-		if (OnComplete != null) {
-			iTween.MoveTo (gameObject, iTween.Hash ("position", Position, "time", 1.0f, "oncomplete", OnComplete, "easetype", iTween.EaseType.linear, "islocal", true));
-		} else {
-			iTween.MoveTo (gameObject, iTween.Hash ("position", Position, "time", 1.0f, "oncomplete", "MoveTo_finished", "easetype", iTween.EaseType.linear, "islocal", true));
-		}
+		float speed = DefinitionsLoader.customerDefinition.GetItem (this.defId).Speed;
+		float distance = Vector3.Distance (gameObject.transform.localPosition, Position);
+		float time = distance / (speed * 0.25f);
+
+		string onComplete = OnComplete != null ? OnComplete : "MoveTo_finished";
+		iTween.MoveTo (gameObject, iTween.Hash ("position", Position, "time", time, "oncomplete", onComplete, "easetype", iTween.EaseType.linear, "islocal", true));
 	}
 
 	public void MoveTo_finished() {

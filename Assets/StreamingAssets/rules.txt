@@ -1,1 +1,1 @@
-{"rules":[{"taskId":1,"stamps":[1,2]},{"taskId":2,"stamps":[]},{"taskId":3,"stamps":[]},{"taskId":4,"stamps":[]}]}
+{"rules":[{"taskId":1,"stamps":[1,2,4]},{"taskId":2,"stamps":[2,6]},{"taskId":3,"stamps":[2,3]},{"taskId":4,"stamps":[1,5]}]}

@@ -134,7 +134,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 		
 	IEnumerator ProcessCheckpoint() {
-		yield return new WaitForSeconds (5.0f);
+		yield return new WaitForSeconds (DefinitionsLoader.stampDefinition.GetItem(this.currentStamp).Time);
 		this.collectedStamps.Add (this.currentStamp);
 		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 	}
@@ -144,7 +144,7 @@ public class CustomerBehaviour : MonoBehaviour {
 			if (this.Rule.HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
-				yield return new WaitForSeconds (1.0f);
+				yield return new WaitForSeconds (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000.0f);
 				SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 				break;
 			} else {

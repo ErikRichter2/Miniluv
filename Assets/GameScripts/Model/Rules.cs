@@ -40,9 +40,9 @@ public class Rules : ScriptableObject {
 		this.rules = new List<Rule> ();
 
 		// inital rules
-		foreach (TaskDef task in DefinitionsLoader.taskDefinition.tasks) {
+		foreach (TaskDef task in DefinitionsLoader.taskDefinition.Items) {
 			Rule rule = new Rule ();
-			rule.taskId = task.id;
+			rule.taskId = task.Id;
 			rule.stamps = new List<int> ();
 			this.rules.Add (rule);
 		}
@@ -72,7 +72,7 @@ public class Rules : ScriptableObject {
 
 		List<StampDef> result = new List<StampDef> ();
 
-		foreach (StampDef stamp in DefinitionsLoader.stampDefinition.stamps) {
+		foreach (StampDef stamp in DefinitionsLoader.stampDefinition.Items) {
 			bool isRequired = false;
 			foreach (int stampId in rule.stamps) {
 				if (stampId == stamp.Id) {
