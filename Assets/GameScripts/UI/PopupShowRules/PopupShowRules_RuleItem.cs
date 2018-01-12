@@ -21,16 +21,16 @@ public class PopupShowRules_RuleItem : MonoBehaviour {
 
 		this.RuleName.text = Rules.GetType (rule.RuleType);
 
-		List<RuleColorDef> ruleColors;
+		List<StampDef> stamps;
 
-		ruleColors = Rules.GetColors (rule, false);
-		foreach (RuleColorDef ruleColor in ruleColors) {
-			this.PanelAvailable.Add (ruleColor);
+		stamps = Rules.GetStamps (rule, false);
+		foreach (StampDef stamp in stamps) {
+			this.PanelAvailable.Add (stamp);
 		}
 
-		ruleColors = Rules.GetColors (rule, true);
-		foreach (RuleColorDef ruleColor in ruleColors) {
-			this.PanelRequired.Add (ruleColor);
+		stamps = Rules.GetStamps (rule, true);
+		foreach (StampDef stamp in stamps) {
+			this.PanelRequired.Add (stamp);
 		}
 	}
 
@@ -39,13 +39,13 @@ public class PopupShowRules_RuleItem : MonoBehaviour {
 		this.PanelRequired.Clear ();
 	}
 
-	public void OnRuleClicked(PopupCreateNewRule_ColorPanel Panel, RuleColorDef Rule) {
+	public void OnRuleClicked(PopupCreateNewRule_ColorPanel Panel, StampDef stamp) {
 		if (Panel == this.PanelAvailable) {
-			this.PanelAvailable.Remove (Rule);
-			this.PanelRequired.Add (Rule);
+			this.PanelAvailable.Remove (stamp);
+			this.PanelRequired.Add (stamp);
 		} else {
-			this.PanelAvailable.Add (Rule);
-			this.PanelRequired.Remove (Rule);
+			this.PanelAvailable.Add (stamp);
+			this.PanelRequired.Remove (stamp);
 		}
 	}
 

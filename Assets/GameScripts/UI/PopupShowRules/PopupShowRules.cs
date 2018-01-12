@@ -33,7 +33,7 @@ public class PopupShowRules : BasePopup {
 		foreach (PopupShowRules_RuleItem RuleItem in ruleItems) {
 			RuleItem.rule.RuleColors.Clear ();
 			foreach (PopupCreateNewRule_ColorItem colorItem in RuleItem.PanelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-				Rules.AddColor (RuleItem.rule.RuleType, colorItem.RuleColor.Id);
+				Rules.AddColor (RuleItem.rule.RuleType, colorItem.stamp.Id);
 			}
 		}
 

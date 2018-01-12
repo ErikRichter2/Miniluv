@@ -5,10 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Checkpoint : MonoBehaviour {
 
-	public int Id;
+	public StampDef stamp;
 
-	void Start () {
-		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = Rules.GetColor (Id);
+	public void SetStamp(StampDef stamp) {
+		this.stamp = stamp;
+		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = this.stamp.Color;
 	}
 
 	public EntityQueue GetEntityQueue() {
@@ -18,7 +19,7 @@ public class Checkpoint : MonoBehaviour {
 	public void OnMouseDown() {
 		if (EventSystem.current.IsPointerOverGameObject () == false) {
 			PopupShowRules popup = BasePopup.GetPopup<PopupShowRules> ();
-			popup.ShowColor (this.Id);
+			popup.ShowColor (this.stamp.Id);
 		}
 	}
 

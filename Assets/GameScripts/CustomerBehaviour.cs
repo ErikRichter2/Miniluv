@@ -175,7 +175,7 @@ public class CustomerBehaviour : MonoBehaviour {
 		Checkpoint result = null;
 		if (NextCheckpointId != 0) {
 			foreach (Checkpoint Checkpoint in this.SceneCheckpoints) {
-				if (Checkpoint.Id == NextCheckpointId) {
+				if (Checkpoint.stamp.Id == NextCheckpointId) {
 					result = Checkpoint;
 					break;
 				}
@@ -207,8 +207,8 @@ public class CustomerBehaviour : MonoBehaviour {
 
 			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
 			if (Checkpoint != null) {
-				this.CurrentColor = Checkpoint.Id;
-				GetComponentInChildren<CustomerBubble> ().ShowColor (Rules.GetColor(Checkpoint.Id));
+				this.CurrentColor = Checkpoint.stamp.Id;
+				GetComponentInChildren<CustomerBubble> ().ShowColor (Checkpoint.stamp.Color);
 			}
 
 		}

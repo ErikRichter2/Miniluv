@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed92fc67fb90ad48ada47dca7ca40e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RuleColorPrefab: {fileID: 1802413240640580, guid: 345c3d412ae50484b99f640237caf6e0,
+  StampPrefab: {fileID: 1802413240640580, guid: 345c3d412ae50484b99f640237caf6e0,
     type: 2}
 --- !u!114 &114322825997297184
 MonoBehaviour:
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed92fc67fb90ad48ada47dca7ca40e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RuleColorPrefab: {fileID: 1802413240640580, guid: 345c3d412ae50484b99f640237caf6e0,
+  StampPrefab: {fileID: 1802413240640580, guid: 345c3d412ae50484b99f640237caf6e0,
     type: 2}
 --- !u!114 &114453670910423912
 MonoBehaviour:
@@ -255,10 +255,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 80.3}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 361.5, y: -40.15}
+  m_SizeDelta: {x: 723, y: 80.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224740215104533774
 RectTransform:

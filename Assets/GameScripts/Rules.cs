@@ -18,35 +18,19 @@ struct RuleTypeDef {
 	}
 }
 
-public struct RuleColorDef {
-	public int Id;
-	public Color Color;
-
-	public RuleColorDef(int p1, Color p2) {
-		this.Id = p1;
-		this.Color = p2;
-	}
-}
 
 public class Rules : MonoBehaviour {
 
 	static int RULE_ID_COUNTER;
 
 	static List<RuleTypeDef> RuleTypes;
-	static public List<RuleColorDef> RuleColors;
+	//static public List<RuleColorDef> RuleColors;
 	static public List<Rule> RulesInstances;
 
 	// Use this for initialization
 	void Start () {
 		RuleTypes = new List<RuleTypeDef> ();
-		RuleColors = new List<RuleColorDef> ();
 		RulesInstances = new List<Rule> ();
-
-		RuleColors.Add (new RuleColorDef (1, Color.green));
-		RuleColors.Add (new RuleColorDef (2, Color.red));
-		RuleColors.Add (new RuleColorDef (3, Color.blue));
-		RuleColors.Add (new RuleColorDef (4, Color.yellow));
-		RuleColors.Add (new RuleColorDef (5, Color.cyan));
 
 		RuleTypes.Add (new RuleTypeDef (1, "WEDDING"));
 		RuleTypes.Add (new RuleTypeDef (2, "DIVORCE"));
@@ -72,12 +56,12 @@ public class Rules : MonoBehaviour {
 		return RulesInstances[0];
 	}
 
-	static public void AddColor(int RuleType, int RuleColor) {
-		Rules.GetRule (RuleType).RuleColors.Add (RuleColor);
+	static public void AddColor(int RuleType, int StamDefId) {
+		Rules.GetRule (RuleType).RuleColors.Add (StamDefId);
 	}
 
-	static public void RemoveColor(int RuleType, int RuleColor) {
-		Rules.GetRule (RuleType).RuleColors.Remove (RuleColor);
+	static public void RemoveColor(int RuleType, int StamDefId) {
+		Rules.GetRule (RuleType).RuleColors.Remove (StamDefId);
 	}
 
 	static public string GetType(int TypeId) {
@@ -89,7 +73,7 @@ public class Rules : MonoBehaviour {
 
 		return null;
 	}
-
+	/*
 	static public Color GetColor(int ColorId) {
 		foreach (RuleColorDef It in Rules.RuleColors) {
 			if (ColorId == It.Id) {
@@ -99,29 +83,28 @@ public class Rules : MonoBehaviour {
 
 		return Color.black;
 	}
-
+*/
 	static public Rule GetRandomRule() {
 		int Index = Mathf.FloorToInt(Random.Range(0, Rules.RulesInstances.Count));
 		return Rules.RulesInstances [Index];
 	}
 
-	static public List<RuleColorDef> GetColors(Rule RuleInstance, bool Required) {
+	static public List<StampDef> GetStamps(Rule ruleInstance, bool required) {
 
-		List<RuleColorDef> result = new List<RuleColorDef> ();
+		List<StampDef> result = new List<StampDef> ();
 
-		foreach (RuleColorDef colorDef in Rules.RuleColors) {
+		foreach (StampDef stamp in DefinitionsLoader.stampDefinition.stamps) {
 			bool isRequired = false;
-			foreach (int ruleColorId in RuleInstance.RuleColors) {
-				if (ruleColorId == colorDef.Id) {
+			foreach (int ruleColorId in ruleInstance.RuleColors) {
+				if (ruleColorId == stamp.Id) {
 					isRequired = true;
 					break;
 				}
 			}
 
-			if (isRequired && Required || !isRequired && !Required) {
-				result.Add (colorDef);
+			if (isRequired && required || !isRequired && !required) {
+				result.Add (stamp);
 			}
-
 		}
 
 		return result;

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OnColorClickedHandler(PopupCreateNewRule_ColorPanel panel, RuleColorDef ruleColor);
+public delegate void OnColorClickedHandler(PopupCreateNewRule_ColorPanel panel, StampDef stamp);
 
 public class PopupCreateNewRule_ColorPanel : MonoBehaviour {
 
-	public GameObject RuleColorPrefab;
+	public GameObject StampPrefab;
 	public OnColorClickedHandler ClickHandler;
 
 	public void Clear() {
@@ -15,22 +15,22 @@ public class PopupCreateNewRule_ColorPanel : MonoBehaviour {
 		}
 	}
 
-	public void Add(RuleColorDef RuleColor) {
-		GameObject NewRuleColor = Instantiate<GameObject> (RuleColorPrefab, transform);
-		NewRuleColor.GetComponent<PopupCreateNewRule_ColorItem>().SetRuleColor (RuleColor);
+	public void Add(StampDef stamp) {
+		GameObject NewRuleColor = Instantiate<GameObject> (StampPrefab, transform);
+		NewRuleColor.GetComponent<PopupCreateNewRule_ColorItem>().SetStampDef (stamp);
 	}
 
-	public void Remove(RuleColorDef RuleColor) {
+	public void Remove(StampDef stamp) {
 		foreach (PopupCreateNewRule_ColorItem RuleColorItem in GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-			if (RuleColorItem.RuleColor.Id == RuleColor.Id) {
+			if (RuleColorItem.stamp.Id == stamp.Id) {
 				GameObject.Destroy (RuleColorItem.gameObject);
 				break;
 			}
 		}
 	}
 
-	public void OnColorClicked(RuleColorDef RuleColor) {
-		this.ClickHandler(this, RuleColor);
+	public void OnColorClicked(StampDef stamp) {
+		this.ClickHandler(this, stamp);
 	}
 
 }

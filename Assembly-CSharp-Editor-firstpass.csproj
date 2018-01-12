@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{96304837-5B42-DCBF-9610-91069C3C3F83}</ProjectGuid>
+    <ProjectGuid>{1D368561-775C-0B4B-5142-B606C59E7A61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -51,26 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameScripts\Checkpoint.cs" />
-     <Compile Include="Assets\GameScripts\CheckpointGenerator.cs" />
-     <Compile Include="Assets\GameScripts\CustomerBehaviour.cs" />
-     <Compile Include="Assets\GameScripts\CustomerBubble.cs" />
-     <Compile Include="Assets\GameScripts\CustomerGenerator.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\BaseDefinition.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\DefinitionsLoader.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\StampDefiniton.cs" />
-     <Compile Include="Assets\GameScripts\Entity.cs" />
-     <Compile Include="Assets\GameScripts\EntityQueue.cs" />
-     <Compile Include="Assets\GameScripts\IInteractiveGamePoint.cs" />
-     <Compile Include="Assets\GameScripts\InfoPoint.cs" />
-     <Compile Include="Assets\GameScripts\Rules.cs" />
-     <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
-     <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
+     <Compile Include="Assets\Plugins\GoogleDefinitionLoader\Scripts\Editor\GoogleDefinitionEditorTool.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

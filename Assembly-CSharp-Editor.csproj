@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{96304837-5B42-DCBF-9610-91069C3C3F83}</ProjectGuid>
+    <ProjectGuid>{CF4E268D-6C10-1509-FC33-8DC0EF6680E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -51,26 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameScripts\Checkpoint.cs" />
-     <Compile Include="Assets\GameScripts\CheckpointGenerator.cs" />
-     <Compile Include="Assets\GameScripts\CustomerBehaviour.cs" />
-     <Compile Include="Assets\GameScripts\CustomerBubble.cs" />
-     <Compile Include="Assets\GameScripts\CustomerGenerator.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\BaseDefinition.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\DefinitionsLoader.cs" />
-     <Compile Include="Assets\GameScripts\Definitions\StampDefiniton.cs" />
-     <Compile Include="Assets\GameScripts\Entity.cs" />
-     <Compile Include="Assets\GameScripts\EntityQueue.cs" />
-     <Compile Include="Assets\GameScripts\IInteractiveGamePoint.cs" />
-     <Compile Include="Assets\GameScripts\InfoPoint.cs" />
-     <Compile Include="Assets\GameScripts\Rules.cs" />
-     <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" />
-     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
-     <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
+     <Compile Include="Assets\GSpreadSheets\Editor\GSpreadSheetsToJson.cs" />
+     <None Include="Assets\GSpreadSheets\Editor\LICENSE-2.0.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -155,10 +137,30 @@
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/Users/erichter/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
  </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.GData.Extensions">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Google.GData.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.GData.Client">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Google.GData.Client.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.GData.AccessControl">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Google.GData.AccessControl.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.GData.Spreadsheets">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Google.GData.Spreadsheets.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.GData.Documents">
+ <HintPath>C:/Work/Projects/Miniluv/Assets/GSpreadSheets/Editor/Google.GData.Documents.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{97660F8C-65F0-1E34-CE04-6DEE64E8DDC1}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{96304837-5B42-DCBF-9610-91069C3C3F83}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

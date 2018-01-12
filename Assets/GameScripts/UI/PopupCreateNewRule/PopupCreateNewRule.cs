@@ -23,28 +23,28 @@ public class PopupCreateNewRule : BasePopup {
 
 		this.ruleName.text = Rules.GetType (this.rule.RuleType);
 
-		List<RuleColorDef> ruleColors;
+		List<StampDef> stamps;
 
-		ruleColors = Rules.GetColors (rule, false);
-		foreach (RuleColorDef ruleColor in ruleColors) {
-			this.panelAvailabale.Add (ruleColor);
+		stamps = Rules.GetStamps (rule, false);
+		foreach (StampDef stamp in stamps) {
+			this.panelAvailabale.Add (stamp);
 		}
 
-		ruleColors = Rules.GetColors (rule, true);
-		foreach (RuleColorDef ruleColor in ruleColors) {
-			this.panelRequired.Add (ruleColor);
+		stamps = Rules.GetStamps (rule, true);
+		foreach (StampDef stamp in stamps) {
+			this.panelRequired.Add (stamp);
 		}
 
 		ShowPopup ();
 	}
 
-	public void OnRuleClicked(PopupCreateNewRule_ColorPanel Panel, RuleColorDef Rule) {
+	public void OnRuleClicked(PopupCreateNewRule_ColorPanel Panel, StampDef stamp) {
 		if (Panel == this.panelAvailabale) {
-			this.panelAvailabale.Remove (Rule);
-			this.panelRequired.Add (Rule);
+			this.panelAvailabale.Remove (stamp);
+			this.panelRequired.Add (stamp);
 		} else {
-			this.panelAvailabale.Add (Rule);
-			this.panelRequired.Remove (Rule);
+			this.panelAvailabale.Add (stamp);
+			this.panelRequired.Remove (stamp);
 		}
 	}
 
@@ -52,7 +52,7 @@ public class PopupCreateNewRule : BasePopup {
 		this.rule.RuleColors.Clear ();
 
 		foreach (PopupCreateNewRule_ColorItem colorItem in this.panelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-			Rules.AddColor (this.rule.RuleType, colorItem.RuleColor.Id);
+			Rules.AddColor (this.rule.RuleType, colorItem.stamp.Id);
 		}
 
 		HidePopup ();
