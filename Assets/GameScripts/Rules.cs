@@ -34,7 +34,7 @@ public class Rules : MonoBehaviour {
 
 	static List<RuleTypeDef> RuleTypes;
 	static public List<RuleColorDef> RuleColors;
-	static List<Rule> RulesInstances;
+	static public List<Rule> RulesInstances;
 
 	// Use this for initialization
 	void Start () {
@@ -104,5 +104,28 @@ public class Rules : MonoBehaviour {
 		int Index = Mathf.FloorToInt(Random.Range(0, Rules.RulesInstances.Count));
 		return Rules.RulesInstances [Index];
 	}
+
+	static public List<RuleColorDef> GetColors(Rule RuleInstance, bool Required) {
+
+		List<RuleColorDef> result = new List<RuleColorDef> ();
+
+		foreach (RuleColorDef colorDef in Rules.RuleColors) {
+			bool isRequired = false;
+			foreach (int ruleColorId in RuleInstance.RuleColors) {
+				if (ruleColorId == colorDef.Id) {
+					isRequired = true;
+					break;
+				}
+			}
+
+			if (isRequired && Required || !isRequired && !Required) {
+				result.Add (colorDef);
+			}
+
+		}
+
+		return result;
+	}
+
 
 }

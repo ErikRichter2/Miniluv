@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CustomerBehaviour : MonoBehaviour {
 
@@ -155,10 +156,9 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		PopupCreateNewRule Popup = GameObject.Find ("Canvas").GetComponentInChildren<PopupCreateNewRule>(true);
-		if (Popup.gameObject.activeSelf == false) {
-			Popup.gameObject.SetActive (true);
-			Popup.ShowRule (this.Rule);
+		if (EventSystem.current.IsPointerOverGameObject () == false) {
+			PopupCreateNewRule popup = BasePopup.GetPopup<PopupCreateNewRule>();
+			popup.ShowRule (this.Rule);
 		}
 	}
 
@@ -202,6 +202,7 @@ public class CustomerBehaviour : MonoBehaviour {
 			this.EntityQueue = EntityQueue;
 			this.EntityQueue.AddEntity (GetEntity());
 			this.QueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
+			GetEntity ().SetSortOrder (this.QueueIndex);
 			transform.SetParent(this.EntityQueue.GetQueueContainer ());
 
 			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();

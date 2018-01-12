@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void OnColorClickedHandler(PopupCreateNewRule_ColorPanel panel, RuleColorDef ruleColor);
+
 public class PopupCreateNewRule_ColorPanel : MonoBehaviour {
 
 	public GameObject RuleColorPrefab;
+	public OnColorClickedHandler ClickHandler;
 
 	public void Clear() {
 		foreach (Transform Child in transform) {
@@ -27,7 +30,7 @@ public class PopupCreateNewRule_ColorPanel : MonoBehaviour {
 	}
 
 	public void OnColorClicked(RuleColorDef RuleColor) {
-		GetComponentInParent<PopupCreateNewRule> ().OnRuleClicked (this, RuleColor);
+		this.ClickHandler(this, RuleColor);
 	}
 
 }

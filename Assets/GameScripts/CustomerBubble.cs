@@ -27,5 +27,10 @@ public class CustomerBubble : MonoBehaviour {
 		ColorBubble.enabled = false;
 	}
 
+	public void RefreshSortOrder() {
+		MissingRuleBubble.sortingOrder = GetComponentInParent<SpriteRenderer> ().sortingOrder;
+		ColorBubble.sortingOrder = GetComponentInParent<SpriteRenderer> ().sortingOrder;
+	}
+
 
 }

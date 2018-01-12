@@ -3,58 +3,59 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopupCreateNewRule : MonoBehaviour {
+public class PopupCreateNewRule : BasePopup {
 
-	public PopupCreateNewRule_ColorPanel PanelAvailabale;
-	public PopupCreateNewRule_ColorPanel PanelRequired;
-	public Text RuleName;
+	public PopupCreateNewRule_ColorPanel panelAvailabale;
+	public PopupCreateNewRule_ColorPanel panelRequired;
+	public Text ruleName;
 
-	Rule Rule;
+	Rule rule;
 
-	public void ShowRule(Rule Rule) {
+	public void ShowRule(Rule rule) {
 
-		this.Rule = Rule;
+		this.rule = rule;
 
-		PanelAvailabale.Clear ();
-		PanelRequired.Clear();
+		this.panelRequired.ClickHandler = OnRuleClicked;
+		this.panelAvailabale.ClickHandler = OnRuleClicked;
 
-		RuleName.text = Rules.GetType (Rule.RuleType);
+		this.panelAvailabale.Clear ();
+		this.panelRequired.Clear();
 
-		foreach (RuleColorDef ColorDef in Rules.RuleColors) {
-			bool IsRequired = false;
-			foreach (int RuleColorId in Rule.RuleColors) {
-				if (RuleColorId == ColorDef.Id) {
-					IsRequired = true;
-					break;
-				}
-			}
+		this.ruleName.text = Rules.GetType (this.rule.RuleType);
 
-			if (IsRequired) {
-				PanelRequired.Add (ColorDef);
-			} else {
-				PanelAvailabale.Add (ColorDef);
-			}
+		List<RuleColorDef> ruleColors;
+
+		ruleColors = Rules.GetColors (rule, false);
+		foreach (RuleColorDef ruleColor in ruleColors) {
+			this.panelAvailabale.Add (ruleColor);
 		}
+
+		ruleColors = Rules.GetColors (rule, true);
+		foreach (RuleColorDef ruleColor in ruleColors) {
+			this.panelRequired.Add (ruleColor);
+		}
+
+		ShowPopup ();
 	}
 
 	public void OnRuleClicked(PopupCreateNewRule_ColorPanel Panel, RuleColorDef Rule) {
-		if (Panel == PanelAvailabale) {
-			PanelAvailabale.Remove (Rule);
-			PanelRequired.Add (Rule);
+		if (Panel == this.panelAvailabale) {
+			this.panelAvailabale.Remove (Rule);
+			this.panelRequired.Add (Rule);
 		} else {
-			PanelAvailabale.Add (Rule);
-			PanelRequired.Remove (Rule);
+			this.panelAvailabale.Add (Rule);
+			this.panelRequired.Remove (Rule);
 		}
 	}
 
 	public void OnConfirm() {
-		this.Rule.RuleColors.Clear ();
+		this.rule.RuleColors.Clear ();
 
-		foreach (PopupCreateNewRule_ColorItem ColorItem in PanelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
-			Rules.AddColor (this.Rule.RuleType, ColorItem.RuleColor.Id);
+		foreach (PopupCreateNewRule_ColorItem colorItem in this.panelRequired.GetComponentsInChildren<PopupCreateNewRule_ColorItem>()) {
+			Rules.AddColor (this.rule.RuleType, colorItem.RuleColor.Id);
 		}
 
-		gameObject.SetActive (false);
+		HidePopup ();
 	}
 
 }

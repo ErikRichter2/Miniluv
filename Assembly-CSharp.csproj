@@ -60,9 +60,12 @@
      <Compile Include="Assets\GameScripts\IInteractiveGamePoint.cs" />
      <Compile Include="Assets\GameScripts\InfoPoint.cs" />
      <Compile Include="Assets\GameScripts\Rules.cs" />
+     <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
+     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" />
+     <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
      <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

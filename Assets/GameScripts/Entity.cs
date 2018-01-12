@@ -6,11 +6,11 @@ public class Entity : MonoBehaviour {
 
 	static int ID_COUNTER = 0;
 
-	public int EntityId;
+	public int entityId;
 
 	// Use this for initialization
 	void Start () {				
-		EntityId = ++ID_COUNTER;
+		this.entityId = ++ID_COUNTER;
 	}
 
 	void DestroyEntity() {
@@ -53,5 +53,10 @@ public class Entity : MonoBehaviour {
 
 	public void Idle() {
 		GetComponent<Entity> ().PlayAnimation ("idle");
+	}
+
+	public void SetSortOrder(int order) {
+		GetComponent<SpriteRenderer> ().sortingOrder = 100 + order;
+		GetComponentInChildren<CustomerBubble> ().RefreshSortOrder ();
 	}
 }
