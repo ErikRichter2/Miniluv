@@ -58,6 +58,8 @@ public class DefinitionsLoader : MonoBehaviour {
 		// load game progress
 		Rules.Instance = ScriptableObject.CreateInstance<Rules>();
 		Rules.Instance.Load ();
+		Customers.Instance = ScriptableObject.CreateInstance<Customers> ();
+		Customers.Instance.Load ();
 
 		// init game
 		SceneManager.LoadScene ("Main");

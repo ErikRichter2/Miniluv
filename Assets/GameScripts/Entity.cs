@@ -6,17 +6,12 @@ public class Entity : MonoBehaviour {
 
 	static int ID_COUNTER = 0;
 
-	public int intanceId;
+	public int instanceId;
+	public int defId;
 
-	int defId;
-
-	// Use this for initialization
-	void Start () {				
-		this.intanceId = ++ID_COUNTER;
-	}
-
-	public void SetEntityDef(CustomerDef defItem) {
+	public void SetEntityDef(CustomerDef defItem, int instanceId) {
 		this.defId = defItem.Id;
+		this.instanceId = instanceId != 0 ? instanceId : ++ID_COUNTER;
 
 		SpriteSheetAnimation animation;
 
@@ -35,10 +30,6 @@ public class Entity : MonoBehaviour {
 		GameObject.Destroy (gameObject);
 	}
 	
-	// Update is called once per frame
-	void Update () {		
-	}
-
 	public void PlayAnimation(string AnimationName) {
 		SpriteSheetAnimation[] animations = GetComponents<SpriteSheetAnimation> ();
 		foreach (SpriteSheetAnimation animation in animations) {

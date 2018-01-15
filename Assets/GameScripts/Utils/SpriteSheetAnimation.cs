@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SpriteSheetAnimation : MonoBehaviour {
 
-	SpriteRenderer MySpriteRenderer;
 	Sprite[] AllSprites;
 	float CurrentFrame;
 
@@ -15,13 +14,6 @@ public class SpriteSheetAnimation : MonoBehaviour {
 
 	public int FrameRate;
 	public bool Active;
-
-	// Use this for initialization
-	void Start () {
-		this.CurrentFrame = 0;
-		this.Active = false;
-		this.MySpriteRenderer = GetComponent<SpriteRenderer>();
-	}
 
 	public void StartAnimation() {
 		this.CurrentFrame = 0;
@@ -42,6 +34,6 @@ public class SpriteSheetAnimation : MonoBehaviour {
 			this.CurrentFrame = 0;
 		}
 
-		this.MySpriteRenderer.sprite = this.AllSprites [Index];
+		GetComponent<SpriteRenderer>().sprite = this.AllSprites [Index];
 	}
 }

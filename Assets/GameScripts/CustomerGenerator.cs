@@ -13,40 +13,50 @@ public class CustomerGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.Checkpoints = this.CheckpointsGameObject.GetComponentsInChildren<Checkpoint> ();
+		this.LoadFromSave ();
 		StartCoroutine (Generate ());
+	}
+
+	void LoadFromSave() {
+		//yield return new WaitForSeconds (0.25f);
+		foreach (Customer It in Customers.Instance.customers) {
+			Entity customer = this.CreateCustomer (DefinitionsLoader.customerDefinition.GetItem(It.defId), 0);
+			customer.GetComponent<CustomerBehaviour> ().model = It;
+			if (It.wasInfo) {
+				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_NEXT_CHECKPOINT, true);
+			} else {
+				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT, true);
+			}
+		}
+	}
+
+	Entity CreateCustomer(CustomerDef customerDef, int instanceId) {
+		Entity customer = Instantiate<Entity> (this.CustomerPrefab, transform.Find ("Place"));
+		customer.SetEntityDef (customerDef, instanceId);
+		customer.GetComponent<CustomerBehaviour> ().SceneCheckpoints = this.Checkpoints;
+		customer.GetComponent<CustomerBehaviour> ().InfoPoint = InfoPoint;
+		customer.GetComponent<CustomerBehaviour> ().ExitPoint = transform.Find ("Place").gameObject;
+
+		return customer;
 	}
 
 	IEnumerator Generate() {
 		while (true) {
 
-			// create new customer
-			Entity customer = Instantiate<Entity> (this.CustomerPrefab, transform.Find ("Place"));
-
-			// set random def
+			// create new customer with random def
 			List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
-			customer.SetEntityDef (customers [Mathf.FloorToInt (Random.Range (0, customers.Count))]);
-				
+			Entity customer = this.CreateCustomer(customers [Mathf.FloorToInt (Random.Range (0, customers.Count))], 0);
+
 			// random delay
 			int customersPerMinute = int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
 			float deltaSeconds = 60.0f / customersPerMinute;
 			yield return new WaitForSeconds (Random.Range(deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f));
 
-			// add checkpoints and exit point
-			foreach(Checkpoint Checkpoint in this.Checkpoints) {
-				customer.GetComponent<CustomerBehaviour>().AddCheckpoint(Checkpoint);
-			}
-
-			customer.GetComponent<CustomerBehaviour> ().SetInfoPoint (InfoPoint);
-			customer.GetComponent<CustomerBehaviour> ().SetExitPoint (transform.Find ("Place").gameObject);
-			customer.GetComponent<CustomerBehaviour> ().SetRule (Rules.Instance.GetRandomRule());
-
 			// find and goto checkpoint
+			customer.GetComponent<CustomerBehaviour> ().model = Customers.Instance.AddCustomer (customer.instanceId, customer.defId, Rules.Instance.GetRandomRule().taskId);
 			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

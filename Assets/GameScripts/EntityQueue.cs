@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class EntityQueue : MonoBehaviour {
 
-	LinkedList<Entity> Queue;
-
-	// Use this for initialization
-	void Start () {
-		this.Queue = new LinkedList<Entity> ();
-	}
+	public LinkedList<Entity> Queue = new LinkedList<Entity> ();
 
 	Vector3 GetPosition(int Index) {
 		Vector3 result = new Vector3 ();

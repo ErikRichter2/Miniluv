@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class CustomerBehaviour : MonoBehaviour {
 
 	public enum STATES {
-		STATE_INIT,
 		STATE_MOVE_TO_INFOPOINT,
 		STATE_MOVE_TO_NEXT_CHECKPOINT,
 		STATE_PROCESS_INFOPOINT,
@@ -17,71 +16,53 @@ public class CustomerBehaviour : MonoBehaviour {
 
 	STATES State;
 
-	// required rule
-	Rule Rule;
-
-	// collected stamps
-	List<int> collectedStamps;
+	public Customer model;
 
 	// current queue
 	EntityQueue EntityQueue;
 
 	// all scene checkpoints
-	List<Checkpoint> SceneCheckpoints;
+	public Checkpoint[] SceneCheckpoints;
 
-	GameObject ExitPoint;
-	InfoPoint InfoPoint;
+	public GameObject ExitPoint;
+	public InfoPoint InfoPoint;
 	int QueueIndex;
 	int currentStamp;
 
-	// Use this for initialization
-	void Start () {
-		this.SceneCheckpoints = new List<Checkpoint> ();
-		this.SetState(STATES.STATE_INIT);
-		this.collectedStamps = new List<int> ();
+	public void SetTaskId(int taskId) {
+		this.model.taskId = taskId;
 	}
 
-	public void AddCheckpoint(Checkpoint Checkpoint) {
-		this.SceneCheckpoints.Add (Checkpoint);
-	}
-
-	public void SetExitPoint(GameObject ExitPoint) {
-		this.ExitPoint = ExitPoint;
-	}
-
-	public void SetInfoPoint(InfoPoint InfoPoint) {
-		this.InfoPoint = InfoPoint;
-	}
-
-	public void SetRule(Rule Rule) {
-		this.Rule = Rule;
-	}
-
-	public void SetState(STATES State) {
+	public void SetState(STATES State, bool immediateMove = false) {
 		this.State = State;
 
 		switch (this.State) {
-
-		case STATES.STATE_INIT:
-			GetEntity ().Idle ();
-			GetComponent<BoxCollider2D> ().enabled = false;
-			GetComponentInChildren<CustomerBubble> ().Hide ();
-			break;
 
 		case STATES.STATE_WAITING_IN_QUEUE:
 			StartCoroutine (ProcessWaitingInQueue ());
 			break;
 
 		case STATES.STATE_MOVE_TO_INFOPOINT:
-			this.SetEntityQueue (this.InfoPoint.GetEntityQueue());
-			GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
+			this.SetEntityQueue (this.InfoPoint.GetEntityQueue ());
+			if (immediateMove) {
+				gameObject.transform.localPosition = this.GetEntityQueue ().GetQueuePoisition (GetEntity ());
+				this.SetState (STATES.STATE_WAITING_IN_QUEUE);
+			} else {
+				GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
+			}
+
 			break;
 
 		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
 			Checkpoint NextCheckpoint = this.GetNextCheckpoint ();
 			if (NextCheckpoint != null) {
 				this.SetEntityQueue (NextCheckpoint.GetEntityQueue());
-				GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueuePoisition (GetEntity()), "MoveToFinished");
+				if (immediateMove) {
+					gameObject.transform.localPosition = this.GetEntityQueue ().GetQueuePoisition (GetEntity ());
+					this.SetState (STATES.STATE_WAITING_IN_QUEUE);
+				} else {
+					GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueuePoisition (GetEntity()), "MoveToFinished");
+				}
 			} else {
 				this.SetEntityQueue (null);
 				this.SetState (STATES.STATE_MOVE_TO_EXIT);
@@ -99,6 +80,10 @@ public class CustomerBehaviour : MonoBehaviour {
 			break;
 
 		case STATES.STATE_MOVE_TO_EXIT:
+			if (this.EntityQueue != null) {
+				this.EntityQueue.RemoveEntity (this.GetEntity ());
+			}
+			Customers.Instance.RemoveCustomer (this.model.instanceId);
 			GetComponent<Entity> ().MoveTo (this.ExitPoint.transform.position, "MoveToFinished");
 			break;
 		}
@@ -135,16 +120,17 @@ public class CustomerBehaviour : MonoBehaviour {
 		
 	IEnumerator ProcessCheckpoint() {
 		yield return new WaitForSeconds (DefinitionsLoader.stampDefinition.GetItem(this.currentStamp).Time);
-		this.collectedStamps.Add (this.currentStamp);
+		Customers.Instance.AddStamp (this.model.instanceId, this.currentStamp);
 		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 	}
 
 	IEnumerator ProcessInfopoint() {
 		while (true) {
-			if (this.Rule.HasStamps()) {
+			if (Rules.Instance.GetRule(this.model.taskId).HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
 				yield return new WaitForSeconds (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000.0f);
+				Customers.Instance.SetInfo (this.model.instanceId, true);
 				SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 				break;
 			} else {
@@ -158,7 +144,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	void OnMouseDown() {
 		if (EventSystem.current.IsPointerOverGameObject () == false) {
 			PopupCreateNewRule popup = BasePopup.GetPopup<PopupCreateNewRule>();
-			popup.ShowRule (this.Rule);
+			popup.ShowRule (Rules.Instance.GetRule(this.model.taskId));
 		}
 	}
 
@@ -168,8 +154,8 @@ public class CustomerBehaviour : MonoBehaviour {
 		int nextStampId = 0;
 
 		// find first unsatisfied stamp
-		foreach (int stamp in this.Rule.stamps) {
-			if (this.collectedStamps.IndexOf (stamp) == -1) {
+		foreach (int stamp in Rules.Instance.GetRule(this.model.taskId).stamps) {
+			if (this.model.collectedStamps.IndexOf (stamp) == -1) {
 				nextStampId = stamp;
 				break;
 			}
@@ -207,13 +193,12 @@ public class CustomerBehaviour : MonoBehaviour {
 			this.QueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
 			GetEntity ().SetSortOrder (this.QueueIndex);
 			transform.SetParent(this.EntityQueue.GetQueueContainer ());
-
 			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+
 			if (Checkpoint != null) {
 				this.currentStamp = Checkpoint.stamp.Id;
 				GetComponentInChildren<CustomerBubble> ().ShowColor (Checkpoint.stamp.Color);
 			}
-
 		}
 	}
 

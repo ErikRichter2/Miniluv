@@ -103,5 +103,12 @@ public class Rules : ScriptableObject {
 		File.WriteAllText (savePath, saveData);
 	}
 
+	public void ClearAll() {
+		foreach (Rule rule in this.rules) {
+			rule.RemoveAllStamps ();
+		}
+
+		this.Save ();
+	}
 
 }

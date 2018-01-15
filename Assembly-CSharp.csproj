@@ -65,8 +65,10 @@
      <Compile Include="Assets\GameScripts\Entity.cs" />
      <Compile Include="Assets\GameScripts\EntityQueue.cs" />
      <Compile Include="Assets\GameScripts\InfoPoint.cs" />
+     <Compile Include="Assets\GameScripts\Model\Customers.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
+     <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
@@ -74,6 +76,7 @@
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
      <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
      <None Include="Assets\StreamingAssets\rules.txt" />
+     <None Include="Assets\StreamingAssets\customers.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/PROGRAMY/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
