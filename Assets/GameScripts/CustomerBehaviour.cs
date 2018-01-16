@@ -95,8 +95,8 @@ public class CustomerBehaviour : MonoBehaviour {
 
 		while (true) {
 			if (this.EntityQueue.IsFirst (GetEntity ())) {
-				Checkpoint CurrentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
-				if (CurrentCheckpoint == null) {
+				Checkpoint currentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+				if (currentCheckpoint == null) {
 					SetState (STATES.STATE_PROCESS_INFOPOINT);
 				} else {
 					SetState (STATES.STATE_PROCESS_CHECKPOINT);
@@ -104,6 +104,17 @@ public class CustomerBehaviour : MonoBehaviour {
 				break;
 			} else {
 				yield return new WaitForSeconds (0.5f);
+
+				// check if current task still requires this stamp
+				Checkpoint currentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+				if (currentCheckpoint != null) {
+					if (Rules.Instance.GetRule (this.model.taskId).HasStamp (currentCheckpoint.stamp.Id) == false) {
+						this.SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+						break;
+					}
+				}
+
+
 				int NewQueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
 				if (this.QueueIndex != NewQueueIndex) {
 					this.QueueIndex = NewQueueIndex;
