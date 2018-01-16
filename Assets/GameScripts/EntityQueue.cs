@@ -38,8 +38,8 @@ public class EntityQueue : MonoBehaviour {
 		return Index;
 	}
 
-	public Vector3 GetQueuePoisition(Entity Entity) {
-		return this.GetPosition (this.GetQueueIndex(Entity));
+	public Vector3 GetQueueWorldPoisition(Entity Entity) {		
+		return transform.TransformPoint (this.GetPosition (this.GetQueueIndex(Entity)));
 	}
 
 	public Transform GetQueueContainer() {

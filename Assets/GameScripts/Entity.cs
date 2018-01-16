@@ -44,18 +44,18 @@ public class Entity : MonoBehaviour {
 		GetComponent<Entity> ().PlayAnimation ("walk");
 
 		Vector3 newScale = new Vector3 ( Mathf.Abs(gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-		if (Position.x < gameObject.transform.localPosition.x) {
+		if (Position.x < gameObject.transform.position.x) {
 			newScale.x = -newScale.x;
 		}
 
 		gameObject.transform.localScale = newScale;
 			
 		float speed = DefinitionsLoader.customerDefinition.GetItem (this.defId).Speed;
-		float distance = Vector3.Distance (gameObject.transform.localPosition, Position);
-		float time = distance / (speed * 0.25f);
+		float distance = Vector3.Distance (gameObject.transform.position, Position);
+		float time = distance / (speed * 0.05f);
 
 		string onComplete = OnComplete != null ? OnComplete : "MoveTo_finished";
-		iTween.MoveTo (gameObject, iTween.Hash ("position", Position, "time", time, "oncomplete", onComplete, "easetype", iTween.EaseType.linear, "islocal", true));
+		iTween.MoveTo (gameObject, iTween.Hash ("position", Position, "time", time, "oncomplete", onComplete, "easetype", iTween.EaseType.linear, "islocal", false));
 	}
 
 	public void MoveTo_finished() {
