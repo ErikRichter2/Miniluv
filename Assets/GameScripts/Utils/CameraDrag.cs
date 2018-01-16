@@ -14,6 +14,16 @@ public class CameraDrag : MonoBehaviour {
 			return;
 		}
 
-		transform.position += new Vector3 (Input.GetAxisRaw ("Mouse X") * Time.deltaTime * this.dragSpeed, Input.GetAxisRaw ("Mouse Y") * Time.deltaTime * this.dragSpeed, 0f);
+        if (Input.GetMouseButtonDown(0)) {
+			prevMousePosition = Input.mousePosition;
+        }
+
+		Vector3 currentMousePosition = Input.mousePosition;
+ 
+		Vector3 diff = (currentMousePosition - prevMousePosition) * dragSpeed;
+ 
+		transform.Translate(diff, Space.World);  
+
+		prevMousePosition = currentMousePosition;
     }
 }

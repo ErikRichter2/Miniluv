@@ -5,22 +5,19 @@ using UnityEngine;
 public class BasePopup : MonoBehaviour {
 
 	static GameObject canvas;
+	public static bool isPopupActive;
 
 	bool isActive;
 
-	// Use this for initialization
-	void Start () {
-		isActive = false;
-		gameObject.SetActive (false);
-	}
-
 	public void ShowPopup() {
+		BasePopup.isPopupActive = true;
 		isActive = true;
 		gameObject.SetActive (true);
 		StartCoroutine (ShowNextFrame ());
 	}
 		
 	public void HidePopup() {
+		BasePopup.isPopupActive = false;
 		isActive = false;
 		gameObject.SetActive (false);
 		Time.timeScale = 1;
@@ -39,6 +36,10 @@ public class BasePopup : MonoBehaviour {
 		}
 
 		return BasePopup.canvas.GetComponentInChildren<T> (true);
+	}
+
+	static public bool IsPopupActive() {
+		return isPopupActive;
 	}
 	
 }

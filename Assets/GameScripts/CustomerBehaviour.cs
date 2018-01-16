@@ -153,7 +153,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		if (EventSystem.current.IsPointerOverGameObject () == false) {
+		if (BasePopup.IsPopupActive() == false) {
 			PopupCreateNewRule popup = BasePopup.GetPopup<PopupCreateNewRule>();
 			popup.ShowRule (Rules.Instance.GetRule(this.model.taskId));
 		}

@@ -10,7 +10,7 @@ public class InfoPoint : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (EventSystem.current.IsPointerOverGameObject () == false) {
+		if (BasePopup.IsPopupActive() == false) {
 			PopupShowRules popup = BasePopup.GetPopup<PopupShowRules> ();
 			popup.ShowStamp (0);
 		}
