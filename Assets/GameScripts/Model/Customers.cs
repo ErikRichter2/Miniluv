@@ -28,13 +28,13 @@ public class Customers : ScriptableObject {
 	}
 
 	public void Save() {
-		string savePath = Path.Combine (Application.streamingAssetsPath, "customers.txt");
+		string savePath = Path.Combine (Application.persistentDataPath, "customers.txt");
 		string saveData = JsonUtility.ToJson (this);
 		File.WriteAllText (savePath, saveData);
 	}
 
 	public void Load() {
-		string savePath = Path.Combine (Application.streamingAssetsPath, "customers.txt");
+		string savePath = Path.Combine (Application.persistentDataPath, "customers.txt");
 		if (File.Exists (savePath)) {
 			string saveData = File.ReadAllText(savePath);
 			JsonUtility.FromJsonOverwrite(saveData, this);

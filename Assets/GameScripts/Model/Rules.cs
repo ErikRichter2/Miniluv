@@ -90,7 +90,7 @@ public class Rules : ScriptableObject {
 	}
 
 	public void Load() {
-		string savePath = Path.Combine (Application.streamingAssetsPath, "rules.txt");
+		string savePath = Path.Combine (Application.persistentDataPath, "rules.txt");
 		if (File.Exists (savePath)) {
 			string saveData = File.ReadAllText(savePath);
 			JsonUtility.FromJsonOverwrite(saveData, this);
@@ -98,7 +98,7 @@ public class Rules : ScriptableObject {
 	}
 
 	public void Save() {
-		string savePath = Path.Combine (Application.streamingAssetsPath, "rules.txt");
+		string savePath = Path.Combine (Application.persistentDataPath, "rules.txt");
 		string saveData = JsonUtility.ToJson (this);
 		File.WriteAllText (savePath, saveData);
 	}

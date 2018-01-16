@@ -76,8 +76,6 @@
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
      <Compile Include="Assets\GameScripts\Utils\CameraDrag.cs" />
      <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
-     <None Include="Assets\StreamingAssets\rules.txt" />
-     <None Include="Assets\StreamingAssets\customers.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
