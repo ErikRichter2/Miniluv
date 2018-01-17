@@ -66,9 +66,11 @@
      <Compile Include="Assets\GameScripts\EntityQueue.cs" />
      <Compile Include="Assets\GameScripts\InfoPoint.cs" />
      <Compile Include="Assets\GameScripts\Model\Customers.cs" />
+     <Compile Include="Assets\GameScripts\Model\GameModel.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
+     <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />

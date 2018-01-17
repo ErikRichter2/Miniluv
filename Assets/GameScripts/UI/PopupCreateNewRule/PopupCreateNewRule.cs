@@ -25,12 +25,12 @@ public class PopupCreateNewRule : BasePopup {
 
 		List<StampDef> stamps;
 
-		stamps = Rules.Instance.GetStamps (rule, false);
+		stamps = GameModel.Instance.Rules.GetStamps (rule, false);
 		foreach (StampDef stamp in stamps) {
 			this.panelAvailabale.Add (stamp);
 		}
 
-		stamps = Rules.Instance.GetStamps (rule, true);
+		stamps = GameModel.Instance.Rules.GetStamps (rule, true);
 		foreach (StampDef stamp in stamps) {
 			this.panelRequired.Add (stamp);
 		}

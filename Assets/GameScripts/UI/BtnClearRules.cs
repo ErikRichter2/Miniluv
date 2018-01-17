@@ -5,6 +5,6 @@ using UnityEngine;
 public class BtnClearRules : MonoBehaviour {
 
 	public void onClick() {
-		Rules.Instance.ClearAll ();
+		GameModel.Instance.Rules.ClearAll ();
 	}
 }

@@ -23,12 +23,12 @@ public class PopupShowRules_RuleItem : MonoBehaviour {
 
 		List<StampDef> stamps;
 
-		stamps = Rules.Instance.GetStamps (rule, false);
+		stamps = GameModel.Instance.Rules.GetStamps (rule, false);
 		foreach (StampDef stamp in stamps) {
 			this.PanelAvailable.Add (stamp);
 		}
 
-		stamps = Rules.Instance.GetStamps (rule, true);
+		stamps = GameModel.Instance.Rules.GetStamps (rule, true);
 		foreach (StampDef stamp in stamps) {
 			this.PanelRequired.Add (stamp);
 		}

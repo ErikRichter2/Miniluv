@@ -11,12 +11,12 @@ public class Rule {
 
 	public void AddStamp(int stampId) {
 		this.stamps.Add (stampId);
-		Rules.Instance.Save ();
+		GameModel.Instance.Rules.Save ();
 	}
 
 	public void RemoveAllStamps() {
 		this.stamps.Clear ();
-		Rules.Instance.Save ();
+		GameModel.Instance.Rules.Save ();
 	}
 
 	public bool HasStamps() {
@@ -30,8 +30,6 @@ public class Rule {
 
 [System.Serializable]
 public class Rules : ScriptableObject {
-
-	static public Rules Instance;
 
 	[SerializeField]
 	List<Rule> rules;
@@ -102,6 +100,11 @@ public class Rules : ScriptableObject {
 		string saveData = JsonUtility.ToJson (this);
 		File.WriteAllText (savePath, saveData);
 	}
+
+	public void DeleteSave() {
+		File.Delete(Path.Combine (Application.persistentDataPath, "rules.txt"));
+	}
+
 
 	public void ClearAll() {
 		foreach (Rule rule in this.rules) {

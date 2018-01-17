@@ -19,12 +19,14 @@ public class Customer {
 [System.Serializable]
 public class Customers : ScriptableObject {
 
-	static public Customers Instance;
-
 	public List<Customer> customers;
 
 	public Customers() {
 		this.customers = new List<Customer> ();
+	}
+
+	public void DeleteSave() {
+		File.Delete(Path.Combine (Application.persistentDataPath, "customers.txt"));
 	}
 
 	public void Save() {

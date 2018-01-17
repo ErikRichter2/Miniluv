@@ -19,7 +19,7 @@ public class CustomerGenerator : MonoBehaviour {
 
 	void LoadFromSave() {
 		//yield return new WaitForSeconds (0.25f);
-		foreach (Customer It in Customers.Instance.customers) {
+		foreach (Customer It in GameModel.Instance.Customers.customers) {
 			Entity customer = this.CreateCustomer (DefinitionsLoader.customerDefinition.GetItem(It.defId), 0);
 			customer.GetComponent<CustomerBehaviour> ().model = It;
 			if (It.wasInfo) {
@@ -53,7 +53,7 @@ public class CustomerGenerator : MonoBehaviour {
 			yield return new WaitForSeconds (Random.Range(deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f));
 
 			// find and goto checkpoint
-			customer.GetComponent<CustomerBehaviour> ().model = Customers.Instance.AddCustomer (customer.instanceId, customer.defId, Rules.Instance.GetRandomRule().taskId);
+			customer.GetComponent<CustomerBehaviour> ().model = GameModel.Instance.Customers.AddCustomer (customer.instanceId, customer.defId, GameModel.Instance.Rules.GetRandomRule().taskId);
 			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
 		}
 	}
