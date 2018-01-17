@@ -45,10 +45,10 @@ public class CustomerBehaviour : MonoBehaviour {
 		case STATES.STATE_MOVE_TO_INFOPOINT:
 			this.SetEntityQueue (this.InfoPoint.GetEntityQueue ());
 			if (immediateMove) {
-				gameObject.transform.localPosition = this.GetEntityQueue ().GetQueuePoisition (GetEntity ());
+				gameObject.transform.position = this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ());
 				this.SetState (STATES.STATE_WAITING_IN_QUEUE);
 			} else {
-				GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
+				GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueueWorldPoisition(GetEntity()), "MoveToFinished");
 			}
 
 			break;
@@ -58,10 +58,10 @@ public class CustomerBehaviour : MonoBehaviour {
 			if (NextCheckpoint != null) {
 				this.SetEntityQueue (NextCheckpoint.GetEntityQueue());
 				if (immediateMove) {
-					gameObject.transform.localPosition = this.GetEntityQueue ().GetQueuePoisition (GetEntity ());
+					gameObject.transform.position = this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ());
 					this.SetState (STATES.STATE_WAITING_IN_QUEUE);
 				} else {
-					GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueuePoisition (GetEntity()), "MoveToFinished");
+					GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity()), "MoveToFinished");
 				}
 			} else {
 				this.SetEntityQueue (null);
@@ -84,6 +84,7 @@ public class CustomerBehaviour : MonoBehaviour {
 				this.EntityQueue.RemoveEntity (this.GetEntity ());
 			}
 			GameModel.Instance.Customers.RemoveCustomer (this.model.instanceId);
+			transform.SetParent (this.ExitPoint.transform);
 			GetComponent<Entity> ().MoveTo (this.ExitPoint.transform.position, "MoveToFinished");
 			break;
 		}
@@ -118,7 +119,7 @@ public class CustomerBehaviour : MonoBehaviour {
 				int NewQueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
 				if (this.QueueIndex != NewQueueIndex) {
 					this.QueueIndex = NewQueueIndex;
-					GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueuePoisition(GetEntity()), "MoveToFinished");
+					GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueueWorldPoisition(GetEntity()), "MoveToFinished");
 					break;
 				}
 			}
@@ -196,7 +197,6 @@ public class CustomerBehaviour : MonoBehaviour {
 
 		if (EntityQueue == null) {
 			this.EntityQueue = null;
-			transform.SetParent (null);
 			GetComponentInChildren<CustomerBubble> ().Hide ();
 		} else {
 			this.EntityQueue = EntityQueue;
