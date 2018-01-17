@@ -1,29 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\GameModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\CustomerGenerator.cs">
     <Files>
-      <File FileName="Assets\GameScripts\CheckpointGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\DefinitionsLoader.cs" Line="60" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\StampDefiniton.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\BaseDefinition.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Utils\CameraDrag.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="14" Column="28" />
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="22" Column="1" />
-      <File FileName="Assets\GameScripts\Entity.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="168" Column="49" />
-      <File FileName="Assets\GameScripts\EntityQueue.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Checkpoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\InfoPoint.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\BtnNewGame.cs" Line="10" Column="26" />
-      <File FileName="Assets\GameScripts\UI\BtnClearRules.cs" Line="8" Column="27" />
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="18" Column="3" />
-      <File FileName="Assets\GameScripts\Definitions\CustomerDefinition.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="56" Column="159" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" Line="33" Column="36" />
-      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" Line="14" Column="49" />
-      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" Line="31" Column="36" />
+      <File FileName="Assets\GameScripts\Utils\Logger.cs" Line="14" Column="85" />
+      <File FileName="Assets\GameScripts\UI\PopupLogger\PopupLogger.cs" Line="28" Column="1" />
+      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" Line="60" Column="1" />
+      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\UI\BtnNewGame.cs" Line="12" Column="1" />
+      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="41" Column="16" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="65" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -31,13 +16,13 @@
           <Node name="Miniluv" expanded="True">
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="GameScripts" expanded="True">
-                <Node name="Model" expanded="True">
-                  <Node name="GameModel.cs" selected="True" />
-                </Node>
+                <Node name="Model" expanded="True" />
                 <Node name="UI" expanded="True">
                   <Node name="PopupCreateNewRule" expanded="True" />
-                  <Node name="PopupShowRules" expanded="True" />
+                  <Node name="PopupLogger" expanded="True" />
                 </Node>
+                <Node name="Utils" expanded="True" />
+                <Node name="CustomerGenerator.cs" selected="True" />
               </Node>
             </Node>
             <Node name="Assembly-CSharp-firstpass" expanded="True" />

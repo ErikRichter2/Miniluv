@@ -35,7 +35,12 @@ public class BasePopup : MonoBehaviour {
 			BasePopup.canvas = GameObject.Find ("Canvas");
 		}
 
-		return BasePopup.canvas.GetComponentInChildren<T> (true);
+		if (BasePopup.canvas != null) {
+			return BasePopup.canvas.GetComponentInChildren<T> (true);
+		} else {
+			return null;
+		}
+
 	}
 
 	static public bool IsPopupActive() {

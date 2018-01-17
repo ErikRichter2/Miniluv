@@ -55,6 +55,14 @@ public class CustomerGenerator : MonoBehaviour {
 			// find and goto checkpoint
 			customer.GetComponent<CustomerBehaviour> ().model = GameModel.Instance.Customers.AddCustomer (customer.instanceId, customer.defId, GameModel.Instance.Rules.GetRandomRule().taskId);
 			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
+
+			// exception test
+			/*
+			if (GameModel.Instance.Customers.customers.Count > 5) {
+				GameObject test = null;
+				test.SetActive (false);
+			}
+			*/
 		}
 	}
 
