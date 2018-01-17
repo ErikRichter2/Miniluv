@@ -2,36 +2,14 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\GameModel.cs">
     <Files>
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="20" Column="16" />
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="20" Column="42" />
-      <File FileName="Assets\GameScripts\Model\IModel.cs" Line="6" Column="1" />
-      <File FileName="Assets\GameScripts\Model\ISerializable.cs" Line="5" Column="20" />
+      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="12" Column="23" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\IModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\ISerializable.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Definitions\DefinitionsLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="169" Column="54" />
+      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="49" Column="2" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Miniluv" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="GameScripts" expanded="True">
-                <Node name="Model" expanded="True">
-                  <Node name="GameModel.cs" selected="True" />
-                </Node>
-                <Node name="UI" expanded="True">
-                  <Node name="PopupCreateNewRule" expanded="True" />
-                  <Node name="PopupShowRules" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-            <Node name="Assembly-CSharp-firstpass" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="Miniluv" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
