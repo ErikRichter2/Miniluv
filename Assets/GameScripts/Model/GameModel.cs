@@ -7,16 +7,20 @@ public class GameModel {
 	public static GameModel Instance;
 
 	Dictionary<Type, IModel> models;
-	Dictionary<Type, ISerializable> serializableModels;
+	List<ISerializable> serializableModels;
 
 	public GameModel () {
 		this.models = new Dictionary<Type, IModel> ();
-		this.serializableModels = new Dictionary<Type, ISerializable> ();
+		this.serializableModels = new List<ISerializable> ();
 		GameModel.Instance = this;
 	}
 
 	T AddModel<T>(T model) where T: IModel {
 		this.models [typeof(T)] = model;
+		if (model is ISerializable) {
+			this.serializableModels.Add (model as ISerializable);
+		}
+
 		return model;
 	}
 
@@ -30,20 +34,20 @@ public class GameModel {
 	}
 
 	public void Load() {
-		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
-			model.Value.Load ();
+		foreach (ISerializable model in this.serializableModels) {
+			model.Load ();
 		}
 	}
 
 	public void Save() {
-		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
-			model.Value.Save ();
+		foreach (ISerializable model in this.serializableModels) {
+			model.Save ();
 		}
 	}
 
 	public void DeleteSave() {
-		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
-			model.Value.DeleteSave ();
+		foreach (ISerializable model in this.serializableModels) {
+			model.DeleteSave ();
 		}
 	}
 

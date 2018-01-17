@@ -1,14 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\CustomerGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\GameModel.cs">
     <Files>
-      <File FileName="Assets\GameScripts\Utils\Logger.cs" Line="14" Column="85" />
-      <File FileName="Assets\GameScripts\UI\PopupLogger\PopupLogger.cs" Line="28" Column="1" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" Line="60" Column="1" />
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\BtnNewGame.cs" Line="12" Column="1" />
-      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="41" Column="16" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="65" Column="6" />
+      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="20" Column="16" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="20" Column="42" />
+      <File FileName="Assets\GameScripts\Model\IModel.cs" Line="6" Column="1" />
+      <File FileName="Assets\GameScripts\Model\ISerializable.cs" Line="5" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,13 +13,13 @@
           <Node name="Miniluv" expanded="True">
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="GameScripts" expanded="True">
-                <Node name="Model" expanded="True" />
+                <Node name="Model" expanded="True">
+                  <Node name="GameModel.cs" selected="True" />
+                </Node>
                 <Node name="UI" expanded="True">
                   <Node name="PopupCreateNewRule" expanded="True" />
-                  <Node name="PopupLogger" expanded="True" />
+                  <Node name="PopupShowRules" expanded="True" />
                 </Node>
-                <Node name="Utils" expanded="True" />
-                <Node name="CustomerGenerator.cs" selected="True" />
               </Node>
             </Node>
             <Node name="Assembly-CSharp-firstpass" expanded="True" />
