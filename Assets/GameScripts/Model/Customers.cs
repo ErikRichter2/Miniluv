@@ -17,7 +17,7 @@ public class Customer {
 }
 
 [System.Serializable]
-public class Customers : ScriptableObject {
+public class Customers : ScriptableObject, IModel, ISerializable {
 
 	public List<Customer> customers;
 

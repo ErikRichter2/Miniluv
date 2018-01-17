@@ -20,7 +20,7 @@ public class CameraDrag : MonoBehaviour {
 
 		Vector3 currentMousePosition = Input.mousePosition;
  
-		Vector3 diff = (currentMousePosition - prevMousePosition) * dragSpeed;
+		Vector3 diff = (prevMousePosition - currentMousePosition) * dragSpeed;
  
 		transform.Translate(diff, Space.World);  
 

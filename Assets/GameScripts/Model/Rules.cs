@@ -11,12 +11,12 @@ public class Rule {
 
 	public void AddStamp(int stampId) {
 		this.stamps.Add (stampId);
-		GameModel.Instance.Rules.Save ();
+		GameModel.GetModel<Rules>().Save ();
 	}
 
 	public void RemoveAllStamps() {
 		this.stamps.Clear ();
-		GameModel.Instance.Rules.Save ();
+		GameModel.GetModel<Rules>().Save ();
 	}
 
 	public bool HasStamps() {
@@ -29,7 +29,7 @@ public class Rule {
 }
 
 [System.Serializable]
-public class Rules : ScriptableObject {
+public class Rules : ScriptableObject, IModel, ISerializable {
 
 	[SerializeField]
 	List<Rule> rules;

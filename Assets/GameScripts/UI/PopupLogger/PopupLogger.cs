@@ -17,7 +17,6 @@ public class PopupLogger : BasePopup {
 
 	public void OnConfirm() {
 		HidePopup ();
-		new GameModel ();
 		GameModel.Instance.Init ();
 		GameModel.Instance.Load ();
 		SceneManager.LoadScene ("Main");

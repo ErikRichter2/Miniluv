@@ -83,7 +83,7 @@ public class CustomerBehaviour : MonoBehaviour {
 			if (this.EntityQueue != null) {
 				this.EntityQueue.RemoveEntity (this.GetEntity ());
 			}
-			GameModel.Instance.Customers.RemoveCustomer (this.model.instanceId);
+			GameModel.GetModel<Customers>().RemoveCustomer (this.model.instanceId);
 			transform.SetParent (this.ExitPoint.transform);
 			GetComponent<Entity> ().MoveTo (this.ExitPoint.transform.position, "MoveToFinished");
 			break;
@@ -109,7 +109,7 @@ public class CustomerBehaviour : MonoBehaviour {
 				// check if current task still requires this stamp
 				Checkpoint currentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
 				if (currentCheckpoint != null) {
-					if (GameModel.Instance.Rules.GetRule (this.model.taskId).HasStamp (currentCheckpoint.stamp.Id) == false) {
+					if (GameModel.GetModel<Rules>().GetRule (this.model.taskId).HasStamp (currentCheckpoint.stamp.Id) == false) {
 						this.SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 						break;
 					}
@@ -132,17 +132,17 @@ public class CustomerBehaviour : MonoBehaviour {
 		
 	IEnumerator ProcessCheckpoint() {
 		yield return new WaitForSeconds (DefinitionsLoader.stampDefinition.GetItem(this.currentStamp).Time);
-		GameModel.Instance.Customers.AddStamp (this.model.instanceId, this.currentStamp);
+		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStamp);
 		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 	}
 
 	IEnumerator ProcessInfopoint() {
 		while (true) {
-			if (GameModel.Instance.Rules.GetRule(this.model.taskId).HasStamps()) {
+			if (GameModel.GetModel<Rules>().GetRule(this.model.taskId).HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
 				yield return new WaitForSeconds (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000.0f);
-				GameModel.Instance.Customers.SetInfo (this.model.instanceId, true);
+				GameModel.GetModel<Customers>().SetInfo (this.model.instanceId, true);
 				SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
 				break;
 			} else {
@@ -156,7 +156,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	void OnMouseDown() {
 		if (BasePopup.IsPopupActive() == false) {
 			PopupCreateNewRule popup = BasePopup.GetPopup<PopupCreateNewRule>();
-			popup.ShowRule (GameModel.Instance.Rules.GetRule(this.model.taskId));
+			popup.ShowRule (GameModel.GetModel<Rules>().GetRule(this.model.taskId));
 		}
 	}
 
@@ -166,7 +166,7 @@ public class CustomerBehaviour : MonoBehaviour {
 		int nextStampId = 0;
 
 		// find first unsatisfied stamp
-		foreach (int stamp in GameModel.Instance.Rules.GetRule(this.model.taskId).stamps) {
+		foreach (int stamp in GameModel.GetModel<Rules>().GetRule(this.model.taskId).stamps) {
 			if (this.model.collectedStamps.IndexOf (stamp) == -1) {
 				nextStampId = stamp;
 				break;

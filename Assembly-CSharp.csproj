@@ -67,6 +67,8 @@
      <Compile Include="Assets\GameScripts\InfoPoint.cs" />
      <Compile Include="Assets\GameScripts\Model\Customers.cs" />
      <Compile Include="Assets\GameScripts\Model\GameModel.cs" />
+     <Compile Include="Assets\GameScripts\Model\IModel.cs" />
+     <Compile Include="Assets\GameScripts\Model\ISerializable.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />

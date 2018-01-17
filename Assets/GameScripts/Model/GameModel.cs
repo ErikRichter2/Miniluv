@@ -1,35 +1,50 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameModel {
 
 	public static GameModel Instance;
 
-	public Customers Customers;
-	public Rules Rules;
+	Dictionary<Type, IModel> models;
+	Dictionary<Type, ISerializable> serializableModels;
 
 	public GameModel () {
+		this.models = new Dictionary<Type, IModel> ();
+		this.serializableModels = new Dictionary<Type, ISerializable> ();
 		GameModel.Instance = this;
 	}
 
+	T AddModel<T>(T model) where T: IModel {
+		this.models [typeof(T)] = model;
+		return model;
+	}
+
+	static public T GetModel<T>() where T: IModel {
+		return (T)Instance.models [typeof(T)];
+	}
+
 	public void Init() {
-		this.Rules = ScriptableObject.CreateInstance<Rules>();
-		this.Customers = ScriptableObject.CreateInstance<Customers>();
+		this.AddModel (ScriptableObject.CreateInstance<Rules> ());
+		this.AddModel (ScriptableObject.CreateInstance<Customers> ());
 	}
 
 	public void Load() {
-		this.Rules.Load ();
-		this.Customers.Load ();
+		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
+			model.Value.Load ();
+		}
 	}
 
 	public void Save() {
-		this.Rules.Save ();
-		this.Customers.Save ();
+		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
+			model.Value.Save ();
+		}
 	}
 
 	public void DeleteSave() {
-		this.Rules.DeleteSave ();
-		this.Customers.DeleteSave ();
+		foreach (KeyValuePair<Type, ISerializable> model in this.serializableModels) {
+			model.Value.DeleteSave ();
+		}
 	}
 
 
