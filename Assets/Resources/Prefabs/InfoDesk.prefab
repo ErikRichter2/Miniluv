@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 212233793310869492}
   - component: {fileID: 114755943080551476}
   m_Layer: 0
-  m_Name: InfoPoint
+  m_Name: InfoDesk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

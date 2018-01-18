@@ -6,10 +6,10 @@ using UnityEngine.EventSystems;
 public class CustomerBehaviour : MonoBehaviour {
 
 	public enum STATES {
-		STATE_MOVE_TO_INFOPOINT,
-		STATE_MOVE_TO_NEXT_CHECKPOINT,
-		STATE_PROCESS_INFOPOINT,
-		STATE_PROCESS_CHECKPOINT,
+		STATE_MOVE_TO_INFODESK,
+		STATE_MOVE_TO_STAMPDESK,
+		STATE_PROCESS_INFODESK,
+		STATE_PROCESS_STAMPDESK,
 		STATE_WAITING_IN_QUEUE,
 		STATE_MOVE_TO_EXIT
 	}
@@ -22,12 +22,12 @@ public class CustomerBehaviour : MonoBehaviour {
 	EntityQueue EntityQueue;
 
 	// all scene checkpoints
-	public Checkpoint[] SceneCheckpoints;
+	public StampDesk[] SceneStampDesks;
 
 	public GameObject ExitPoint;
-	public InfoPoint InfoPoint;
+	public InfoDesk InfoDesk;
+	StampDesk currentStampDesk;
 	int QueueIndex;
-	int currentStamp;
 
 	public void SetTaskId(int taskId) {
 		this.model.taskId = taskId;
@@ -42,8 +42,8 @@ public class CustomerBehaviour : MonoBehaviour {
 			StartCoroutine (ProcessWaitingInQueue ());
 			break;
 
-		case STATES.STATE_MOVE_TO_INFOPOINT:
-			this.SetEntityQueue (this.InfoPoint.GetEntityQueue ());
+		case STATES.STATE_MOVE_TO_INFODESK:
+			this.SetEntityQueue (this.InfoDesk.GetEntityQueue ());
 			if (immediateMove) {
 				gameObject.transform.position = this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ());
 				this.SetState (STATES.STATE_WAITING_IN_QUEUE);
@@ -53,8 +53,8 @@ public class CustomerBehaviour : MonoBehaviour {
 
 			break;
 
-		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
-			Checkpoint NextCheckpoint = this.GetNextCheckpoint ();
+		case STATES.STATE_MOVE_TO_STAMPDESK:
+			StampDesk NextCheckpoint = this.GetNextCheckpoint ();
 			if (NextCheckpoint != null) {
 				this.SetEntityQueue (NextCheckpoint.GetEntityQueue());
 				if (immediateMove) {
@@ -69,12 +69,12 @@ public class CustomerBehaviour : MonoBehaviour {
 			}
 			break;
 
-		case STATES.STATE_PROCESS_INFOPOINT:
+		case STATES.STATE_PROCESS_INFODESK:
 			GetComponent<Entity> ().Idle ();
 			StartCoroutine (ProcessInfopoint ());
 			break;
 
-		case STATES.STATE_PROCESS_CHECKPOINT:
+		case STATES.STATE_PROCESS_STAMPDESK:
 			GetComponent<Entity> ().Idle ();
 			StartCoroutine (ProcessCheckpoint ());
 			break;
@@ -96,21 +96,21 @@ public class CustomerBehaviour : MonoBehaviour {
 
 		while (true) {
 			if (this.EntityQueue.IsFirst (GetEntity ())) {
-				Checkpoint currentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+				StampDesk currentCheckpoint = this.EntityQueue.GetComponentInParent<StampDesk> ();
 				if (currentCheckpoint == null) {
-					SetState (STATES.STATE_PROCESS_INFOPOINT);
+					SetState (STATES.STATE_PROCESS_INFODESK);
 				} else {
-					SetState (STATES.STATE_PROCESS_CHECKPOINT);
+					SetState (STATES.STATE_PROCESS_STAMPDESK);
 				}
 				break;
 			} else {
 				yield return new WaitForSeconds (0.5f);
 
 				// check if current task still requires this stamp
-				Checkpoint currentCheckpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+				StampDesk currentCheckpoint = this.EntityQueue.GetComponentInParent<StampDesk> ();
 				if (currentCheckpoint != null) {
 					if (GameModel.GetModel<Rules>().GetRule (this.model.taskId).HasStamp (currentCheckpoint.stamp.Id) == false) {
-						this.SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+						this.SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 						break;
 					}
 				}
@@ -131,9 +131,9 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 		
 	IEnumerator ProcessCheckpoint() {
-		yield return new WaitForSeconds (DefinitionsLoader.stampDefinition.GetItem(this.currentStamp).Time);
-		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStamp);
-		SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+		yield return new WaitForSeconds (this.currentStampDesk.GetTaskDuration() / 1000);
+		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStampDesk.stamp.Id);
+		SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 	}
 
 	IEnumerator ProcessInfopoint() {
@@ -141,9 +141,9 @@ public class CustomerBehaviour : MonoBehaviour {
 			if (GameModel.GetModel<Rules>().GetRule(this.model.taskId).HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
-				yield return new WaitForSeconds (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000.0f);
+				yield return new WaitForSeconds (this.InfoDesk.GetTaskDuration() / 1000);
 				GameModel.GetModel<Customers>().SetInfo (this.model.instanceId, true);
-				SetState (STATES.STATE_MOVE_TO_NEXT_CHECKPOINT);
+				SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 				break;
 			} else {
 				GetComponentInChildren<CustomerBubble> ().ShowInfoBubble ();
@@ -160,7 +160,7 @@ public class CustomerBehaviour : MonoBehaviour {
 		}
 	}
 
-	Checkpoint GetNextCheckpoint() {
+	StampDesk GetNextCheckpoint() {
 
 		// next stamp
 		int nextStampId = 0;
@@ -173,9 +173,9 @@ public class CustomerBehaviour : MonoBehaviour {
 			}
 		}
 
-		Checkpoint result = null;
+		StampDesk result = null;
 		if (nextStampId != 0) {
-			foreach (Checkpoint Checkpoint in this.SceneCheckpoints) {
+			foreach (StampDesk Checkpoint in this.SceneStampDesks) {
 				if (Checkpoint.stamp.Id == nextStampId) {
 					result = Checkpoint;
 					break;
@@ -204,19 +204,19 @@ public class CustomerBehaviour : MonoBehaviour {
 			this.QueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
 			GetEntity ().SetSortOrder (this.QueueIndex);
 			transform.SetParent(this.EntityQueue.GetQueueContainer ());
-			Checkpoint Checkpoint = this.EntityQueue.GetComponentInParent<Checkpoint> ();
+			StampDesk stampDesk = this.EntityQueue.GetComponentInParent<StampDesk> ();
 
-			if (Checkpoint != null) {
-				this.currentStamp = Checkpoint.stamp.Id;
-				GetComponentInChildren<CustomerBubble> ().ShowColor (Checkpoint.stamp.Color);
+			if (stampDesk != null) {
+				this.currentStampDesk = stampDesk;
+				GetComponentInChildren<CustomerBubble> ().ShowColor (stampDesk.stamp.Color);
 			}
 		}
 	}
 
 	public void MoveToFinished() {
 		switch (this.State) {
-		case STATES.STATE_MOVE_TO_INFOPOINT:
-		case STATES.STATE_MOVE_TO_NEXT_CHECKPOINT:
+		case STATES.STATE_MOVE_TO_INFODESK:
+		case STATES.STATE_MOVE_TO_STAMPDESK:
 		case STATES.STATE_WAITING_IN_QUEUE:
 			this.SetState (STATES.STATE_WAITING_IN_QUEUE);
 			break;

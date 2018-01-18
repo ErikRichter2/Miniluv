@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class CustomerGenerator : MonoBehaviour {
 
-	public GameObject CheckpointsGameObject;
-	public InfoPoint InfoPoint;
+	public GameObject stampDesksGameObjects;
+	public InfoDesk infoDesk;
 	public Entity CustomerPrefab;
 
-	private Checkpoint[] Checkpoints;
+	private StampDesk[] stampDesks;
 
 	// Use this for initialization
 	void Start () {
-		this.Checkpoints = this.CheckpointsGameObject.GetComponentsInChildren<Checkpoint> ();
-		this.LoadFromSave ();
-		StartCoroutine (Generate ());
+		if (Preloader.Loaded) {
+			this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
+			this.LoadFromSave ();
+			StartCoroutine (Generate ());
+		}
 	}
 
 	void LoadFromSave() {
@@ -23,9 +25,9 @@ public class CustomerGenerator : MonoBehaviour {
 			Entity customer = this.CreateCustomer (DefinitionsLoader.customerDefinition.GetItem(It.defId), 0);
 			customer.GetComponent<CustomerBehaviour> ().model = It;
 			if (It.wasInfo) {
-				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_NEXT_CHECKPOINT, true);
+				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_STAMPDESK, true);
 			} else {
-				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT, true);
+				customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK, true);
 			}
 		}
 	}
@@ -33,8 +35,8 @@ public class CustomerGenerator : MonoBehaviour {
 	Entity CreateCustomer(CustomerDef customerDef, int instanceId) {
 		Entity customer = Instantiate<Entity> (this.CustomerPrefab, transform.Find ("Place"));
 		customer.SetEntityDef (customerDef, instanceId);
-		customer.GetComponent<CustomerBehaviour> ().SceneCheckpoints = this.Checkpoints;
-		customer.GetComponent<CustomerBehaviour> ().InfoPoint = InfoPoint;
+		customer.GetComponent<CustomerBehaviour> ().SceneStampDesks = this.stampDesks;
+		customer.GetComponent<CustomerBehaviour> ().InfoDesk = infoDesk;
 		customer.GetComponent<CustomerBehaviour> ().ExitPoint = transform.Find ("Place").gameObject;
 
 		return customer;
@@ -54,15 +56,7 @@ public class CustomerGenerator : MonoBehaviour {
 
 			// find and goto checkpoint
 			customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers>().AddCustomer (customer.instanceId, customer.defId, GameModel.GetModel<Rules>().GetRandomRule().taskId);
-			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFOPOINT);
-
-			// exception test
-			/*
-			if (GameModel.Instance.Customers.customers.Count > 5) {
-				GameObject test = null;
-				test.SetActive (false);
-			}
-			*/
+			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK);
 		}
 	}
 

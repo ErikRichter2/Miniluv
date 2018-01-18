@@ -51,8 +51,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameScripts\Checkpoint.cs" />
-     <Compile Include="Assets\GameScripts\CheckpointGenerator.cs" />
      <Compile Include="Assets\GameScripts\CustomerBehaviour.cs" />
      <Compile Include="Assets\GameScripts\CustomerBubble.cs" />
      <Compile Include="Assets\GameScripts\CustomerGenerator.cs" />
@@ -65,16 +63,20 @@
      <Compile Include="Assets\GameScripts\Definitions\TaskDefinition.cs" />
      <Compile Include="Assets\GameScripts\Entity.cs" />
      <Compile Include="Assets\GameScripts\EntityQueue.cs" />
-     <Compile Include="Assets\GameScripts\InfoPoint.cs" />
      <Compile Include="Assets\GameScripts\Model\Customers.cs" />
+     <Compile Include="Assets\GameScripts\Model\Desk\InfoDesk.cs" />
+     <Compile Include="Assets\GameScripts\Model\Desk\ITaskable.cs" />
+     <Compile Include="Assets\GameScripts\Model\Desk\StampDesk.cs" />
      <Compile Include="Assets\GameScripts\Model\GameModel.cs" />
      <Compile Include="Assets\GameScripts\Model\IModel.cs" />
      <Compile Include="Assets\GameScripts\Model\ISerializable.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\Preloader\Preloader.cs" />
+     <Compile Include="Assets\GameScripts\StampDesksGenerator.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\TaskTimeText.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
@@ -82,7 +84,7 @@
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
      <Compile Include="Assets\GameScripts\Utils\CameraDrag.cs" />
-     <Compile Include="Assets\GameScripts\Utils\Logger.cs" />
+     <Compile Include="Assets\GameScripts\Utils\GameObjectUtils.cs" />
      <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/PROGRAMY/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

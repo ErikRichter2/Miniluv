@@ -32,7 +32,7 @@ public class BasePopup : MonoBehaviour {
 
 	static public T GetPopup<T>() where T: BasePopup {
 		if (BasePopup.canvas == null) {
-			BasePopup.canvas = GameObject.Find ("Canvas");
+			BasePopup.canvas = GameObject.Find ("HUDCanvas");
 		}
 
 		if (BasePopup.canvas != null) {

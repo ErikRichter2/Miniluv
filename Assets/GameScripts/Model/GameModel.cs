@@ -28,6 +28,10 @@ public class GameModel {
 		return (T)Instance.models [typeof(T)];
 	}
 
+	static public bool IsInitialized() {
+		return (Instance != null && Instance.models != null);
+	}
+
 	public void Init() {
 		this.AddModel (ScriptableObject.CreateInstance<Rules> ());
 		this.AddModel (ScriptableObject.CreateInstance<Customers> ());
