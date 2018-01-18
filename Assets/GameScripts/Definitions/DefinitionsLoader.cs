@@ -16,52 +16,44 @@ public class DefinitionsLoader : MonoBehaviour {
 	static public CustomerDefinition customerDefinition;
 	static public ConfigDefinition configDefinition;
 
-	// Use this for initialization
-	void Start () {
-		DontDestroyOnLoad(gameObject);
-		StartCoroutine(LoadDefinitions ());
+	public IEnumerator LoadDefinitions() {
+		stampDefinition = new StampDefiniton ();
+		yield return StartCoroutine (this.Load ("STAMPS", STAMPS_URL, stampDefinition));
+
+		taskDefinition = new TaskDefinition ();
+		yield return StartCoroutine (this.Load ("TASKS", TASKS_URL, taskDefinition));
+
+		customerDefinition = new CustomerDefinition ();
+		yield return StartCoroutine (this.Load ("CUSTOMERS", CUSTOMERS_URL, customerDefinition));
+
+		configDefinition = new ConfigDefinition ();
+		yield return StartCoroutine (this.Load ("CONFIG", CONFIG_URL, configDefinition));
 	}
 
-	IEnumerator LoadDefinitions() {
+	IEnumerator Load(string name, string url, IDefinition definition) {
+
 		WWW www;
+		string localFile = Path.Combine (Application.persistentDataPath, "def_" + name + ".txt");
+		string finalUrl = url + "/?rnd=" + Random.Range(0, 1000000).ToString();
 
-		// load game definitions	
+		// load from local cache
+		if (File.Exists (localFile)) {
+			Debug.Log (name + " loaded from cache ");
+			definition.Parse (File.ReadAllText(localFile));
+		}
 
-		// STAMPS
-		stampDefinition = new StampDefiniton ();
-		www = new WWW (STAMPS_URL + "/?rnd=" + Random.Range(0, 1000000).ToString());
+		// try load from network
+		www = new WWW (finalUrl);
 		yield return www;
-		Debug.Log("STAMPS loaded " + www.error);
-		stampDefinition.Parse (www.text);
+		if (www.isDone && www.error == null) {
+			Debug.Log (name + " loaded ");
+			definition.Parse (www.text);
 
-		// TASKS
-		taskDefinition = new TaskDefinition ();
-		www = new WWW (TASKS_URL + "/?rnd=" + Random.Range(0, 1000000).ToString());
-		yield return www;
-		Debug.Log("TASKS loaded " + www.error);
-		taskDefinition.Parse (www.text);
-
-		// CUSTOMERS
-		customerDefinition = new CustomerDefinition ();
-		www = new WWW (CUSTOMERS_URL + "/?rnd=" + Random.Range(0, 1000000).ToString());
-		yield return www;
-		Debug.Log("CUSTOMERS loaded " + www.error);
-		customerDefinition.Parse (www.text);
-
-		// CONFIG
-		configDefinition = new ConfigDefinition ();
-		www = new WWW (CONFIG_URL + "/?rnd=" + Random.Range(0, 1000000).ToString());
-		yield return www;
-		Debug.Log("CONFIG loaded " + www.error);
-		configDefinition.Parse (www.text);
-
-		// load game progress
-		new GameModel();
-		GameModel.Instance.Init ();
-		GameModel.Instance.Load ();
-
-		// init game
-		SceneManager.LoadScene ("Main");
+			// save to local file
+			File.WriteAllText(localFile, www.text);
+		} else {
+			Debug.Log(name + " failed: " + www.error);
+		}
 	}
 		
 

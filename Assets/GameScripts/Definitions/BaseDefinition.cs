@@ -5,7 +5,7 @@ public class BaseDef {
 	public int Id;
 }
 
-public class BaseDefinition<T> where T : BaseDef
+public class BaseDefinition<T> : IDefinition where T : BaseDef
 {
 	public List<T> Items;
 
@@ -41,10 +41,11 @@ public class BaseDefinition<T> where T : BaseDef
 			}
 		}
 
+		this.Items.Clear ();
 		this.ProcessData ();
 	}
 
-	virtual protected void ProcessData() {
+	virtual protected void ProcessData() {		
 	}
 
 	protected int GetIndex(string name) {

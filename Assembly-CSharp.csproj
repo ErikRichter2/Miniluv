@@ -60,6 +60,7 @@
      <Compile Include="Assets\GameScripts\Definitions\ConfigDefinition.cs" />
      <Compile Include="Assets\GameScripts\Definitions\CustomerDefinition.cs" />
      <Compile Include="Assets\GameScripts\Definitions\DefinitionsLoader.cs" />
+     <Compile Include="Assets\GameScripts\Definitions\IDefinition.cs" />
      <Compile Include="Assets\GameScripts\Definitions\StampDefiniton.cs" />
      <Compile Include="Assets\GameScripts\Definitions\TaskDefinition.cs" />
      <Compile Include="Assets\GameScripts\Entity.cs" />
@@ -70,6 +71,7 @@
      <Compile Include="Assets\GameScripts\Model\IModel.cs" />
      <Compile Include="Assets\GameScripts\Model\ISerializable.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
+     <Compile Include="Assets\GameScripts\Preloader\Preloader.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />

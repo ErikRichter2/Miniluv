@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Logger : MonoBehaviour {
+public class Logger {
 
 	// Use this for initialization
-	void Start () {
+	public Logger () {
 		Application.logMessageReceived += this.HandleLog;
 	}
 
