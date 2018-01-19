@@ -8,9 +8,12 @@ public class Preloader : MonoBehaviour {
 
 	public static bool Loaded;
 
+	public Text Logs;
+
 	void Start () {
 		DontDestroyOnLoad(gameObject);
 		Application.logMessageReceived += this.HandleLog;
+		this.Logs.text = "";
 		StartCoroutine (this.Load ());
 	}
 
@@ -26,8 +29,7 @@ public class Preloader : MonoBehaviour {
 		}
 
 		if (Preloader.Loaded == false && type == LogType.Log) {
-			Text text = GameObjectUtils.GetComponentInChildren<Text> (gameObject);
-			text.text += "\n" + logString;
+			this.Logs.text += "\n" + logString;
 		}
 	}
 	
