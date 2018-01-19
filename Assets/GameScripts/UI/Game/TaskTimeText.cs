@@ -9,7 +9,10 @@ public class TaskTimeText : MonoBehaviour {
 		if (Preloader.Loaded) {
 			ITaskable taskable = GameObjectUtils.GetComponentInParent<ITaskable> (gameObject);
 			if (taskable != null) {
-				GetComponent<Text> ().text = Mathf.FloorToInt(taskable.GetTaskDuration() / 1000).ToString() + "s";
+				ITask task = taskable.GetCurrentTask ();
+				if (task != null) {
+					GetComponent<Text> ().text = Mathf.FloorToInt(task.GetDuration()).ToString() + "s";
+				}
 			}
 		}
 	}

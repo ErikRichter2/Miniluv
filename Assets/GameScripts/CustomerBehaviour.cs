@@ -131,7 +131,9 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 		
 	IEnumerator ProcessCheckpoint() {
-		yield return new WaitForSeconds (this.currentStampDesk.GetTaskDuration() / 1000);
+		this.currentStampDesk.ShowProgress ();
+		yield return new WaitForSeconds (this.currentStampDesk.task.StartTask(this.currentStampDesk.task.GetDuration ()));
+		this.currentStampDesk.HideProgress ();
 		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStampDesk.stamp.Id);
 		SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 	}
@@ -141,7 +143,9 @@ public class CustomerBehaviour : MonoBehaviour {
 			if (GameModel.GetModel<Rules>().GetRule(this.model.taskId).HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
-				yield return new WaitForSeconds (this.InfoDesk.GetTaskDuration() / 1000);
+				this.InfoDesk.ShowProgress ();
+				yield return new WaitForSeconds (this.InfoDesk.task.StartTask(this.InfoDesk.task.GetDuration ()));
+				this.InfoDesk.HideProgress ();
 				GameModel.GetModel<Customers>().SetInfo (this.model.instanceId, true);
 				SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 				break;

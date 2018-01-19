@@ -1,6 +1,6 @@
 ﻿using System;
 
 public interface ITaskable {
-	int GetTaskDuration();
+	ITask GetCurrentTask();
 }
 

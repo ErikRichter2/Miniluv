@@ -71,11 +71,15 @@
      <Compile Include="Assets\GameScripts\Model\IModel.cs" />
      <Compile Include="Assets\GameScripts\Model\ISerializable.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
+     <Compile Include="Assets\GameScripts\Model\Tasks\ITask.cs" />
+     <Compile Include="Assets\GameScripts\Model\Tasks\SimpleTask.cs" />
+     <Compile Include="Assets\GameScripts\Model\Tasks\TaskModel.cs" />
      <Compile Include="Assets\GameScripts\Preloader\Preloader.cs" />
      <Compile Include="Assets\GameScripts\StampDesksGenerator.cs" />
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\TaskProgressBar.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\TaskTimeText.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />

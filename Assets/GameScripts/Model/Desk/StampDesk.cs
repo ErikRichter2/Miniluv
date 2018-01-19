@@ -7,8 +7,11 @@ public class StampDesk : MonoBehaviour, ITaskable {
 
 	public StampDef stamp;
 
+	public SimpleTask task;
+
 	public void SetStamp(StampDef stamp) {
 		this.stamp = stamp;
+		this.task = TaskModel.CreateTask<SimpleTask> (this.stamp.Time);
 		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = this.stamp.Color;
 	}
 
@@ -23,8 +26,17 @@ public class StampDesk : MonoBehaviour, ITaskable {
 		}
 	}
 
-	public int GetTaskDuration() {
-		return stamp.Time * 1000;
+	public ITask GetCurrentTask() {
+		return this.task;
 	}
+
+	public void ShowProgress() {
+		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).SetTask (this.task);
+	}
+
+	public void HideProgress() {
+		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).StopTask ();
+	}
+
 
 }
