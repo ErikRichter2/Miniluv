@@ -9,7 +9,7 @@ public class InfoDesk : MonoBehaviour, ITaskable {
 
 	void Start() {
 		if (Preloader.Loaded) {
-			this.task = TaskModel.CreateTask<SimpleTask> (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000);
+			this.task = GameModel.GetModel<TaskModel>().CreateTask<SimpleTask> (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000);
 		}
 	}
 

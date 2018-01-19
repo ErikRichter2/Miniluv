@@ -11,7 +11,7 @@ public class StampDesk : MonoBehaviour, ITaskable {
 
 	public void SetStamp(StampDef stamp) {
 		this.stamp = stamp;
-		this.task = TaskModel.CreateTask<SimpleTask> (this.stamp.Time);
+		this.task = GameModel.GetModel<TaskModel>().CreateTask<SimpleTask> (this.stamp.Time);
 		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = this.stamp.Color;
 	}
 

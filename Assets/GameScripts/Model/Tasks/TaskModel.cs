@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TaskModel : MonoBehaviour {
-
-	// singleton
-	static TaskModel Instance;
+public class TaskModel : IModel, ITickable {
 
 	List<ITask> tasks;
 
-	void Start() {
+	public TaskModel() {
 		this.tasks = new List<ITask> ();
-		Instance = this;
 	}
 
-	void Update() {
-		float delta = Time.deltaTime;
+	public void Clear() {
+		if (this.tasks != null) {
+			this.tasks.Clear ();
+		}
+	}
+
+	public void Update(float delta) {
 		foreach(ITask task in this.tasks) {
 			if (task.IsActive ()) {
 				task.Update (delta);
@@ -23,10 +24,10 @@ public class TaskModel : MonoBehaviour {
 		}
 	}
 
-	static public T CreateTask<T>(float duration) where T: ITask, new() {
+	public T CreateTask<T>(float duration) where T: ITask, new() {
 		ITask result = new T ();
 		result.SetDuration (duration);
-		Instance.tasks.Add (result);
+		this.tasks.Add (result);
 
 		return (T)result;
 	}

@@ -14,6 +14,12 @@ public class Preloader : MonoBehaviour {
 		StartCoroutine (this.Load ());
 	}
 
+	void Update() {
+		if (GameModel.Instance != null) {
+			GameModel.Instance.Update (Time.deltaTime);
+		}
+	}
+
 	void HandleLog(string logString, string stackTrace, LogType type) {
 		if (type == LogType.Error || type == LogType.Exception) {
 			BasePopup.GetPopup<PopupLogger> ().ShowMessage (logString + "\n\n" + stackTrace);

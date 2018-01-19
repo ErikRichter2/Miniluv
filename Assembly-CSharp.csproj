@@ -70,6 +70,7 @@
      <Compile Include="Assets\GameScripts\Model\GameModel.cs" />
      <Compile Include="Assets\GameScripts\Model\IModel.cs" />
      <Compile Include="Assets\GameScripts\Model\ISerializable.cs" />
+     <Compile Include="Assets\GameScripts\Model\ITickable.cs" />
      <Compile Include="Assets\GameScripts\Model\Rules.cs" />
      <Compile Include="Assets\GameScripts\Model\Tasks\ITask.cs" />
      <Compile Include="Assets\GameScripts\Model\Tasks\SimpleTask.cs" />
