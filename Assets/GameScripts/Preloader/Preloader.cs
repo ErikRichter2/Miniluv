@@ -28,7 +28,9 @@ public class Preloader : MonoBehaviour {
 	IEnumerator Load () {
 
 		// unload Main scene
-		yield return SceneManager.UnloadSceneAsync("Main");
+		if (SceneManager.GetSceneByName ("Main").isLoaded) {
+			yield return SceneManager.UnloadSceneAsync("Main");
+		}
 
 		// load game definitions
 		yield return StartCoroutine (GetComponent<DefinitionsLoader>().LoadDefinitions());
