@@ -14,6 +14,21 @@ public class Customer {
 	public Customer() {
 		this.collectedStamps = new List<int> ();
 	}
+
+	public bool HasAllStampsCollected() {
+		Rule rule = GameModel.GetModel<Rules> ().GetRule (this.taskId);
+		return (rule.HasStamps() && GetFirstUncollectedStamp () == 0);
+	}
+
+	public int GetFirstUncollectedStamp() {
+		foreach (int stampId in GameModel.GetModel<Rules>().GetRule(this.taskId).stamps) {
+			if (this.collectedStamps.IndexOf (stampId) == -1) {
+				return stampId;
+			}
+		}
+
+		return 0;
+	}
 }
 
 [System.Serializable]

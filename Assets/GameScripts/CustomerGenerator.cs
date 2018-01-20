@@ -10,13 +10,10 @@ public class CustomerGenerator : MonoBehaviour {
 
 	private StampDesk[] stampDesks;
 
-	// Use this for initialization
-	void Start () {
-		if (Preloader.Loaded) {
-			this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
-			this.LoadFromSave ();
-			StartCoroutine (Generate ());
-		}
+	public void Init() {
+		this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
+		this.LoadFromSave ();
+		StartCoroutine (Generate ());
 	}
 
 	void LoadFromSave() {

@@ -43,6 +43,7 @@ public class GameModel {
 	public void Init() {
 		this.AddModel (ScriptableObject.CreateInstance<Rules> ());
 		this.AddModel (ScriptableObject.CreateInstance<Customers> ());
+		this.AddModel (ScriptableObject.CreateInstance<Stamps> ());
 		this.AddModel (new TaskModel ());
 	}
 

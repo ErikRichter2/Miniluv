@@ -10,6 +10,10 @@ public class CameraDrag : MonoBehaviour {
  
     void Update() {
 
+		if (BasePopup.IsPopupActive()) {
+			return;
+		}
+
 		if (Input.GetMouseButton (0) == false) {
 			return;
 		}

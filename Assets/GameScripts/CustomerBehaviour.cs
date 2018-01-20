@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Assertions;
 
 public class CustomerBehaviour : MonoBehaviour {
 
@@ -54,29 +55,44 @@ public class CustomerBehaviour : MonoBehaviour {
 			break;
 
 		case STATES.STATE_MOVE_TO_STAMPDESK:
-			StampDesk NextCheckpoint = this.GetNextCheckpoint ();
-			if (NextCheckpoint != null) {
-				this.SetEntityQueue (NextCheckpoint.GetEntityQueue());
-				if (immediateMove) {
-					gameObject.transform.position = this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ());
-					this.SetState (STATES.STATE_WAITING_IN_QUEUE);
-				} else {
-					GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity()), "MoveToFinished");
-				}
-			} else {
+
+			if (this.model.HasAllStampsCollected ()) {
+				GameModel.GetModel<Rules> ().GetRule (this.model.taskId).AddCollectedCount ();
 				this.SetEntityQueue (null);
 				this.SetState (STATES.STATE_MOVE_TO_EXIT);
+			} else {
+				StampDesk nextStampDesk = null;
+				int firstUncollectedStamp = this.model.GetFirstUncollectedStamp ();
+				if (firstUncollectedStamp != 0) {
+					foreach (StampDesk stampDesk in this.SceneStampDesks) {
+						if (stampDesk.stamp.Id == firstUncollectedStamp) {
+							nextStampDesk = stampDesk;
+							break;
+						}
+					}
+				}
+
+				Assert.IsNotNull (nextStampDesk);
+				if (nextStampDesk != null) {
+					this.SetEntityQueue (nextStampDesk.GetEntityQueue ());
+					if (immediateMove) {
+						gameObject.transform.position = this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ());
+						this.SetState (STATES.STATE_WAITING_IN_QUEUE);
+					} else {
+						GetComponent<Entity> ().MoveTo (this.GetEntityQueue ().GetQueueWorldPoisition (GetEntity ()), "MoveToFinished");
+					}
+				}
 			}
 			break;
 
 		case STATES.STATE_PROCESS_INFODESK:
 			GetComponent<Entity> ().Idle ();
-			StartCoroutine (ProcessInfopoint ());
+			StartCoroutine (ProcessInfoDesk ());
 			break;
 
 		case STATES.STATE_PROCESS_STAMPDESK:
 			GetComponent<Entity> ().Idle ();
-			StartCoroutine (ProcessCheckpoint ());
+			StartCoroutine (ProcessStampDesk ());
 			break;
 
 		case STATES.STATE_MOVE_TO_EXIT:
@@ -130,15 +146,16 @@ public class CustomerBehaviour : MonoBehaviour {
 		return GetComponent<Entity> ();
 	}
 		
-	IEnumerator ProcessCheckpoint() {
+	IEnumerator ProcessStampDesk() {
 		this.currentStampDesk.ShowProgress ();
 		yield return new WaitForSeconds (this.currentStampDesk.task.StartTask(this.currentStampDesk.task.GetDuration ()));
+		this.currentStampDesk.model.AddCollectedCount ();
 		this.currentStampDesk.HideProgress ();
 		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStampDesk.stamp.Id);
 		SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 	}
 
-	IEnumerator ProcessInfopoint() {
+	IEnumerator ProcessInfoDesk() {
 		while (true) {
 			if (GameModel.GetModel<Rules>().GetRule(this.model.taskId).HasStamps()) {
 				GetComponentInChildren<CustomerBubble> ().Hide ();
@@ -162,32 +179,6 @@ public class CustomerBehaviour : MonoBehaviour {
 			PopupCreateNewRule popup = BasePopup.GetPopup<PopupCreateNewRule>();
 			popup.ShowRule (GameModel.GetModel<Rules>().GetRule(this.model.taskId));
 		}
-	}
-
-	StampDesk GetNextCheckpoint() {
-
-		// next stamp
-		int nextStampId = 0;
-
-		// find first unsatisfied stamp
-		foreach (int stamp in GameModel.GetModel<Rules>().GetRule(this.model.taskId).stamps) {
-			if (this.model.collectedStamps.IndexOf (stamp) == -1) {
-				nextStampId = stamp;
-				break;
-			}
-		}
-
-		StampDesk result = null;
-		if (nextStampId != 0) {
-			foreach (StampDesk Checkpoint in this.SceneStampDesks) {
-				if (Checkpoint.stamp.Id == nextStampId) {
-					result = Checkpoint;
-					break;
-				}
-			}
-		}
-
-		return result;
 	}
 
 	EntityQueue GetEntityQueue() {

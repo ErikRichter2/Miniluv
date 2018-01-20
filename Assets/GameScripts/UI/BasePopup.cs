@@ -5,7 +5,7 @@ using UnityEngine;
 public class BasePopup : MonoBehaviour {
 
 	static GameObject canvas;
-	public static bool isPopupActive;
+	static bool isPopupActive;
 
 	bool isActive;
 

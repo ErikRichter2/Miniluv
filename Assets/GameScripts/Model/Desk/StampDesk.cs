@@ -6,13 +6,16 @@ using UnityEngine.EventSystems;
 public class StampDesk : MonoBehaviour, ITaskable {
 
 	public StampDef stamp;
-
 	public SimpleTask task;
+	public Stamp model;
 
 	public void SetStamp(StampDef stamp) {
 		this.stamp = stamp;
 		this.task = GameModel.GetModel<TaskModel>().CreateTask<SimpleTask> (this.stamp.Time);
+		this.model = GameModel.GetModel<Stamps> ().GetStamp (this.stamp.Id);
 		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = this.stamp.Color;
+
+		GameObjectUtils.GetComponentInChildren<StampDeskCollectedStampsCounter> (gameObject).SetStampDesk (this.model);
 	}
 
 	public EntityQueue GetEntityQueue() {
@@ -37,6 +40,7 @@ public class StampDesk : MonoBehaviour, ITaskable {
 	public void HideProgress() {
 		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).StopTask ();
 	}
+
 
 
 }

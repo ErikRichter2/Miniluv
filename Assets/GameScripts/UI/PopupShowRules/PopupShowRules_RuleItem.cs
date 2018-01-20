@@ -19,7 +19,7 @@ public class PopupShowRules_RuleItem : MonoBehaviour {
 		this.PanelAvailable.ClickHandler = OnRuleClicked;
 		this.PanelRequired.ClickHandler = OnRuleClicked;
 
-		this.RuleName.text = DefinitionsLoader.taskDefinition.GetItem (rule.taskId).Name;
+		this.RuleName.text = DefinitionsLoader.taskDefinition.GetItem (rule.taskId).Name + " " + rule.collectedCount + "x";
 
 		List<StampDef> stamps;
 

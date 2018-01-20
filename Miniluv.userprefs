@@ -1,10 +1,54 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Preloader\Preloader.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\UI\BasePopup.cs">
     <Files>
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="65" Column="3" />
-      <File FileName="Assets\GameScripts\Preloader\Preloader.cs" Line="34" Column="3" />
+      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="24" Column="32" />
+      <File FileName="Assets\GameScripts\Preloader\Preloader.cs" Line="41" Column="4" />
+      <File FileName="Assets\GameScripts\Model\ISerializable.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\ITickable.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="53" Column="1" />
+      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="84" Column="6" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="24" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Stamps.cs" Line="33" Column="26" />
+      <File FileName="Assets\GameScripts\UI\BtnClearRules.cs" Line="8" Column="31" />
+      <File FileName="Assets\GameScripts\Model\Desk\StampDesk.cs" Line="12" Column="2" />
+      <File FileName="Assets\GameScripts\UI\Game\StampDeskCollectedStampsCounter.cs" Line="13" Column="26" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="13" Column="18" />
+      <File FileName="Assets\GameScripts\StampDesksGenerator.cs" Line="20" Column="4" />
+      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" Line="22" Column="116" />
+      <File FileName="Assets\GameScripts\Utils\CameraDrag.cs" Line="13" Column="22" />
+      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="9" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True">
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="GameScripts" expanded="True">
+                <Node name="Model" expanded="True">
+                  <Node name="Desk" expanded="True" />
+                </Node>
+                <Node name="UI" expanded="True">
+                  <Node name="PopupShowRules" expanded="True" />
+                  <Node name="BasePopup.cs" selected="True" />
+                </Node>
+                <Node name="Utils" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

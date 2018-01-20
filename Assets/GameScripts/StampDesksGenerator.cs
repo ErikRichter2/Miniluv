@@ -15,6 +15,8 @@ public class StampDesksGenerator : MonoBehaviour {
 				stampDesk.SetStamp (stamp);
 				++index;
 			}
+
+			GameObject.Find ("EntityGenerator").GetComponent<CustomerGenerator> ().Init ();
 		}
 	}
 

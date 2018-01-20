@@ -8,9 +8,15 @@ using System.IO;
 public class Rule {
 	public int taskId;
 	public List<int> stamps;
+	public int collectedCount;
 
 	public void AddStamp(int stampId) {
 		this.stamps.Add (stampId);
+		GameModel.GetModel<Rules>().Save ();
+	}
+
+	public void AddCollectedCount() {
+		++this.collectedCount;
 		GameModel.GetModel<Rules>().Save ();
 	}
 
@@ -104,7 +110,6 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 	public void DeleteSave() {
 		File.Delete(Path.Combine (Application.persistentDataPath, "rules.txt"));
 	}
-
 
 	public void ClearAll() {
 		foreach (Rule rule in this.rules) {
