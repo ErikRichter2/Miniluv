@@ -76,16 +76,28 @@ public class Entity : MonoBehaviour {
 	}
 
 	void OnEnterLight() {
-		Debug.Log ("OnEnterLight");
-		//iTween.Stop (this.GetBody ().gameObject);
-		//iTween.ColorTo(this.GetBody().gameObject, Color.white, 0.1f);
-		this.GetBody().color = Color.white;
+		this.ColorTween (Color.white);
 	}
 
 	void OnExitLight() {
-		Debug.Log ("OnExitLight");
-		//iTween.Stop (this.GetBody ().gameObject);
-		//iTween.ColorTo(this.GetBody().gameObject, Color.black, 0.1f);
-		this.GetBody().color = Color.black;
+		this.ColorTween (Color.black);
 	}
+
+	void ColorTween(Color colorTo) {
+		Hashtable tweenParams = new Hashtable();
+		iTween.Stop (this.GetBody ().gameObject);
+
+		tweenParams.Add("from", this.GetBody().color);
+		tweenParams.Add("to", colorTo);
+		tweenParams.Add("time", 0.3f);
+		tweenParams.Add("onupdate", "OnColorUpdated");
+
+		iTween.ValueTo(gameObject, tweenParams);
+	}
+
+	public void OnColorUpdated(Color color) {
+		this.GetBody ().color = color;
+	}
+
+
 }

@@ -64,6 +64,7 @@
      <Compile Include="Assets\GameScripts\Definitions\TaskDefinition.cs" />
      <Compile Include="Assets\GameScripts\Entity.cs" />
      <Compile Include="Assets\GameScripts\EntityQueue.cs" />
+     <Compile Include="Assets\GameScripts\LampAlphaEffect.cs" />
      <Compile Include="Assets\GameScripts\Model\Customers.cs" />
      <Compile Include="Assets\GameScripts\Model\Desk\InfoDesk.cs" />
      <Compile Include="Assets\GameScripts\Model\Desk\ITaskable.cs" />
