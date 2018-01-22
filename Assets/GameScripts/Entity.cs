@@ -15,12 +15,12 @@ public class Entity : MonoBehaviour {
 
 		SpriteSheetAnimation animation;
 
-		animation = gameObject.AddComponent<SpriteSheetAnimation> ();
+		animation = this.GetBody().gameObject.AddComponent<SpriteSheetAnimation> ();
 		animation.AnimationName = "idle";
 		animation.TextureName = defItem.Asset + "-" + animation.AnimationName;
 		animation.FrameRate = 10;
 
-		animation = gameObject.AddComponent<SpriteSheetAnimation> ();
+		animation = this.GetBody().gameObject.AddComponent<SpriteSheetAnimation> ();
 		animation.AnimationName = "walk";
 		animation.TextureName = defItem.Asset + "-" + animation.AnimationName;
 		animation.FrameRate = 10;
@@ -31,7 +31,7 @@ public class Entity : MonoBehaviour {
 	}
 	
 	public void PlayAnimation(string AnimationName) {
-		SpriteSheetAnimation[] animations = GetComponents<SpriteSheetAnimation> ();
+		SpriteSheetAnimation[] animations = this.GetBody().GetComponents<SpriteSheetAnimation> ();
 		foreach (SpriteSheetAnimation animation in animations) {
 			animation.Active = false;
 			if (animation.AnimationName == AnimationName) {
@@ -41,7 +41,7 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void MoveTo(Vector3 Position, string OnComplete = null) {
-		GetComponent<Entity> ().PlayAnimation ("walk");
+		this.PlayAnimation ("walk");
 
 		Vector3 newScale = new Vector3 ( Mathf.Abs(gameObject.transform.localScale.x), gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 		if (Position.x < gameObject.transform.position.x) {
@@ -63,11 +63,29 @@ public class Entity : MonoBehaviour {
 	}
 
 	public void Idle() {
-		GetComponent<Entity> ().PlayAnimation ("idle");
+		this.PlayAnimation ("idle");
 	}
 
 	public void SetSortOrder(int order) {
-		GetComponent<SpriteRenderer> ().sortingOrder = 100 + order;
-		GetComponentInChildren<CustomerBubble> ().RefreshSortOrder ();
+		this.GetBody().sortingOrder = 100 + order;
+		//GetComponentInChildren<CustomerBubble> ().RefreshSortOrder ();
+	}
+
+	SpriteRenderer GetBody() {
+		return transform.Find ("Body").GetComponent<SpriteRenderer>();
+	}
+
+	void OnEnterLight() {
+		Debug.Log ("OnEnterLight");
+		//iTween.Stop (this.GetBody ().gameObject);
+		//iTween.ColorTo(this.GetBody().gameObject, Color.white, 0.1f);
+		this.GetBody().color = Color.white;
+	}
+
+	void OnExitLight() {
+		Debug.Log ("OnExitLight");
+		//iTween.Stop (this.GetBody ().gameObject);
+		//iTween.ColorTo(this.GetBody().gameObject, Color.black, 0.1f);
+		this.GetBody().color = Color.black;
 	}
 }

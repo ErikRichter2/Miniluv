@@ -158,7 +158,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	IEnumerator ProcessInfoDesk() {
 		while (true) {
 			if (GameModel.GetModel<Rules>().GetRule(this.model.taskId).HasStamps()) {
-				GetComponentInChildren<CustomerBubble> ().Hide ();
+				//GetComponentInChildren<CustomerBubble> ().Hide ();
 				GetComponent<BoxCollider2D> ().enabled = false;
 				this.InfoDesk.ShowProgress ();
 				yield return new WaitForSeconds (this.InfoDesk.task.StartTask(this.InfoDesk.task.GetDuration ()));
@@ -167,7 +167,7 @@ public class CustomerBehaviour : MonoBehaviour {
 				SetState (STATES.STATE_MOVE_TO_STAMPDESK);
 				break;
 			} else {
-				GetComponentInChildren<CustomerBubble> ().ShowInfoBubble ();
+				//GetComponentInChildren<CustomerBubble> ().ShowInfoBubble ();
 				GetComponent<BoxCollider2D> ().enabled = true;
 				yield return new WaitForSeconds (0.5f);
 			}
@@ -192,7 +192,7 @@ public class CustomerBehaviour : MonoBehaviour {
 
 		if (EntityQueue == null) {
 			this.EntityQueue = null;
-			GetComponentInChildren<CustomerBubble> ().Hide ();
+			//GetComponentInChildren<CustomerBubble> ().Hide ();
 		} else {
 			this.EntityQueue = EntityQueue;
 			this.EntityQueue.AddEntity (GetEntity());
@@ -203,8 +203,10 @@ public class CustomerBehaviour : MonoBehaviour {
 
 			if (stampDesk != null) {
 				this.currentStampDesk = stampDesk;
-				GetComponentInChildren<CustomerBubble> ().ShowColor (stampDesk.stamp.Color);
+				//GetComponentInChildren<CustomerBubble> ().ShowColor (stampDesk.stamp.Color);
 			}
+
+			//this.refreshShadow ();
 		}
 	}
 
@@ -220,6 +222,15 @@ public class CustomerBehaviour : MonoBehaviour {
 			break;
 		}
 	}
-
+	/*
+	void refreshShadow() {
+		if (this.currentStampDesk != null) {
+			int index = this.EntityQueue.GetQueueIndex (this.GetEntity ());
+			GetComponent<SpriteRenderer> ().color = index == 0 ? Color.white : Color.black;
+		} else {
+			GetComponent<SpriteRenderer> ().color = Color.black;
+		}
+	}
+*/
 
 }

@@ -36,4 +36,15 @@ public class InfoDesk : MonoBehaviour, ITaskable {
 		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).StopTask ();
 	}
 
+	void OnCollisionEnter2D(Collision2D coll) {
+		//if (coll.gameObject.tag == "Entity")
+		//coll.gameObject.SendMessage("ApplyDamage", 10);
+		Debug.Log("Collision3");
+	}
+
+	void OnTriggerEnter(Collider other) {
+		Debug.Log("Collision4");
+	}
+
+
 }
