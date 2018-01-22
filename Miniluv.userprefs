@@ -1,9 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\CustomerBehaviour.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\EntityQueue.cs">
     <Files>
       <File FileName="Assets\GameScripts\LampAlphaEffect.cs" Line="20" Column="56" />
-      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="123" Column="44" />
+      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="206" Column="57" />
+      <File FileName="Assets\GameScripts\Entity.cs" Line="69" Column="21" />
+      <File FileName="Assets\GameScripts\EntityQueue.cs" Line="15" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

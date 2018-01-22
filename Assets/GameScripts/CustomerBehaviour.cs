@@ -134,12 +134,17 @@ public class CustomerBehaviour : MonoBehaviour {
 
 				int NewQueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
 				if (this.QueueIndex != NewQueueIndex) {
-					this.QueueIndex = NewQueueIndex;
+					this.SetQueueIndex (NewQueueIndex);
 					GetComponent<Entity> ().MoveTo (this.GetEntityQueue().GetQueueWorldPoisition(GetEntity()), "MoveToFinished");
 					break;
 				}
 			}
 		}
+	}
+
+	void SetQueueIndex(int index) {
+		this.QueueIndex = index;
+		GetEntity ().SetSortOrder (this.QueueIndex);
 	}
 
 	Entity GetEntity() {
@@ -196,7 +201,7 @@ public class CustomerBehaviour : MonoBehaviour {
 		} else {
 			this.EntityQueue = EntityQueue;
 			this.EntityQueue.AddEntity (GetEntity());
-			this.QueueIndex = this.EntityQueue.GetQueueIndex (GetEntity());
+			this.SetQueueIndex(this.EntityQueue.GetQueueIndex (GetEntity()));
 			GetEntity ().SetSortOrder (this.QueueIndex);
 			transform.SetParent(this.EntityQueue.GetQueueContainer ());
 			StampDesk stampDesk = this.EntityQueue.GetComponentInParent<StampDesk> ();

@@ -9,8 +9,8 @@ public class EntityQueue : MonoBehaviour {
 	Vector3 GetPosition(int Index) {
 		Vector3 result = new Vector3 ();
 
-		result.x = -Index * 1.0f;
-		result.y = -Index * 2.0f;
+		result.x = -(Index * 1.0f + (Index > 0 ? 1f : 0f));
+		result.y = -(Index * 2.0f + (Index > 0 ? 2f : 0f));
 		result.z = 0;
 
 		return result;
