@@ -17,7 +17,7 @@ public class LampAlphaEffect : MonoBehaviour {
 
 	void FadeEffect() {
 		this.cnt = Random.Range(3, 7);
-		this.Fade (Random.Range (0.05f, 0.3f), Random.Range(3f, 20f));
+		this.Fade (Random.Range (0.05f, 0.3f), Random.Range(0f, 20f));
 	}
 
 	void Fade(float time, float delay) {
