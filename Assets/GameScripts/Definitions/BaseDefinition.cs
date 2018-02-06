@@ -62,8 +62,29 @@ public class BaseDefinition<T> : IDefinition where T : BaseDef
 		return this.data [defId] [this.GetIndex(name)];
 	}
 
+	protected int[] GetValueArrayInt(int defId, string name) {
+		string value = this.GetValue (defId, name);
+		if (value == null || value == "") {
+			return new int[0];
+		} else {
+			string[] strArr = value.Split(',');
+			int[] intArr = new int[strArr.Length];
+
+			for (int i = 0; i < strArr.Length; ++i) {
+				intArr [i] = int.Parse (strArr [i]);
+			}
+
+			return intArr;
+		}
+	}
+
 	protected int GetValueInt(int defId, string name) {
-		return int.Parse(this.data [defId] [this.GetIndex(name)]);
+		string value = this.GetValue (defId, name);
+		if (value == null || value == "") {
+			return 0;
+		} else {
+			return int.Parse(value);
+		}
 	}
 
 	protected List<int> GetKeys() {

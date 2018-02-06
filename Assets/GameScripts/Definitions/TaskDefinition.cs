@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Operand {
+	LESS,
+	EQUAL,
+	MORE
+}
+
 public class TaskDef : BaseDef {
 	public string Name;
+	public string Condition;
+	public Operand Operand;
+	public int Value;
+	public int MinStamps;
+	public int Duration;
 }
 	
 public class TaskDefinition : BaseDefinition<TaskDef> {
@@ -12,7 +23,21 @@ public class TaskDefinition : BaseDefinition<TaskDef> {
 		foreach (int defId in this.GetKeys ()) {
 			TaskDef item = new TaskDef ();
 			item.Id = defId;
-			item.Name = this.GetValue (defId, "name");
+			item.Name = this.GetValue (defId, "Task_Name");
+
+			string temp = this.GetValue (defId, "Condition");
+			if (temp.IndexOf ("X<") == 0) {
+				item.Operand = Operand.LESS;
+			} else if (temp.IndexOf ("X=") == 0) {
+				item.Operand = Operand.EQUAL;
+			} else {
+				item.Operand = Operand.MORE;
+			}
+
+			item.Value = int.Parse (temp.Remove (0, 2));
+			item.MinStamps = this.GetValueInt (defId, "Min_Stamps");
+			item.Duration = this.GetValueInt (defId, "Duration");
+
 			this.Items.Add (item);
 		}
 	}

@@ -10,11 +10,15 @@ public class DefinitionsLoader : MonoBehaviour {
 	const string TASKS_URL = "https://pastebin.com/raw/H7AdzkW1";
 	const string CUSTOMERS_URL = "https://pastebin.com/raw/dwrmxftT";
 	const string CONFIG_URL = "https://pastebin.com/raw/GaXQbdfd";
+	const string DAYS_URL = "https://pastebin.com/raw/AxjyUyDp";
+	const string ENDS_URL = "https://pastebin.com/raw/KDrc3CVV";
 
 	static public StampDefiniton stampDefinition;
 	static public TaskDefinition taskDefinition;
 	static public CustomerDefinition customerDefinition;
 	static public ConfigDefinition configDefinition;
+	static public DaysDefinition daysDefinition;
+	static public EndsDefinition endsDefinition;
 
 	public IEnumerator LoadDefinitions() {
 		stampDefinition = new StampDefiniton ();
@@ -28,6 +32,12 @@ public class DefinitionsLoader : MonoBehaviour {
 
 		configDefinition = new ConfigDefinition ();
 		yield return StartCoroutine (this.Load ("CONFIG", CONFIG_URL, configDefinition));
+
+		daysDefinition = new DaysDefinition ();
+		yield return StartCoroutine (this.Load ("DAYS", DAYS_URL, daysDefinition));
+
+		endsDefinition = new EndsDefinition ();
+		yield return StartCoroutine (this.Load ("ENDS", ENDS_URL, endsDefinition));
 	}
 
 	IEnumerator Load(string name, string url, IDefinition definition) {
