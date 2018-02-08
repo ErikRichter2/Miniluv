@@ -32,12 +32,20 @@ public class Customer {
 }
 
 [System.Serializable]
-public class Customers : ScriptableObject, IModel, ISerializable {
+public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 
 	public List<Customer> customers;
+	public int CurrentDayCounter;
+	public int CurrentDayId;
+	public float CurrentTime;
+
+	public const int DAY_LENGTH = 30;
 
 	public Customers() {
 		this.customers = new List<Customer> ();
+		this.CurrentTime = 0;
+		this.CurrentDayId = 1;
+		this.CurrentDayCounter = 1;
 	}
 
 	public void DeleteSave() {
@@ -94,4 +102,22 @@ public class Customers : ScriptableObject, IModel, ISerializable {
 
 		return null;
 	}
+
+	public void UpdateModel(float delta) {
+		this.CurrentTime += delta;
+	}
+
+	public void StartNextDay() {
+		this.CurrentDayCounter++;
+		this.CurrentDayId = this.CurrentDayCounter;
+		this.CurrentTime = 0;
+		this.customers.Clear ();
+		this.Save ();
+	}
+
+	public bool IsDayFinished() {
+		return (this.CurrentTime >= DAY_LENGTH);
+	}
+
+
 }

@@ -1,12 +1,37 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\EntityQueue.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Entity.cs">
     <Files>
-      <File FileName="Assets\GameScripts\LampAlphaEffect.cs" Line="20" Column="56" />
-      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="206" Column="57" />
-      <File FileName="Assets\GameScripts\Entity.cs" Line="69" Column="21" />
-      <File FileName="Assets\GameScripts\EntityQueue.cs" Line="15" Column="3" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="109" Column="27" />
+      <File FileName="Assets\GameScripts\Model\ITickable.cs" Line="4" Column="27" />
+      <File FileName="Assets\GameScripts\Definitions\ConfigDefinition.cs" Line="14" Column="38" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="84" Column="2" />
+      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="228" Column="1" />
+      <File FileName="Assets\GameScripts\Entity.cs" Line="34" Column="68" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True">
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="GameScripts" expanded="True">
+                <Node name="Definitions" expanded="True" />
+                <Node name="Model" expanded="True">
+                  <Node name="Days" expanded="True" />
+                </Node>
+                <Node name="Preloader" expanded="True" />
+                <Node name="Entity.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

@@ -16,7 +16,7 @@ public class TaskModel : IModel, ITickable {
 		}
 	}
 
-	public void Update(float delta) {
+	public void UpdateModel(float delta) {
 		foreach(ITask task in this.tasks) {
 			if (task.IsActive ()) {
 				task.Update (delta);

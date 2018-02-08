@@ -66,9 +66,11 @@ public class GameModel {
 	}
 
 	public void Update(float delta) {
-		if (this.tickableModels != null) {
-			foreach (ITickable model in this.tickableModels) {
-				model.Update (delta);
+		if (Preloader.Loaded) {
+			if (this.tickableModels != null) {
+				foreach (ITickable model in this.tickableModels) {
+					model.UpdateModel (delta);
+				}
 			}
 		}
 	}

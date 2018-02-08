@@ -7,13 +7,17 @@ public class CustomerGenerator : MonoBehaviour {
 	public GameObject stampDesksGameObjects;
 	public InfoDesk infoDesk;
 	public Entity CustomerPrefab;
+	private bool CanGenerate;
+	private float NextCustomerDelay;
 
 	private StampDesk[] stampDesks;
+	private List<CustomerBehaviour> customers;
 
 	public void Init() {
+		this.customers = new List<CustomerBehaviour> ();
+		this.CanGenerate = true;
 		this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
 		this.LoadFromSave ();
-		StartCoroutine (Generate ());
 	}
 
 	void LoadFromSave() {
@@ -35,26 +39,54 @@ public class CustomerGenerator : MonoBehaviour {
 		customer.GetComponent<CustomerBehaviour> ().SceneStampDesks = this.stampDesks;
 		customer.GetComponent<CustomerBehaviour> ().InfoDesk = infoDesk;
 		customer.GetComponent<CustomerBehaviour> ().ExitPoint = transform.Find ("Place").gameObject;
+		this.customers.Add (customer.GetComponent<CustomerBehaviour> ());
+		customer.GetComponent<CustomerBehaviour> ().CustomerGenerator = this;
 
 		return customer;
 	}
 
-	IEnumerator Generate() {
-		while (true) {
+	void Update() {
+		if (Preloader.Loaded) {
+			if (GameModel.GetModel<Customers> ().IsDayFinished ()) {
+				this.CanGenerate = false;
+				while (this.customers.Count > 0) {
+					CustomerBehaviour customer = this.customers [0];
+					this.customers.Remove (customer);
+					this.DestroyCustomer (customer);
+				}
 
-			// create new customer with random def
-			List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
-			Entity customer = this.CreateCustomer(customers [Mathf.FloorToInt (Random.Range (0, customers.Count))], 0);
+				GameModel.GetModel<Customers> ().StartNextDay ();
+				this.CanGenerate = true;
+			}
 
-			// random delay
-			int customersPerMinute = int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
-			float deltaSeconds = 60.0f / customersPerMinute;
-			yield return new WaitForSeconds (Random.Range(deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f));
+			if (this.CanGenerate) {
 
-			// find and goto checkpoint
-			customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers>().AddCustomer (customer.instanceId, customer.defId, GameModel.GetModel<Rules>().GetRandomRule().taskId);
-			customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK);
+				if (NextCustomerDelay <= 0) {
+					// create new customer with random def
+					List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
+					Entity customer = this.CreateCustomer (customers [Mathf.FloorToInt (Random.Range (0, customers.Count))], 0);
+
+					// random delay
+					int customersPerMinute = int.Parse (DefinitionsLoader.configDefinition.GetItem (ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
+					float deltaSeconds = 60.0f / customersPerMinute;
+
+					// find and goto checkpoint
+					customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers> ().AddCustomer (customer.instanceId, customer.defId, GameModel.GetModel<Rules> ().GetRandomRule ().taskId);
+					customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK);
+
+					this.NextCustomerDelay = Random.Range (deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f);
+				} else {					
+					this.NextCustomerDelay -= Time.deltaTime;
+				}
+
+			}
 		}
+	}
+
+	public void DestroyCustomer(CustomerBehaviour customer) {
+		this.customers.Remove (customer);
+		customer.DestroyCustomer ();
+		DestroyObject (customer.gameObject);
 	}
 
 

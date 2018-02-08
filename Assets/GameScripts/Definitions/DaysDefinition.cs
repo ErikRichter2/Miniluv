@@ -2,6 +2,7 @@
 
 public class DaysDef: BaseDef {
 	public int End;
+	public string Name;
 	public int[] Next;
 	public int[] ReqTasksOK;
 	public int[] ReqTasksOK_OR;
@@ -14,6 +15,7 @@ public class DaysDef: BaseDef {
 	public string NewsSecondHeader;
 	public string NewsThirdText;
 	public string Telegram;
+
 }
 
 public class DaysDefinition : BaseDefinition<DaysDef>
@@ -22,6 +24,7 @@ public class DaysDefinition : BaseDefinition<DaysDef>
 		foreach (int defId in this.GetKeys ()) {
 			DaysDef item = new DaysDef ();
 			item.Id = defId;
+			item.Name = this.GetValue (defId, "Name");
 			item.End = this.GetValueInt (defId, "End");
 			item.Next = this.GetValueArrayInt (defId, "Next");
 			item.ReqTasksOK = this.GetValueArrayInt (defId, "Task_Id_OK");
@@ -38,5 +41,11 @@ public class DaysDefinition : BaseDefinition<DaysDef>
 			this.Items.Add (item);
 		}
 	}
+
+	public string GetDebugInfo(int id) {
+		DaysDef def = GetItem (id);
+		return def.Id + " " + def.Name + "" + this.GetValue(id, "Next");
+	}
+
 }
 

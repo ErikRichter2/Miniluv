@@ -86,9 +86,12 @@
      <Compile Include="Assets\GameScripts\UI\BasePopup.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnClearRules.cs" />
      <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\DayCounter.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\DebugInfo.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\StampDeskCollectedStampsCounter.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\TaskProgressBar.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\TaskTimeText.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\TimeCounter.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />

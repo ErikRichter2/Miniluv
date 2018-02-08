@@ -27,6 +27,7 @@ public class CustomerBehaviour : MonoBehaviour {
 
 	public GameObject ExitPoint;
 	public InfoDesk InfoDesk;
+	public CustomerGenerator CustomerGenerator;
 	StampDesk currentStampDesk;
 	int QueueIndex;
 
@@ -223,9 +224,24 @@ public class CustomerBehaviour : MonoBehaviour {
 			this.SetState (STATES.STATE_WAITING_IN_QUEUE);
 			break;
 		case STATES.STATE_MOVE_TO_EXIT:
-			DestroyObject (gameObject);
+			this.CustomerGenerator.DestroyCustomer (this);
 			break;
 		}
+	}
+
+	public void DestroyCustomer() {
+		model = null;
+		if (EntityQueue != null) {
+			EntityQueue.RemoveEntity (this.GetEntity());
+			EntityQueue = null;
+		}
+
+		SceneStampDesks = null;
+		ExitPoint = null;
+		InfoDesk = null;
+		CustomerGenerator = null;
+		currentStampDesk = null;
+		QueueIndex = 0;
 	}
 	/*
 	void refreshShadow() {
