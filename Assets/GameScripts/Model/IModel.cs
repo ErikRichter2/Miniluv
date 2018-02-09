@@ -1,5 +1,5 @@
 ﻿using System;
 
-public interface IModel {
+public interface IModel {	
 }
 

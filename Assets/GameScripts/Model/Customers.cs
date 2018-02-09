@@ -108,11 +108,71 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 	}
 
 	public void StartNextDay() {
-		this.CurrentDayCounter++;
-		this.CurrentDayId = this.CurrentDayCounter;
-		this.CurrentTime = 0;
-		this.customers.Clear ();
-		this.Save ();
+
+		bool result;
+		int nextDayFinal = 0;
+
+		Rules rules = GameModel.GetModel<Rules> ();
+		DaysDef currentDay = DefinitionsLoader.daysDefinition.GetItem (this.CurrentDayId);
+		foreach (int NextDayId in currentDay.Next) {
+			DaysDef nextDay = DefinitionsLoader.daysDefinition.GetItem (NextDayId);
+
+			// AND OK
+			result = true;
+			foreach (int taskId in nextDay.ReqTasksOK) {
+				result = result && DefinitionsLoader.taskDefinition.GetItem (taskId).IsOK (rules.GetRule(taskId).collectedCount);
+			}
+			if (result == false) {
+				continue;
+			}
+
+			// AND NOK
+			result = true;
+			foreach (int taskId in nextDay.ReqTasksOK) {
+				result = result && !DefinitionsLoader.taskDefinition.GetItem (taskId).IsOK (rules.GetRule(taskId).collectedCount);
+			}
+			if (result == false) {
+				continue;
+			}
+				
+			// OR OK
+			bool or_ok = true;
+			if (nextDay.ReqTasksOK_OR.Length > 0) {
+				or_ok = false;
+				foreach (int taskId in nextDay.ReqTasksOK_OR) {
+					result = result || DefinitionsLoader.taskDefinition.GetItem (taskId).IsOK (rules.GetRule(taskId).collectedCount);
+				}
+			}
+
+			// OR NOK
+			bool or_nok = true;
+			if (nextDay.ReqTasksNOK_OR.Length > 0) {
+				or_nok = false;
+				foreach (int taskId in nextDay.ReqTasksNOK_OR) {
+					result = result || !DefinitionsLoader.taskDefinition.GetItem (taskId).IsOK (rules.GetRule(taskId).collectedCount);
+				}
+			}
+
+			if (!or_ok && !or_nok) {
+				continue;
+			}
+
+			nextDayFinal = NextDayId;
+			break;
+		}
+
+		// check for end
+		int end = DefinitionsLoader.daysDefinition.GetItem (nextDayFinal).End;
+		if (end != 0) {
+			Debug.Log ("GAME END: " + end.ToString());
+		} else {
+			Debug.Log ("NEXT DAY: " + nextDayFinal.ToString());
+			this.CurrentDayCounter++;
+			this.CurrentDayId = nextDayFinal;
+			this.CurrentTime = 0;
+			this.customers.Clear ();
+			this.Save ();
+		}
 	}
 
 	public bool IsDayFinished() {

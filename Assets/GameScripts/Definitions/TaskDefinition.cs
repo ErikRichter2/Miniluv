@@ -15,6 +15,16 @@ public class TaskDef : BaseDef {
 	public int Value;
 	public int MinStamps;
 	public int Duration;
+
+	public bool IsOK(int CollectedCount) {
+		if (this.Operand == Operand.LESS) {
+			return (CollectedCount < Value);
+		} else if (this.Operand == Operand.EQUAL) {
+			return (CollectedCount == Value);
+		} else {
+			return (CollectedCount > Value);
+		}
+	}
 }
 	
 public class TaskDefinition : BaseDefinition<TaskDef> {

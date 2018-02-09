@@ -29,9 +29,16 @@ public class DebugInfo : MonoBehaviour {
 	string GetInfo() {
 		string res = "";
 
+		// current day
 		string dayInfo = DefinitionsLoader.daysDefinition.GetDebugInfo (GameModel.GetModel<Customers> ().CurrentDayId);
-
 		res += "DAY: " + dayInfo;
+
+		// current rules
+		res += "\nRULES: ";
+		List<Rule> rules = GameModel.GetModel<Rules>().GetRulesForCurrentDay();
+		foreach (Rule rule in rules) {
+			res += " " + rule.taskId.ToString ();
+		}
 
 		return res;
 	}

@@ -17,6 +17,7 @@ public class CustomerGenerator : MonoBehaviour {
 		this.customers = new List<CustomerBehaviour> ();
 		this.CanGenerate = true;
 		this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
+		this.InitDay ();
 		this.LoadFromSave ();
 	}
 
@@ -56,6 +57,7 @@ public class CustomerGenerator : MonoBehaviour {
 				}
 
 				GameModel.GetModel<Customers> ().StartNextDay ();
+				this.InitDay ();
 				this.CanGenerate = true;
 			}
 
@@ -70,8 +72,8 @@ public class CustomerGenerator : MonoBehaviour {
 					int customersPerMinute = int.Parse (DefinitionsLoader.configDefinition.GetItem (ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
 					float deltaSeconds = 60.0f / customersPerMinute;
 
-					// find and goto checkpoint
-					customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers> ().AddCustomer (customer.instanceId, customer.defId, GameModel.GetModel<Rules> ().GetRandomRule ().taskId);
+					Rule rule = GameModel.GetModel<Rules> ().GetRandomRuleForCurrentDay ();
+					customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers> ().AddCustomer (customer.instanceId, customer.defId, rule.taskId);
 					customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK);
 
 					this.NextCustomerDelay = Random.Range (deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f);
@@ -87,6 +89,11 @@ public class CustomerGenerator : MonoBehaviour {
 		this.customers.Remove (customer);
 		customer.DestroyCustomer ();
 		DestroyObject (customer.gameObject);
+	}
+
+	void InitDay() {
+		Customers customers = GameModel.GetModel<Customers> ();
+		GameModel.GetModel<Rules> ().SetRulesForDay (customers.CurrentDayId, customers.CurrentDayCounter);
 	}
 
 

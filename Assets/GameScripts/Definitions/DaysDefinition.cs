@@ -3,6 +3,7 @@
 public class DaysDef: BaseDef {
 	public int End;
 	public string Name;
+	public int[] StartTaskId;
 	public int[] Next;
 	public int[] ReqTasksOK;
 	public int[] ReqTasksOK_OR;
@@ -26,6 +27,7 @@ public class DaysDefinition : BaseDefinition<DaysDef>
 			item.Id = defId;
 			item.Name = this.GetValue (defId, "Name");
 			item.End = this.GetValueInt (defId, "End");
+			item.StartTaskId = this.GetValueArrayInt (defId, "Start_Task_Id");
 			item.Next = this.GetValueArrayInt (defId, "Next");
 			item.ReqTasksOK = this.GetValueArrayInt (defId, "Task_Id_OK");
 			item.ReqTasksOK_OR = this.GetValueArrayInt (defId, "Task_Id_OK_OR");

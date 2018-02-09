@@ -9,6 +9,7 @@ public class Rule {
 	public int taskId;
 	public List<int> stamps;
 	public int collectedCount;
+	public int StartDayCounter;
 
 	public void AddStamp(int stampId) {
 		this.stamps.Add (stampId);
@@ -40,16 +41,46 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 	[SerializeField]
 	List<Rule> rules;
 
+	List<Rule> rulesForCurrentDay;
+
 	public Rules() {
 		this.rules = new List<Rule> ();
+		this.rulesForCurrentDay = new List<Rule> ();
 
 		// inital rules
 		foreach (TaskDef task in DefinitionsLoader.taskDefinition.Items) {
 			Rule rule = new Rule ();
 			rule.taskId = task.Id;
 			rule.stamps = new List<int> ();
+			rule.StartDayCounter = 0;
 			this.rules.Add (rule);
 		}
+	}
+
+	public void SetRulesForDay(int CurrentDayId, int CurrentDayCounter) {
+		DaysDef dayDef = DefinitionsLoader.daysDefinition.GetItem (CurrentDayId);
+
+		// active for more days
+		foreach (Rule rule in this.rules) {
+			TaskDef taskDef = DefinitionsLoader.taskDefinition.GetItem (rule.taskId);
+			if (rule.StartDayCounter > 0 && rule.StartDayCounter + taskDef.Duration >= CurrentDayCounter) {
+				rulesForCurrentDay.Add (rule);
+			} 
+		}
+
+		// started on this day
+		DaysDef daysDef = DefinitionsLoader.daysDefinition.GetItem (CurrentDayId);
+		foreach (int taskId in daysDef.StartTaskId) {
+			Rule rule = GetRule (taskId);
+			if (rule != null && rulesForCurrentDay.IndexOf(rule) == -1) {
+				rulesForCurrentDay.Add (rule);
+				rule.collectedCount = 0;
+			}
+		}
+	}
+
+	public List<Rule> GetRulesForCurrentDay() {
+		return this.rulesForCurrentDay;
 	}
 
 	public Rule GetRule(int taskId) {
@@ -63,13 +94,9 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 		return null;
 	}
 
-	public List<Rule> GetRules() {
-		return this.rules;
-	}
-
-	public Rule GetRandomRule() {
-		Assert.IsTrue (this.rules.Count > 0);
-		return this.rules [Mathf.FloorToInt(Random.Range(0, this.rules.Count))];
+	public Rule GetRandomRuleForCurrentDay() {
+		Assert.IsTrue (this.rulesForCurrentDay.Count > 0);
+		return this.rulesForCurrentDay [Mathf.FloorToInt(Random.Range(0, this.rulesForCurrentDay.Count))];
 	}
 
 	public List<StampDef> GetStamps(Rule rule, bool required) {

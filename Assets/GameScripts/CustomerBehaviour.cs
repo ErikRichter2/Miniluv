@@ -31,6 +31,8 @@ public class CustomerBehaviour : MonoBehaviour {
 	StampDesk currentStampDesk;
 	int QueueIndex;
 
+	bool disposed;
+
 	public void SetTaskId(int taskId) {
 		this.model.taskId = taskId;
 	}
@@ -123,6 +125,10 @@ public class CustomerBehaviour : MonoBehaviour {
 			} else {
 				yield return new WaitForSeconds (0.5f);
 
+				if (disposed) {
+					yield break;
+				}
+
 				// check if current task still requires this stamp
 				StampDesk currentCheckpoint = this.EntityQueue.GetComponentInParent<StampDesk> ();
 				if (currentCheckpoint != null) {
@@ -155,6 +161,11 @@ public class CustomerBehaviour : MonoBehaviour {
 	IEnumerator ProcessStampDesk() {
 		this.currentStampDesk.ShowProgress ();
 		yield return new WaitForSeconds (this.currentStampDesk.task.StartTask(this.currentStampDesk.task.GetDuration ()));
+
+		if (disposed) {
+			yield break;
+		}
+
 		this.currentStampDesk.model.AddCollectedCount ();
 		this.currentStampDesk.HideProgress ();
 		GameModel.GetModel<Customers>().AddStamp (this.model.instanceId, this.currentStampDesk.stamp.Id);
@@ -168,6 +179,11 @@ public class CustomerBehaviour : MonoBehaviour {
 				GetComponent<BoxCollider2D> ().enabled = false;
 				this.InfoDesk.ShowProgress ();
 				yield return new WaitForSeconds (this.InfoDesk.task.StartTask(this.InfoDesk.task.GetDuration ()));
+
+				if (disposed) {
+					yield break;
+				}
+
 				this.InfoDesk.HideProgress ();
 				GameModel.GetModel<Customers>().SetInfo (this.model.instanceId, true);
 				SetState (STATES.STATE_MOVE_TO_STAMPDESK);
@@ -242,6 +258,7 @@ public class CustomerBehaviour : MonoBehaviour {
 		CustomerGenerator = null;
 		currentStampDesk = null;
 		QueueIndex = 0;
+		disposed = true;
 	}
 	/*
 	void refreshShadow() {

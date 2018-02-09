@@ -11,7 +11,7 @@ public class PopupShowRules : BasePopup {
 		
 		this.Clear ();
 
-		foreach (Rule rule in GameModel.GetModel<Rules>().GetRules()) {
+		foreach (Rule rule in GameModel.GetModel<Rules>().GetRulesForCurrentDay()) {
 			if (stampId == 0 || rule.HasStamp (stampId)) {
 				GameObject ruleInstance = Instantiate<GameObject> (RuleItemPrefab, this.Content.transform);
 				ruleInstance.GetComponent<PopupShowRules_RuleItem> ().SetRule (rule);
