@@ -15,7 +15,7 @@ public class TimeCounter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Preloader.Loaded) {
-			this.text.text = (Customers.DAY_LENGTH - Mathf.RoundToInt(GameModel.GetModel<Customers> ().CurrentTime)).ToString();
+			this.text.text = (GameModel.GetModel<Customers> ().GetDayLength() - Mathf.RoundToInt(GameModel.GetModel<Customers> ().CurrentTime)).ToString();
 		}
 	}
 }

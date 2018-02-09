@@ -9,8 +9,11 @@ public class BasePopup : MonoBehaviour {
 
 	bool isActive;
 
-	public void ShowPopup() {
+	public bool stopGame;
+
+	virtual public void ShowPopup(bool stopGame = true) {
 		BasePopup.isPopupActive = true;
+		this.stopGame = stopGame;
 		isActive = true;
 		gameObject.SetActive (true);
 		StartCoroutine (ShowNextFrame ());
@@ -25,7 +28,7 @@ public class BasePopup : MonoBehaviour {
 
 	IEnumerator ShowNextFrame() {
 		yield return new WaitForEndOfFrame ();
-		if (isActive) {
+		if (isActive && stopGame) {
 			Time.timeScale = 0;
 		}
 	}

@@ -12,6 +12,7 @@ public class ConfigDefinition : BaseDefinition<ConfigDef> {
 
 	public const int CUSTOMERS_PER_MINUTE = 1;
 	public const int INFOPOINT_TIME = 2;
+	public const int DAY_LENGTH = 3;
 
 	override protected void ProcessData() {
 		foreach (int defId in this.GetKeys ()) {

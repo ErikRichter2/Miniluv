@@ -17,7 +17,6 @@ public class CustomerGenerator : MonoBehaviour {
 		this.customers = new List<CustomerBehaviour> ();
 		this.CanGenerate = true;
 		this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
-		this.InitDay ();
 		this.LoadFromSave ();
 	}
 
@@ -49,6 +48,12 @@ public class CustomerGenerator : MonoBehaviour {
 	void Update() {
 		if (Preloader.Loaded) {
 			if (GameModel.GetModel<Customers> ().IsDayFinished ()) {
+
+				if (BasePopup.IsPopupActive() == false) {
+					PopupNextDay popup = BasePopup.GetPopup<PopupNextDay>();
+					popup.ShowPopup (false);
+				}
+
 				this.CanGenerate = false;
 				while (this.customers.Count > 0) {
 					CustomerBehaviour customer = this.customers [0];
@@ -56,13 +61,9 @@ public class CustomerGenerator : MonoBehaviour {
 					this.DestroyCustomer (customer);
 				}
 
-				GameModel.GetModel<Customers> ().StartNextDay ();
-				this.InitDay ();
-				this.CanGenerate = true;
 			}
 
 			if (this.CanGenerate) {
-
 				if (NextCustomerDelay <= 0) {
 					// create new customer with random def
 					List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
@@ -80,7 +81,10 @@ public class CustomerGenerator : MonoBehaviour {
 				} else {					
 					this.NextCustomerDelay -= Time.deltaTime;
 				}
-
+			} else {
+				if (GameModel.GetModel<Customers> ().IsDayFinished () == false) {
+					this.CanGenerate = true;
+				}
 			}
 		}
 	}
@@ -89,11 +93,6 @@ public class CustomerGenerator : MonoBehaviour {
 		this.customers.Remove (customer);
 		customer.DestroyCustomer ();
 		DestroyObject (customer.gameObject);
-	}
-
-	void InitDay() {
-		Customers customers = GameModel.GetModel<Customers> ();
-		GameModel.GetModel<Rules> ().SetRulesForDay (customers.CurrentDayId, customers.CurrentDayCounter);
 	}
 
 

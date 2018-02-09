@@ -246,6 +246,7 @@ public class CustomerBehaviour : MonoBehaviour {
 	}
 
 	public void DestroyCustomer() {
+		iTween.Stop (gameObject);
 		model = null;
 		if (EntityQueue != null) {
 			EntityQueue.RemoveEntity (this.GetEntity());

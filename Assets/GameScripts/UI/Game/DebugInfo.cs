@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DebugInfo : MonoBehaviour {
 
-	float secondRefresh = 0;
+	float secondRefresh = 1;
 	Text text;
 
 	// Use this for initialization
@@ -37,7 +37,7 @@ public class DebugInfo : MonoBehaviour {
 		res += "\nRULES: ";
 		List<Rule> rules = GameModel.GetModel<Rules>().GetRulesForCurrentDay();
 		foreach (Rule rule in rules) {
-			res += "Id: " + rule.taskId.ToString () + ",Cnt: " + rule.collectedCount + " ; ";
+			res += "T: " + rule.taskId.ToString () + ",Cnt: " + rule.collectedCount + " ; ";
 		}
 
 		// finish conditions
@@ -52,28 +52,28 @@ public class DebugInfo : MonoBehaviour {
 			if (nextDay.ReqTasksOK.Length > 0) {
 				res += "\n        OK: ";
 				foreach (int taskId in nextDay.ReqTasksOK) {
-					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+					res += "T:" + taskId + ",Cnt:" + rulesModel.GetRule(taskId).collectedCount + ",Cond:" + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
 				}
 			}
 
 			if (nextDay.ReqTasksNOK.Length > 0) {
 				res += "\n        NOK: ";
 				foreach (int taskId in nextDay.ReqTasksNOK) {
-					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+					res += "T:" + taskId + ",Cnt:" + rulesModel.GetRule(taskId).collectedCount + ",Cond:" + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
 				}
 			}
 
 			if (nextDay.ReqTasksOK_OR.Length > 0) {
 				res += "\n        OR_OK: ";
 				foreach (int taskId in nextDay.ReqTasksOK_OR) {
-					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+					res += "T:" + taskId + ",Cnt:" + rulesModel.GetRule(taskId).collectedCount + ",Cond:" + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
 				}
 			}
 
 			if (nextDay.ReqTasksNOK_OR.Length > 0) {
 				res += "\n        OR_NOK: ";
 				foreach (int taskId in nextDay.ReqTasksNOK_OR) {
-					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+					res += "T:" + taskId + ",Cnt:" + rulesModel.GetRule(taskId).collectedCount + ",Cond:" + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
 				}
 			}
 		}

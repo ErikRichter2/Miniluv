@@ -45,12 +45,16 @@ public class GameModel {
 		this.AddModel (ScriptableObject.CreateInstance<Customers> ());
 		this.AddModel (ScriptableObject.CreateInstance<Stamps> ());
 		this.AddModel (new TaskModel ());
+
+		this.InitNewDay ();
 	}
 
 	public void Load() {
 		foreach (ISerializable model in this.serializableModels) {
 			model.Load ();
 		}
+
+		this.InitNewDay ();
 	}
 
 	public void Save() {
@@ -73,6 +77,17 @@ public class GameModel {
 				}
 			}
 		}
+	}
+
+	public void InitNewDay() {
+		Customers customers = GameModel.GetModel<Customers> ();
+		GameModel.GetModel<Rules> ().SetRulesForDay (customers.CurrentDayId, customers.CurrentDayCounter);
+	}
+
+	public void StartNextDay() {
+		Customers customers = GameModel.GetModel<Customers> ();
+		customers.StartNextDay ();
+		this.InitNewDay ();
 	}
 
 

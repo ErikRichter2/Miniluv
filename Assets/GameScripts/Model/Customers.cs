@@ -39,13 +39,14 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 	public int CurrentDayId;
 	public float CurrentTime;
 
-	public const int DAY_LENGTH = 30;
+	private int DayLength = 0;
 
 	public Customers() {
 		this.customers = new List<Customer> ();
 		this.CurrentTime = 0;
 		this.CurrentDayId = 1;
 		this.CurrentDayCounter = 1;
+		this.DayLength = int.Parse (DefinitionsLoader.configDefinition.GetItem (ConfigDefinition.DAY_LENGTH).Value);
 	}
 
 	public void DeleteSave() {
@@ -107,8 +108,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		this.CurrentTime += delta;
 	}
 
-	public void StartNextDay() {
-
+	public int GetNextDayId() {
 		bool result;
 		int nextDayFinal = 0;
 
@@ -134,7 +134,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 			if (result == false) {
 				continue;
 			}
-				
+
 			// OR OK
 			bool or_ok = true;
 			if (nextDay.ReqTasksOK_OR.Length > 0) {
@@ -161,6 +161,12 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 			break;
 		}
 
+		return nextDayFinal;
+	}
+
+	public void StartNextDay() {
+
+		int nextDayFinal = this.GetNextDayId ();
 		// check for end
 		int end = DefinitionsLoader.daysDefinition.GetItem (nextDayFinal).End;
 		if (end != 0) {
@@ -176,7 +182,11 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 	}
 
 	public bool IsDayFinished() {
-		return (this.CurrentTime >= DAY_LENGTH);
+		return (this.CurrentTime >= this.DayLength);
+	}
+
+	public int GetDayLength() {
+		return this.DayLength;
 	}
 
 
