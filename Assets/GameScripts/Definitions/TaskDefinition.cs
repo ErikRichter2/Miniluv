@@ -35,16 +35,17 @@ public class TaskDefinition : BaseDefinition<TaskDef> {
 			item.Id = defId;
 			item.Name = this.GetValue (defId, "Task_Name");
 
-			string temp = this.GetValue (defId, "Condition");
-			if (temp.IndexOf ("X<") == 0) {
+			item.Condition = this.GetValue (defId, "Condition");
+			if (item.Condition.IndexOf ("X<") == 0) {
 				item.Operand = Operand.LESS;
-			} else if (temp.IndexOf ("X=") == 0) {
+			} else if (item.Condition.IndexOf ("X=") == 0) {
 				item.Operand = Operand.EQUAL;
 			} else {
 				item.Operand = Operand.MORE;
 			}
 
-			item.Value = int.Parse (temp.Remove (0, 2));
+			string str = item.Condition;
+			item.Value = int.Parse (str.Remove (0, 2));
 			item.MinStamps = this.GetValueInt (defId, "Min_Stamps");
 			item.Duration = this.GetValueInt (defId, "Duration");
 

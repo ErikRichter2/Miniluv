@@ -37,7 +37,45 @@ public class DebugInfo : MonoBehaviour {
 		res += "\nRULES: ";
 		List<Rule> rules = GameModel.GetModel<Rules>().GetRulesForCurrentDay();
 		foreach (Rule rule in rules) {
-			res += " " + rule.taskId.ToString ();
+			res += "Id: " + rule.taskId.ToString () + ",Cnt: " + rule.collectedCount + " ; ";
+		}
+
+		// finish conditions
+		res += "\nNEXT DAYS: ";
+		Customers customers = GameModel.GetModel<Customers> ();
+		Rules rulesModel = GameModel.GetModel<Rules> ();
+
+		foreach (int nextDayId in DefinitionsLoader.daysDefinition.GetItem(customers.CurrentDayId).Next) {
+			res += "\n    " + nextDayId;
+			DaysDef nextDay = DefinitionsLoader.daysDefinition.GetItem (nextDayId);
+
+			if (nextDay.ReqTasksOK.Length > 0) {
+				res += "\n        OK: ";
+				foreach (int taskId in nextDay.ReqTasksOK) {
+					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+				}
+			}
+
+			if (nextDay.ReqTasksNOK.Length > 0) {
+				res += "\n        NOK: ";
+				foreach (int taskId in nextDay.ReqTasksNOK) {
+					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+				}
+			}
+
+			if (nextDay.ReqTasksOK_OR.Length > 0) {
+				res += "\n        OR_OK: ";
+				foreach (int taskId in nextDay.ReqTasksOK_OR) {
+					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+				}
+			}
+
+			if (nextDay.ReqTasksNOK_OR.Length > 0) {
+				res += "\n        OR_NOK: ";
+				foreach (int taskId in nextDay.ReqTasksNOK_OR) {
+					res += "T:" + taskId + " " + rulesModel.GetRule(taskId).collectedCount + " - " + DefinitionsLoader.taskDefinition.GetItem(taskId).Condition + " ; ";
+				}
+			}
 		}
 
 		return res;
