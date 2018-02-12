@@ -33,7 +33,7 @@ public class TaskDefinition : BaseDefinition<TaskDef> {
 		foreach (int defId in this.GetKeys ()) {
 			TaskDef item = new TaskDef ();
 			item.Id = defId;
-			item.Name = this.GetValue (defId, "Task_Name");
+			item.Name = this.GetValue (defId, "Task_name");
 
 			item.Condition = this.GetValue (defId, "Condition");
 			if (item.Condition.IndexOf ("X<") == 0) {

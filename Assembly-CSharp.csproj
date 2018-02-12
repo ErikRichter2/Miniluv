@@ -88,6 +88,7 @@
      <Compile Include="Assets\GameScripts\UI\BtnNewGame.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\DayCounter.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\DebugInfo.cs" />
+     <Compile Include="Assets\GameScripts\UI\Game\DebugInfoPanel.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\StampDeskCollectedStampsCounter.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\TaskProgressBar.cs" />
      <Compile Include="Assets\GameScripts\UI\Game\TaskTimeText.cs" />
