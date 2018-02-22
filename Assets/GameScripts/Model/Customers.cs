@@ -34,6 +34,7 @@ public class Customer {
 [System.Serializable]
 public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 
+	public List<int> GeneratedTasksThisDay;
 	public List<Customer> customers;
 	public int CurrentDayCounter;
 	public int CurrentDayId;
@@ -42,6 +43,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 	private int DayLength = 0;
 
 	public Customers() {
+		this.GeneratedTasksThisDay = new List<int> ();
 		this.customers = new List<Customer> ();
 		this.CurrentTime = 0;
 		this.CurrentDayId = 1;
@@ -73,6 +75,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		item.instanceId = instanceId;
 		item.taskId = taskId;
 		this.customers.Add (item);
+		this.GeneratedTasksThisDay.Add (taskId);
 
 		this.Save ();
 
@@ -176,6 +179,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 			this.CurrentDayCounter++;
 			this.CurrentDayId = nextDayFinal;
 			this.CurrentTime = 0;
+			this.GeneratedTasksThisDay.Clear ();
 			this.customers.Clear ();
 			this.Save ();
 		}
@@ -189,5 +193,53 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		return this.DayLength;
 	}
 
+	/**
+	 * Returns delay for the next customer
+	 */
+	public float GetDelayForNextCustomer() {
+		float res = 0;
+
+		int tasksToGenerate = GameModel.GetModel<Rules> ().GetRulesCountForCurrentDay ().Count;
+
+		if (tasksToGenerate > this.GeneratedTasksThisDay.Count) {
+			int dayLength = this.DayLength;
+			res = dayLength / tasksToGenerate;
+		}
+
+		return res;
+	}
+
+	/**
+	 * Returns random task from tasks that need to be generated
+	 */ 
+	public int GetTaskForNewCustomer() {
+		string str;
+		int res = 0;
+
+		// all tasks that needs to be generated this whole day
+		List<int> tasksToGenerateCopy = new List<int>();
+		foreach (int it in GameModel.GetModel<Rules> ().GetRulesCountForCurrentDay ()) {
+			tasksToGenerateCopy.Add(it);
+		}
+
+		// remove tasks that were already generated this day
+		foreach (int it in this.GeneratedTasksThisDay) {
+			tasksToGenerateCopy.Remove (it);
+		}
+
+		// debug info
+		str = "";
+		foreach (int it in tasksToGenerateCopy) {
+			str += it + ",";
+		}
+		Debug.Log ("TASKS FOR REST OF THE DAY: \n" + str);
+
+		// random task from tasks
+		res = tasksToGenerateCopy[Mathf.FloorToInt (Random.Range (0, tasksToGenerateCopy.Count))];
+		Debug.Log ("RANDOM TASK: " + res);
+
+
+		return res;
+	}
 
 }

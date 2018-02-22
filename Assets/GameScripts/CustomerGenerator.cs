@@ -8,6 +8,7 @@ public class CustomerGenerator : MonoBehaviour {
 	public InfoDesk infoDesk;
 	public Entity CustomerPrefab;
 	private bool CanGenerate;
+	private bool AllCustomersGenerated;
 	private float NextCustomerDelay;
 
 	private StampDesk[] stampDesks;
@@ -16,6 +17,7 @@ public class CustomerGenerator : MonoBehaviour {
 	public void Init() {
 		this.customers = new List<CustomerBehaviour> ();
 		this.CanGenerate = true;
+		this.AllCustomersGenerated = false;
 		this.stampDesks = this.stampDesksGameObjects.GetComponentsInChildren<StampDesk> ();
 		this.LoadFromSave ();
 	}
@@ -55,6 +57,7 @@ public class CustomerGenerator : MonoBehaviour {
 				}
 
 				this.CanGenerate = false;
+				this.AllCustomersGenerated = false;
 				while (this.customers.Count > 0) {
 					CustomerBehaviour customer = this.customers [0];
 					this.customers.Remove (customer);
@@ -64,20 +67,23 @@ public class CustomerGenerator : MonoBehaviour {
 			}
 
 			if (this.CanGenerate) {
-				if (NextCustomerDelay <= 0) {
-					// create new customer with random def
+				if (this.AllCustomersGenerated == false && NextCustomerDelay <= 0) {
+
+					// create new customer with random visual
 					List<CustomerDef> customers = DefinitionsLoader.customerDefinition.Items;
 					Entity customer = this.CreateCustomer (customers [Mathf.FloorToInt (Random.Range (0, customers.Count))], 0);
 
-					// random delay
-					int customersPerMinute = int.Parse (DefinitionsLoader.configDefinition.GetItem (ConfigDefinition.CUSTOMERS_PER_MINUTE).Value);
-					float deltaSeconds = 60.0f / customersPerMinute;
-
-					Rule rule = GameModel.GetModel<Rules> ().GetRandomRuleForCurrentDay ();
-					customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers> ().AddCustomer (customer.instanceId, customer.defId, rule.taskId);
+					int taskId = GameModel.GetModel<Customers> ().GetTaskForNewCustomer ();
+					customer.GetComponent<CustomerBehaviour> ().model = GameModel.GetModel<Customers> ().AddCustomer (customer.instanceId, customer.defId, taskId);
 					customer.GetComponent<CustomerBehaviour> ().SetState (CustomerBehaviour.STATES.STATE_MOVE_TO_INFODESK);
 
-					this.NextCustomerDelay = Random.Range (deltaSeconds - deltaSeconds * 0.10f, deltaSeconds + deltaSeconds * 0.10f);
+					float delayForNextCustomer = GameModel.GetModel<Customers> ().GetDelayForNextCustomer ();
+					if (delayForNextCustomer <= 0) {
+						this.AllCustomersGenerated = true;
+					} else {
+						this.AllCustomersGenerated = false;
+						this.NextCustomerDelay = Random.Range (delayForNextCustomer - delayForNextCustomer * 0.10f, delayForNextCustomer + delayForNextCustomer * 0.10f);
+					}						
 				} else {					
 					this.NextCustomerDelay -= Time.deltaTime;
 				}

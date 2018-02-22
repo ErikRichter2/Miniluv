@@ -42,10 +42,12 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 	List<Rule> rules;
 
 	List<Rule> rulesForCurrentDay;
+	List<int> rulesCountForCurrentDay;
 
 	public Rules() {
 		this.rules = new List<Rule> ();
 		this.rulesForCurrentDay = new List<Rule> ();
+		this.rulesCountForCurrentDay = new List<int> ();
 
 		// inital rules
 		foreach (TaskDef task in DefinitionsLoader.taskDefinition.Items) {
@@ -58,14 +60,23 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 	}
 
 	public void SetRulesForDay(int CurrentDayId, int CurrentDayCounter) {
+
+		this.rulesForCurrentDay = new List<Rule> ();
+		this.rulesCountForCurrentDay = new List<int> ();
+
 		DaysDef dayDef = DefinitionsLoader.daysDefinition.GetItem (CurrentDayId);
 
 		// active for more days
-		foreach (Rule rule in this.rules) {
-			TaskDef taskDef = DefinitionsLoader.taskDefinition.GetItem (rule.taskId);
-			if (rule.StartDayCounter > 0 && rule.StartDayCounter + taskDef.Duration >= CurrentDayCounter) {
-				rulesForCurrentDay.Add (rule);
-			} 
+		if (CurrentDayCounter > 1) {
+			foreach (Rule rule in this.rules) {
+				TaskDef taskDef = DefinitionsLoader.taskDefinition.GetItem (rule.taskId);
+				if (rule.StartDayCounter > 0 && taskDef.Duration > 1 && rule.StartDayCounter + taskDef.Duration > CurrentDayCounter) {
+					rulesForCurrentDay.Add (rule);
+					for (int i = 0; i < taskDef.Customers [CurrentDayCounter - rule.StartDayCounter]; ++i) {
+						this.rulesCountForCurrentDay.Add (rule.taskId);
+					}
+				} 
+			}
 		}
 
 		// started on this day
@@ -75,12 +86,22 @@ public class Rules : ScriptableObject, IModel, ISerializable {
 			if (rule != null && rulesForCurrentDay.IndexOf(rule) == -1) {
 				rulesForCurrentDay.Add (rule);
 				rule.collectedCount = 0;
+				rule.StartDayCounter = CurrentDayCounter;
+
+				TaskDef taskDef = DefinitionsLoader.taskDefinition.GetItem (rule.taskId);
+				for (int i = 0; i < taskDef.Customers [0]; ++i) {
+					this.rulesCountForCurrentDay.Add (rule.taskId);
+				}
 			}
 		}
 	}
 
 	public List<Rule> GetRulesForCurrentDay() {
 		return this.rulesForCurrentDay;
+	}
+
+	public List<int> GetRulesCountForCurrentDay() {
+		return this.rulesCountForCurrentDay;
 	}
 
 	public Rule GetRule(int taskId) {

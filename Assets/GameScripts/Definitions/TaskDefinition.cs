@@ -15,6 +15,7 @@ public class TaskDef : BaseDef {
 	public int Value;
 	public int MinStamps;
 	public int Duration;
+	public int[] Customers;
 
 	public bool IsOK(int CollectedCount) {
 		if (this.Operand == Operand.LESS) {
@@ -48,6 +49,8 @@ public class TaskDefinition : BaseDefinition<TaskDef> {
 			item.Value = int.Parse (str.Remove (0, 2));
 			item.MinStamps = this.GetValueInt (defId, "Min_Stamps");
 			item.Duration = this.GetValueInt (defId, "Duration");
+
+			item.Customers = this.GetValueArrayInt (defId, "Customers");
 
 			this.Items.Add (item);
 		}
