@@ -1,26 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\Customers.cs">
     <Files>
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\ITickable.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\ConfigDefinition.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Entity.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\TaskDefinition.cs" Line="40" Column="33" />
-      <File FileName="Assets\GameScripts\Definitions\DaysDefinition.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" Line="14" Column="1" />
-      <File FileName="Assets\GameScripts\Definitions\DefinitionsLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\IModel.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\Game\DebugInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\Game\DebugInfoPanel.cs" Line="14" Column="106" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule.cs" Line="24" Column="83" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" Line="6" Column="1" />
-      <File FileName="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" Line="9" Column="31" />
-      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" Line="38" Column="32" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="217" Column="15" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="80" Column="82" />
+      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="74" Column="36" />
+      <File FileName="Assets\GameScripts\Definitions\DaysDefinition.cs" Line="30" Column="9" />
+      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="84" Column="99" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -29,13 +15,20 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="GameScripts" expanded="True">
                 <Node name="Definitions" expanded="True" />
-                <Node name="Model" expanded="True" />
+                <Node name="Model" expanded="True">
+                  <Node name="Customers.cs" selected="True" />
+                </Node>
                 <Node name="Preloader" expanded="True" />
                 <Node name="UI" expanded="True">
                   <Node name="PopupCreateNewRule" expanded="True" />
-                  <Node name="PopupShowRules" expanded="True">
-                    <Node name="PopupShowRules_RuleItem.cs" selected="True" />
-                  </Node>
+                  <Node name="PopupShowRules" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="Assembly-CSharp-firstpass" expanded="True">
+              <Node name="Plugins" expanded="True">
+                <Node name="Pixelplacement" expanded="True">
+                  <Node name="iTween" expanded="True" />
                 </Node>
               </Node>
             </Node>
