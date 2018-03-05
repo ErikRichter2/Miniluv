@@ -16,14 +16,14 @@ public class InfoDesk : MonoBehaviour, ITaskable {
 	public EntityQueue GetEntityQueue() {
 		return GetComponentInChildren<EntityQueue> ();
 	}
-
+	/*
 	public void OnMouseDown() {
 		if (BasePopup.IsPopupActive() == false) {
 			PopupShowRules popup = BasePopup.GetPopup<PopupShowRules> ();
 			popup.ShowStamp (0);
 		}
 	}
-
+*/
 	public ITask GetCurrentTask() {
 		return this.task;
 	}
