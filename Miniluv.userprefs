@@ -1,6 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\UI\Game\DayCounter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StampDeskCounter.cs">
     <Files>
       <File FileName="Assets\StampDeskCounter.cs" Line="1" Column="1" />
       <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="1" Column="1" />
@@ -10,7 +10,7 @@
       <File FileName="Assets\InfoDeskNext.cs" Line="1" Column="1" />
       <File FileName="Assets\GameScripts\Model\Desk\InfoDesk.cs" Line="1" Column="1" />
       <File FileName="Assets\GameScripts\Utils\CameraDrag.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\Game\DayCounter.cs" Line="22" Column="1" />
+      <File FileName="Assets\GameScripts\UI\Game\DayCounter.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
