@@ -9,6 +9,8 @@ public class StampDesk : MonoBehaviour, ITaskable {
 	public SimpleTask task;
 	public Stamp model;
 
+	private StampDeskCounter stampDeskCounter;
+
 	public void SetStamp(StampDef stamp) {
 		this.stamp = stamp;
 		this.task = GameModel.GetModel<TaskModel>().CreateTask<SimpleTask> (this.stamp.Time);
@@ -16,6 +18,7 @@ public class StampDesk : MonoBehaviour, ITaskable {
 		transform.Find ("Color").GetComponent<SpriteRenderer> ().color = this.stamp.Color;
 
 		GameObjectUtils.GetComponentInChildren<StampDeskCollectedStampsCounter> (gameObject).SetStampDesk (this.model);
+		stampDeskCounter = GameObjectUtils.GetComponentInChildren<StampDeskCounter> (gameObject);
 	}
 
 	public EntityQueue GetEntityQueue() {
@@ -35,6 +38,7 @@ public class StampDesk : MonoBehaviour, ITaskable {
 
 	public void ShowProgress() {
 		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).SetTask (this.task);
+		stampDeskCounter.StartTask (this.task.GetDuration(), this.stamp.Color);
 	}
 
 	public void HideProgress() {

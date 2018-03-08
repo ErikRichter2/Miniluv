@@ -1,46 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\Customers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\UI\Game\DayCounter.cs">
     <Files>
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="217" Column="15" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="80" Column="82" />
-      <File FileName="Assets\GameScripts\Model\Rules.cs" Line="74" Column="36" />
-      <File FileName="Assets\GameScripts\Definitions\DaysDefinition.cs" Line="30" Column="9" />
-      <File FileName="Assets\GameScripts\Model\GameModel.cs" Line="84" Column="99" />
+      <File FileName="Assets\StampDeskCounter.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\StampDesksGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Desk\StampDesk.cs" Line="1" Column="1" />
+      <File FileName="Assets\InfoDeskNext.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Desk\InfoDesk.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\Utils\CameraDrag.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\UI\Game\DayCounter.cs" Line="22" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Miniluv" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="GameScripts" expanded="True">
-                <Node name="Definitions" expanded="True" />
-                <Node name="Model" expanded="True">
-                  <Node name="Customers.cs" selected="True" />
-                </Node>
-                <Node name="Preloader" expanded="True" />
-                <Node name="UI" expanded="True">
-                  <Node name="PopupCreateNewRule" expanded="True" />
-                  <Node name="PopupShowRules" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-            <Node name="Assembly-CSharp-firstpass" expanded="True">
-              <Node name="Plugins" expanded="True">
-                <Node name="Pixelplacement" expanded="True">
-                  <Node name="iTween" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State name="__root__">
-          <Node name="Miniluv" expanded="True" selected="True" />
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

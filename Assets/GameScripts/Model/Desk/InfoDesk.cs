@@ -7,9 +7,13 @@ public class InfoDesk : MonoBehaviour, ITaskable {
 
 	public SimpleTask task;
 
+	private InfoDeskNext infoDeskNextSign;
+
 	void Start() {
 		if (Preloader.Loaded) {
 			this.task = GameModel.GetModel<TaskModel>().CreateTask<SimpleTask> (int.Parse(DefinitionsLoader.configDefinition.GetItem(ConfigDefinition.INFOPOINT_TIME).Value) / 1000);
+			infoDeskNextSign = GameObjectUtils.GetComponentInChildren<InfoDeskNext> (gameObject);
+			infoDeskNextSign.gameObject.SetActive (true);
 		}
 	}
 
@@ -29,10 +33,16 @@ public class InfoDesk : MonoBehaviour, ITaskable {
 	}
 		
 	public void ShowProgress() {
+		if (infoDeskNextSign != null) {
+			infoDeskNextSign.gameObject.SetActive (false);
+		}
 		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).SetTask (this.task);
 	}
 
 	public void HideProgress() {
+		if (infoDeskNextSign != null) {
+			infoDeskNextSign.gameObject.SetActive (true);
+		}
 		GameObjectUtils.GetComponentInChildren<TaskProgressBar> (gameObject).StopTask ();
 	}
 

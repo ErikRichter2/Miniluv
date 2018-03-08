@@ -49,6 +49,7 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		this.CurrentDayId = 1;
 		this.CurrentDayCounter = 1;
 		this.DayLength = int.Parse (DefinitionsLoader.configDefinition.GetItem (ConfigDefinition.DAY_LENGTH).Value);
+		//this.DayLength = 300;
 	}
 
 	public void DeleteSave() {
@@ -221,6 +222,8 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		foreach (int it in GameModel.GetModel<Rules> ().GetRulesCountForCurrentDay ()) {
 			tasksToGenerateCopy.Add(it);
 		}
+
+		//return tasksToGenerateCopy [0];
 
 		// remove tasks that were already generated this day
 		foreach (int it in this.GeneratedTasksThisDay) {
