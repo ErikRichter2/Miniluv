@@ -238,8 +238,10 @@ public class Customers : ScriptableObject, IModel, ISerializable, ITickable {
 		Debug.Log ("TASKS FOR REST OF THE DAY: \n" + str);
 
 		// random task from tasks
-		res = tasksToGenerateCopy[Mathf.FloorToInt (Random.Range (0, tasksToGenerateCopy.Count))];
-		Debug.Log ("RANDOM TASK: " + res);
+		if (tasksToGenerateCopy.Count > 0) {
+			res = tasksToGenerateCopy[Mathf.FloorToInt (Random.Range (0, tasksToGenerateCopy.Count))];
+			Debug.Log ("RANDOM TASK: " + res);
+		}
 
 
 		return res;

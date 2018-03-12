@@ -52,8 +52,12 @@ public class CustomerGenerator : MonoBehaviour {
 			if (GameModel.GetModel<Customers> ().IsDayFinished ()) {
 
 				if (BasePopup.IsPopupActive() == false) {
-					PopupNextDay popup = BasePopup.GetPopup<PopupNextDay>();
-					popup.ShowPopup (false);
+					int nextDay = GameModel.GetModel<Customers>().GetNextDayId ();
+					if (nextDay != 0) {
+						PopupTelegram popup = BasePopup.GetPopup<PopupTelegram>();
+						popup.ShowPopup (true);
+						popup.ShowDay (nextDay);
+					}
 				}
 
 				this.CanGenerate = false;

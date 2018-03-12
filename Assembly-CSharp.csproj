@@ -98,9 +98,11 @@
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorItem.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupCreateNewRule\PopupCreateNewRule_ColorPanel.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupLogger\PopupLogger.cs" />
+     <Compile Include="Assets\GameScripts\UI\PopupNewspaper\PopupNewspaper.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupNextDay\PopupNextDay.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" />
      <Compile Include="Assets\GameScripts\UI\PopupShowRules\PopupShowRules_RuleItem.cs" />
+     <Compile Include="Assets\GameScripts\UI\PopupTelegram\PopupTelegram.cs" />
      <Compile Include="Assets\GameScripts\Utils\CameraDrag.cs" />
      <Compile Include="Assets\GameScripts\Utils\GameObjectUtils.cs" />
      <Compile Include="Assets\GameScripts\Utils\SpriteSheetAnimation.cs" />

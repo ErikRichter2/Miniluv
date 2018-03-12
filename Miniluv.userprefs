@@ -1,17 +1,49 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\StampDeskCounter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\Customers.cs">
     <Files>
-      <File FileName="Assets\StampDeskCounter.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\StampDesksGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\Desk\StampDesk.cs" Line="1" Column="1" />
-      <File FileName="Assets\InfoDeskNext.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Model\Desk\InfoDesk.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\Utils\CameraDrag.cs" Line="1" Column="1" />
-      <File FileName="Assets\GameScripts\UI\Game\DayCounter.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\UI\PopupNewspaper\PopupNewspaper.cs" Line="22" Column="28" />
+      <File FileName="Assets\GameScripts\UI\PopupTelegram\PopupTelegram.cs" Line="17" Column="16" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="57" Column="26" />
+      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" Line="40" Column="16" />
+      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="24" Column="20" />
+      <File FileName="Assets\GameScripts\UI\PopupNextDay\PopupNextDay.cs" Line="26" Column="38" />
+      <File FileName="Assets\Plugins\Pixelplacement\iTween\iTween.cs" Line="2536" Column="25" />
+      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="233" Column="16" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True">
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="GameScripts" expanded="True">
+                <Node name="Model" expanded="True">
+                  <Node name="Customers.cs" selected="True" />
+                </Node>
+                <Node name="UI" expanded="True">
+                  <Node name="PopupNewspaper" expanded="True" />
+                  <Node name="PopupNextDay" expanded="True" />
+                  <Node name="PopupShowRules" expanded="True" />
+                  <Node name="PopupTelegram" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="Assembly-CSharp-firstpass" expanded="True">
+              <Node name="Plugins" expanded="True">
+                <Node name="Pixelplacement" expanded="True">
+                  <Node name="iTween" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Miniluv" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
