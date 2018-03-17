@@ -6144,54 +6144,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9b2bbaa2a978b447bf91fd9c2a02670, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1579026365
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 3.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4811570751171396, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-      propertyPath: m_RootOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 212178733211563880, guid: 66a58c3ee80c7494da08620e73f70b2f,
-        type: 2}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9f01a182dec37914887c71d7d4993dc6,
-        type: 3}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 66a58c3ee80c7494da08620e73f70b2f, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1611876437
 GameObject:
   m_ObjectHideFlags: 0
