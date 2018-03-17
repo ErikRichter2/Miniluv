@@ -12,7 +12,7 @@ public class StampDesksGenerator : MonoBehaviour {
 			foreach (StampDef stamp in DefinitionsLoader.stampDefinition.Items) {
 				StampDesk stampDesk = Instantiate<StampDesk> (this.stampDeskPrefab, transform);
 				stampDesk.transform.localPosition = new Vector3 (index * 2.5f, 0.0f, 0.0f);
-				stampDesk.SetStamp (stamp);
+				stampDesk.SetStamp (stamp, index);
 				++index;
 			}
 

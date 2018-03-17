@@ -1,15 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\Model\Customers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameScripts\CustomerGenerator.cs">
     <Files>
-      <File FileName="Assets\GameScripts\UI\PopupNewspaper\PopupNewspaper.cs" Line="22" Column="28" />
-      <File FileName="Assets\GameScripts\UI\PopupTelegram\PopupTelegram.cs" Line="17" Column="16" />
-      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="57" Column="26" />
-      <File FileName="Assets\GameScripts\UI\PopupShowRules\PopupShowRules.cs" Line="40" Column="16" />
-      <File FileName="Assets\GameScripts\UI\BasePopup.cs" Line="24" Column="20" />
-      <File FileName="Assets\GameScripts\UI\PopupNextDay\PopupNextDay.cs" Line="26" Column="38" />
-      <File FileName="Assets\Plugins\Pixelplacement\iTween\iTween.cs" Line="2536" Column="25" />
-      <File FileName="Assets\GameScripts\Model\Customers.cs" Line="233" Column="16" />
+      <File FileName="Assets\StampDeskAnimation.cs" Line="5" Column="1" />
+      <File FileName="Assets\GameScripts\Model\Stamps.cs" Line="1" Column="1" />
+      <File FileName="Assets\GameScripts\StampDesksGenerator.cs" Line="5" Column="33" />
+      <File FileName="Assets\GameScripts\Model\Desk\StampDesk.cs" Line="50" Column="26" />
+      <File FileName="Assets\GameScripts\CustomerGenerator.cs" Line="72" Column="32" />
+      <File FileName="Assets\GameScripts\CustomerBehaviour.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,14 +16,9 @@
             <Node name="Assembly-CSharp" expanded="True">
               <Node name="GameScripts" expanded="True">
                 <Node name="Model" expanded="True">
-                  <Node name="Customers.cs" selected="True" />
+                  <Node name="Desk" expanded="True" />
                 </Node>
-                <Node name="UI" expanded="True">
-                  <Node name="PopupNewspaper" expanded="True" />
-                  <Node name="PopupNextDay" expanded="True" />
-                  <Node name="PopupShowRules" expanded="True" />
-                  <Node name="PopupTelegram" expanded="True" />
-                </Node>
+                <Node name="CustomerGenerator.cs" selected="True" />
               </Node>
             </Node>
             <Node name="Assembly-CSharp-firstpass" expanded="True">

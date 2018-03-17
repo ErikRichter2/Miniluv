@@ -68,6 +68,10 @@ public class CustomerGenerator : MonoBehaviour {
 					this.DestroyCustomer (customer);
 				}
 
+				foreach (StampDesk stampDesk in stampDesks) {
+					stampDesk.HideProgress ();
+				}
+
 			}
 
 			if (this.CanGenerate) {
